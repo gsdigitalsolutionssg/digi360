@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DIGI360 — HSE Asset Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--bg:#0B0F14;--bg2:#111920;--card:#172030;--card-h:#1C2840;--tx:#E4E8EE;--tx2:#8899AA;--mt:#4A5A6A;--ac:#F59E0B;--ac2:#D97706;--abg:rgba(245,158,11,.08);--ok:#10B981;--err:#EF4444;--inf:#06B6D4;--wrn:#FBBF24;--bd:#1E2E42;--rd:12px;--sh:0 4px 24px rgba(0,0,0,.4)}
+[data-theme="light"]{--bg:#F3F5F9;--bg2:#FFF;--card:#FFF;--card-h:#F0F3F7;--tx:#111827;--tx2:#5A6B7E;--mt:#9CA3AF;--bd:#E2E8F0;--sh:0 4px 24px rgba(0,0,0,.08)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+h1,h2,h3,h4,.fd{font-family:'Space Grotesk',sans-serif}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--mt);border-radius:3px}
+.b{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+.bp{background:var(--ac);color:#000}.bp:hover{background:var(--ac2);transform:translateY(-1px)}
+.bs{background:var(--card);color:var(--tx);border:1px solid var(--bd)}.bs:hover{background:var(--card-h)}
+.bd{background:var(--err);color:#fff}.bg{background:var(--ok);color:#fff}.bsm{padding:6px 14px;font-size:12px}.b:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
+.i{width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:14px;font-family:inherit;transition:border .2s}.i:focus{outline:none;border-color:var(--ac)}
+.i:disabled{opacity:.65;cursor:not-allowed}
+.sl{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238899AA' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.lb{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-pending{background:rgba(251,191,36,.12);color:#FBBF24}.b-wrn{background:rgba(251,191,36,.12);color:#FBBF24}
+.b-ok{background:rgba(16,185,129,.12);color:#10B981}.b-in{background:rgba(6,182,212,.12);color:#06B6D4}
+.b-out{background:rgba(139,92,246,.12);color:#8B5CF6}.b-err{background:rgba(239,68,68,.12);color:#EF4444}
+.b-adm{background:rgba(245,158,11,.12);color:#F59E0B}.b-mgr{background:rgba(6,182,212,.12);color:#06B6D4}.b-sec{background:rgba(139,92,246,.12);color:#8B5CF6}.b-sup{background:rgba(139,92,246,.12);color:#8B5CF6}
+#ls{min-height:100vh;display:flex;overflow:hidden}
+.ll{flex:1;background:linear-gradient(135deg,#0B0F14,#172030 50%,#1a1000);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.lr{width:480px;background:var(--bg2);display:flex;flex-direction:column;justify-content:center;padding:48px;position:relative;z-index:2}
+#app{display:none;min-height:100vh}
+#sb{width:260px;background:var(--bg2);border-right:1px solid var(--bd);position:fixed;top:0;left:0;bottom:0;z-index:40;display:flex;flex-direction:column;transition:width .3s}
+#sb.col{width:72px}#sb.col .nl,#sb.col .sht,#sb.col .sui{display:none}#sb.col .ni{justify-content:center;padding:12px}
+.ni{display:flex;align-items:center;gap:12px;padding:10px 20px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--tx2);font-size:14px;font-weight:500;transition:all .15s}
+.ni:hover{background:var(--abg);color:var(--tx)}.ni.act{background:var(--abg);color:var(--ac);font-weight:600}.ni i{width:20px;text-align:center;font-size:15px}
+#ma{margin-left:260px;transition:margin-left .3s;min-height:100vh}#sb.col~#ma{margin-left:72px}
+#hd{height:64px;background:var(--bg2);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30}
+#pc{padding:28px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:flex;align-items:center;justify-content:center;animation:fi .2s;padding:20px}
+.md{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:32px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;animation:su .3s}
+.md-lg{max-width:820px}
+#tc{position:fixed;top:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.tt{padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;min-width:280px;box-shadow:var(--sh);animation:si .3s}
+.ts{background:#065F46;color:#A7F3D0;border:1px solid #10B981}.te{background:#7F1D1D;color:#FCA5A5;border:1px solid #EF4444}.ti{background:#164E63;color:#A5F3FC;border:1px solid #06B6D4}.tw{background:#78350F;color:#FDE68A;border:1px solid #F59E0B}
+@keyframes fi{from{opacity:0}to{opacity:1}}@keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:13px;color:var(--mt);flex-wrap:wrap}
+.breadcrumb a{color:var(--tx2);cursor:pointer;text-decoration:none}.breadcrumb a:hover{color:var(--ac)}
+.bc-sep{font-size:10px}.bc-cur{color:var(--tx);font-weight:600}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:var(--rd);padding:20px}
+.p0{padding:0!important}
+.kpi{position:relative;overflow:hidden}.kpi::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.06}
+.kpi.amber::after{background:var(--ac)}.kpi.green::after{background:var(--ok)}.kpi.cyan::after{background:var(--inf)}.kpi.red::after{background:var(--err)}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;margin-bottom:24px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:12px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);border-bottom:1px solid var(--bd);font-weight:700;position:sticky;top:0;background:var(--card);z-index:2;white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--card-h)}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;background:var(--bg2);border:1px solid var(--bd);color:var(--tx2)}
+.tbl-wrap{overflow:auto;max-height:520px;border-radius:var(--rd);border:1px solid var(--bd)}
+.tbl-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;color:var(--tx2);background:var(--card);border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--rd) var(--rd)}
+.tbl-search{position:relative;flex:1;max-width:340px}.tbl-search input{padding-left:36px}.tbl-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mt);font-size:14px}
+.empty-state{text-align:center;padding:48px 24px;color:var(--mt)}
+.empty-state i{font-size:40px;margin-bottom:12px;display:block;opacity:.5}
+.qopt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px;transition:.15s}
+.qopt:hover{border-color:var(--ac);background:var(--abg)}
+.qopt input{accent-color:var(--ac)}
+.alert-banner{padding:14px 20px;border-radius:10px;margin-bottom:20px;display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600}
+.alert-crit{background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.3);color:#EF4444}
+.alert-warn{background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);color:#FBBF24}
+.alert-info{background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.3);color:#06B6D4}
+@media print{#sb,#hd,#tc{display:none!important}#ma{margin:0!important}#pc{padding:0}}
+@media(max-width:768px){.ll{display:none}.lr{width:100%}#sb{width:72px}#sb .nl,#sb .sht,#sb .sui{display:none}#ma{margin-left:72px}#pc{padding:16px}}
+</style>
+</head>
+<body>
+
+<div id="ls">
+  <div class="ll">
+    <div style="position:relative;z-index:2;text-align:center;padding:40px">
+      <div class="fd" style="font-size:50px;font-weight:700;color:var(--ac)">DIGI360</div>
+      <div style="font-size:15px;color:var(--tx2);margin-top:8px;letter-spacing:2px">HSE ASSET MANAGEMENT</div>
+      <div style="width:60px;height:3px;background:var(--ac);margin:24px auto 0;border-radius:2px"></div>
+    </div>
+  </div>
+  <div class="lr">
+    <div style="margin-bottom:28px"><div class="fd" style="font-size:24px;font-weight:700">Sign In</div><div style="color:var(--tx2);font-size:14px;margin-top:4px">HSE Asset Management Module</div></div>
+    <form onsubmit="doLogin();return false" autocomplete="off">
+      <div style="margin-bottom:16px"><label class="lb">Plant / Site</label><select class="i sl" id="l-pl"><option>Jaipur Plant</option></select></div>
+      <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" placeholder="safetymanager1 / safetyofficer1"></div>
+      <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password"></div>
+      <button type="submit" class="bp" style="width:100%;justify-content:center;padding:12px"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
+    </form>
+    <div style="margin-top:20px;padding:14px;background:var(--abg);border-radius:10px;font-size:12px;color:var(--tx2);line-height:1.9">
+      <strong style="color:var(--ac)">Demo:</strong>
+      <span class="qf" onclick="qf('safetymanager1','pass123')">safetymanager1</span> ·
+      <span class="qf" onclick="qf('safetyofficer1','pass123')">safetyofficer1</span>
+      <br><a href="index.html" style="color:var(--ac);font-size:12px;text-decoration:underline">Back to Induction</a> ·
+      <a href="permits.html" style="color:var(--ac);font-size:12px;text-decoration:underline">Permits</a>
+    </div>
+  </div>
+</div>
+
+<div id="app">
+  <aside id="sb">
+    <div style="padding:20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
+      <div class="fd" style="width:36px;height:36px;background:var(--ac);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:14px;flex-shrink:0">A</div>
+      <div class="sht"><div class="fd" style="font-weight:700;font-size:15px">DIGI360</div><div style="font-size:11px;color:var(--mt)">Assets Module</div></div>
+    </div>
+    <nav style="flex:1;padding:12px 0;overflow-y:auto" id="nl"></nav>
+    <div style="padding:16px;border-top:1px solid var(--bd)">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div id="sb-av" style="width:34px;height:34px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:13px;flex-shrink:0">A</div>
+        <div class="sui" style="min-width:0"><div style="font-size:13px;font-weight:600" id="sb-nm">User</div><div style="font-size:11px;color:var(--mt)" id="sb-pr">Role</div></div>
+      </div>
+      <button class="bs bsm" style="width:100%;margin-top:12px;justify-content:center" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Logout</button>
+      <a href="index.html" class="bs bsm" style="display:flex;width:100%;margin-top:8px;justify-content:center;text-decoration:none"><i class="fas fa-arrow-left"></i> Induction</a>
+    </div>
+  </aside>
+  <div id="ma">
+    <header id="hd">
+      <div style="display:flex;align-items:center;gap:14px">
+        <button id="mbtn" onclick="document.getElementById('sb').classList.toggle('col')" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px;padding:4px"><i class="fas fa-bars"></i></button>
+        <div id="pt" class="fd" style="font-size:18px;font-weight:600">Dashboard</div>
+        <span class="chip" id="hd-pl" style="display:none"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:16px">
+        <button onclick="togTh()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px" id="thb"><i class="fas fa-moon"></i></button>
+        <div style="display:flex;align-items:center;gap:8px"><div id="hd-av" style="width:32px;height:32px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:12px">A</div><span style="font-size:13px;font-weight:600" id="hd-nm">User</span></div>
+      </div>
+    </header>
+    <div id="pc"></div>
+  </div>
+</div>
+<div id="tc"></div>
+<div id="mc"></div>
+
+<script>
+var SUPABASE_URL='https://hgffeevtuvhexrztacpd.supabase.co';
+var SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
+var DBREADY=false;
+var _H={'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY};
+function _postH(pref){return Object.assign({},_H,{'Content-Type':'application/json','Prefer':pref||'return=minimal'})}
+function _get(t,q){return fetch(SUPABASE_URL+'/rest/v1/'+t+(q||'?select=*'),{headers:_H}).then(function(r){if(!r.ok)throw new Error(t+': HTTP '+r.status);return r.json()})}
+function _post(t,row,pref){return fetch(SUPABASE_URL+'/rest/v1/'+t,{method:'POST',headers:_postH(pref),body:JSON.stringify(row)}).then(function(r){if(!r.ok){r.text().then(function(txt){console.error('WRITE FAIL',t,r.status,txt)})}})}
+
+async function loadDB(){
+  var r=await Promise.all([
+    _get('users'),_get('profiles'),_get('plants','?select=*&order=name.asc'),
+    _get('asset_categories','?select=*&order=name'),_get('asset_types','?select=*&order=name'),
+    _get('assets','?select=*&order=asset_number'),_get('inspection_schedules','?select=*&order=next_due'),
+    _get('refill_schedules','?select=*&order=next_due'),_get('asset_checklists','?select=*'),
+    _get('inspection_logs','?select=*&order=inspected_at.desc&limit=50'),
+    _get('consumable_logs','?select=*&order=at.desc&limit=50'),
+    _get('asset_alerts','?select=*&order=created_at.desc&limit=100')
+  ]);
+  DB.users=r[0]||[];DB.profiles=r[1]||[];
+  DB.plants=(r[2]||[]).filter(function(p){return p.active});PLANTS=DB.plants.map(function(p){return p.name});rebuildPlantDropdown();
+  DB.categories=r[3]||[];DB.types=r[4]||[];
+  DB.assets=r[5]||[];DB.inspections=r[6]||[];DB.refills=r[7]||[];
+  DB.checklists=r[8]||[];DB.inspLogs=r[9]||[];DB.consumLogs=r[10]||[];DB.alerts=r[11]||[];
+  DBREADY=true}
+
+function sbAsset(a){if(!DBREADY)return;_post('assets',a,'resolution=merge-duplicates')}
+function sbInsp(s){if(!DBREADY)return;_post('inspection_schedules',s,'resolution=merge-duplicates')}
+function sbRefill(s){if(!DBREADY)return;_post('refill_schedules',s,'resolution=merge-duplicates')}
+function sbChecklist(c){if(!DBREADY)return;_post('asset_checklists',c,'resolution=merge-duplicates')}
+function sbInspLog(l){if(!DBREADY)return;_post('inspection_logs',l,'return=minimal')}
+function sbConsumLog(l){if(!DBREADY)return;_post('consumable_logs',l,'return=minimal')}
+function sbAlert(a){if(!DBREADY)return;_post('asset_alerts',a,'return=minimal')}
+function rebuildPlantDropdown(){var lpl=document.getElementById('l-pl');if(lpl&&PLANTS.length)lpl.innerHTML=PLANTS.map(function(p){return '<option>'+p+'</option>'}).join('')}
+
+var today=new Date().toISOString().split('T')[0];
+var DB={users:[],profiles:[],plants:[],categories:[],types:[],assets:[],inspections:[],refills:[],checklists:[],inspLogs:[],consumLogs:[],alerts:[]};
+var CU=null,CP=null,SPL=null,CURP='',CI={},VPAGE_T=null;
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function val(id){var el=document.getElementById(id);return el?el.value.trim():''}
+function gid(p){return p+Math.random().toString(36).slice(2,6).toUpperCase()+String(Date.now()).slice(-4)}
+function nowStr(sec){var d=new Date(),p=function(n){return n<10?'0'+n:n},s=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());return sec?s+':'+p(d.getSeconds()):s}
+function addDays(dstr,n){var d=new Date(dstr+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]}
+function daysUntil(d){if(!d)return 9999;return Math.round((new Date(d+'T00:00:00')-new Date(today+'T00:00:00'))/864e5)}
+function gProf(id){return DB.profiles.filter(function(p){return p.id===id})[0]||null}
+function gAsset(id){return DB.assets.filter(function(a){return a.id===id})[0]||null}
+function gType(id){return DB.types.filter(function(t){return t.id===id})[0]||null}
+function gCat(id){return DB.categories.filter(function(c){return c.id===id})[0]||null}
+function gChecklist(id){return DB.checklists.filter(function(c){return c.id===id})[0]||null}
+function myAssets(){return DB.assets.filter(function(a){return a.plant===SPL})}
+function myInspections(){return DB.inspections.filter(function(s){var a=gAsset(s.asset_id);return a&&a.plant===SPL})}
+function myRefills(){return DB.refills.filter(function(s){var a=gAsset(s.asset_id);return a&&a.plant===SPL})}
+function freqNext(freq,from){var d=from||today;var map={'Daily':1,'Weekly':7,'Monthly':30,'Quarterly':91,'Semi-Annual':182,'Annual':365};return addDays(d,map[freq]||30)}
+function toast(m,t){t=t||'i';var ic={s:'fa-circle-check',e:'fa-circle-exclamation',i:'fa-circle-info',w:'fa-triangle-exclamation'};var c=document.getElementById('tc'),e=document.createElement('div');e.className='tt t'+t;e.innerHTML='<i class="fas '+(ic[t]||ic.i)+'"></i><span>'+m+'</span>';c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateX(40px)';e.style.transition='all .3s';setTimeout(function(){e.remove()},300)},3500)}
+function showM(t,h,lg){document.getElementById('mc').innerHTML='<div class="mo" onclick="if(event.target===this)closeM()"><div class="md'+(lg?' md-lg':'')+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><h3 class="fd" style="font-size:20px;font-weight:700">'+t+'</h3><button onclick="closeM()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:20px;padding:4px"><i class="fas fa-times"></i></button></div>'+h+'</div></div>'}
+function closeM(){document.getElementById('mc').innerHTML=''}
+function showConfirm(msg,fnExpr,btnText){showM('Confirm','<div style="text-align:center;padding:20px"><i class="fas fa-triangle-exclamation" style="font-size:32px;color:var(--wrn);margin-bottom:12px;display:block"></i><p style="font-size:15px;font-weight:600">'+msg+'</p></div><div style="display:flex;gap:12px"><button class="bs" style="flex:1;justify-content:center;padding:12px" onclick="closeM()">Cancel</button><button class="bd" style="flex:1;justify-content:center;padding:12px" onclick="closeM();'+fnExpr+'">'+(btnText||'Confirm')+'</button></div>')}
+function bc(items){var h='<div class="breadcrumb">';items.forEach(function(it,i){if(i>0)h+='<span class="bc-sep"><i class="fas fa-chevron-right"></i></span>';h+=(i===items.length-1)?'<span class="bc-cur">'+it.label+'</span>':'<a onclick="'+(it.action||'')+'">'+it.label+'</a>'});return h+'</div>'}
+function kpi(ic,lb,v,clr){return '<div class="c kpi '+clr+'"><div style="display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;color:var(--tx2);margin-bottom:6px">'+lb+'</div><div class="fd" style="font-size:32px;font-weight:800">'+v+'</div></div><div style="width:44px;height:44px;border-radius:12px;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:18px;flex-shrink:0"><i class="fas '+ic+'"></i></div></div></div>'}
+function emptyRow(cs,msg){return '<tr><td colspan="'+cs+'"><div class="empty-state"><i class="fas fa-inbox"></i><p>'+msg+'</p></div></td></tr>'}
+function det(l,v){return '<div><span style="color:var(--tx2);font-size:11px;display:block;margin-bottom:2px">'+l+'</span><span style="font-weight:600">'+((v==null||v==='')?'-':v)+'</span></div>'}
+function stBadge(s){var m={'Active':'b-ok','Expired':'b-err','Damaged':'b-err','In Service':'b-ok','Retired':'b-out','Scheduled':'b-wrn','Completed':'b-ok','Overdue':'b-err','Due Soon':'b-wrn'};return '<span class="badge '+(m[s]||'b-pending')+'">'+s+'</span>'}
+function catBadge(cid){var c=gCat(cid);return c?'<span class="chip" style="color:'+(c.color||'#F59E0B')+'"><i class="fas '+(c.icon||'fa-box')+'" style="color:'+(c.color||'#F59E0B')+'"></i>'+esc(c.name)+'</span>':'-'}
+function typeBadge(tid){var t=gType(tid);return t?'<span class="chip"><i class="fas '+(t.icon||'fa-box')+'"></i>'+esc(t.name)+'</span>':'-'}
+function dueBadge(d){if(!d)return '<span class="badge b-ok">No due date</span>';var days=daysUntil(d);if(days<0)return '<span class="badge b-err">OVERDUE ('+Math.abs(days)+'d)</span>';if(days<=7)return '<span class="badge b-wrn">Due in '+days+'d</span>';return '<span class="badge b-ok">'+d+'</span>'}
+function expBadge(a){if(!a.expiry_date)return '';var days=daysUntil(a.expiry_date);if(days<0)return '<span class="badge b-err">EXPIRED</span>';if(days<=30)return '<span class="badge b-wrn">Expires '+days+'d</span>';return '<span class="badge b-ok">'+a.expiry_date+'</span>'}
+function stockBadge(a){if(a.min_quantity&&a.quantity<=a.min_quantity)return '<span class="badge b-err">LOW ('+a.quantity+'/'+a.min_quantity+')</span>';return '<span class="badge b-ok">'+a.quantity+' '+(a.unit||'')+'</span>'}
+function togTh(){var h=document.documentElement,light=h.getAttribute('data-theme')==='light';h.setAttribute('data-theme',light?'dark':'light');syncThemeIcon();try{localStorage.setItem('d3theme',light?'dark':'light')}catch(e){}}
+function syncThemeIcon(){var light=document.documentElement.getAttribute('data-theme')==='light';document.getElementById('thb').innerHTML='<i class="fas fa-'+(light?'sun':'moon')+'"></i>'}
+function qf(u,p){document.getElementById('l-un').value=u;document.getElementById('l-pw').value=p}
+
+function doLogin(){
+ var u=val('l-un'),p=val('l-pw'),pl=val('l-pl');if(!u||!p){toast('Enter credentials','e');return}
+ var user=DB.users.filter(function(x){return x.un===u&&x.pw===p&&x.act})[0];
+ if(!user){toast('Invalid credentials','e');return}
+ if(user.pl!=='All'&&user.pl!==pl){toast(esc(user.nm)+' is not assigned to '+pl,'e');return}
+ var prof=gProf(user.pid);
+ if(prof&&prof.type!=='safety_mgr'&&prof.type!=='safety_off'&&prof.type!=='admin'){toast('This module requires Safety Manager or Safety Officer role','e');return}
+ SPL=(user.pl==='All')?pl:user.pl;CU=user;CP=prof;
+ enterApp();goTo('landing');toast('Welcome, '+user.nm+' - '+CP.name,'s')}
+function enterApp(){
+ document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';
+ document.getElementById('sb-nm').textContent=CU.nm;document.getElementById('sb-av').textContent=CU.nm.charAt(0);
+ document.getElementById('sb-pr').textContent=CP.name;document.getElementById('hd-nm').textContent=CU.nm;document.getElementById('hd-av').textContent=CU.nm.charAt(0);
+ var hp=document.getElementById('hd-pl');if(hp){hp.style.display='inline-flex';hp.innerHTML='<i class="fas fa-industry" style="color:var(--ac)"></i>'+SPL}
+ buildNav()}
+function doLogout(){
+ CU=null;CP=null;SPL=null;CURP='';
+ document.getElementById('pc').innerHTML='';document.getElementById('pt').textContent='Dashboard';
+ var hp=document.getElementById('hd-pl');if(hp)hp.style.display='none';
+ document.getElementById('sb').style.display='flex';document.getElementById('sb').classList.remove('col');
+ document.getElementById('ma').style.marginLeft='';document.getElementById('mbtn').style.display='';
+ document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';
+ document.getElementById('l-un').value='';document.getElementById('l-pw').value='';document.getElementById('l-un').focus()}
+
+function ni(id,ic,lb){return '<div class="ni" data-p="'+id+'" onclick="goTo(\''+id+'\')"><i class="fas '+ic+'"></i><span class="nl">'+lb+'</span></div>'}
+function buildNav(){var h='';
+ h+=ni('landing','fa-table-cells','Dashboard')+ni('a-inventory','fa-boxes-stacked','Inventory')+ni('a-insp','fa-clipboard-check','Inspections')+ni('a-refill','fa-arrows-rotate','Refill/Replace')+ni('a-consum','fa-helmet-safety','Consumables')+ni('a-fire','fa-fire-extinguisher','Fire Extinguishers')+ni('a-alerts','fa-bell','Alerts');
+ if(CP.type==='safety_mgr'||CP.type==='admin')h+=ni('a-checklists','fa-list-check','Checklists')+ni('a-config','fa-gear','Categories & Types');
+ document.getElementById('nl').innerHTML=h}
+function goTo(p){
+ for(var k in CI){try{CI[k].destroy()}catch(e){}}CI={};CURP=p;
+ document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
+ var titles={landing:'Dashboard','a-inventory':'Asset Inventory','a-insp':'Inspection Schedules','a-refill':'Refill/Replace','a-consum':'Consumables','a-fire':'Fire Extinguishers','a-alerts':'Alerts','a-checklists':'Checklists','a-config':'Categories & Types'};
+ document.getElementById('pt').textContent=titles[p]||'Dashboard';
+ var fn={landing:pgLanding,'a-inventory':pgInventory,'a-insp':pgInsp,'a-refill':pgRefill,'a-consum':pgConsum,'a-fire':pgFire,'a-alerts':pgAlerts,'a-checklists':pgChecklists,'a-config':pgConfig};
+ document.getElementById('pc').innerHTML=fn[p]?fn[p]():'<div class="c empty-state">Under construction</div>'}
+
+function tblSearch(inp){var q=inp.value.toLowerCase();var root=inp.closest('.tw-root')||document;root.querySelectorAll('tbody tr').forEach(function(r){var n=r.getAttribute('data-n')||'';r.style.display=(!q||n.indexOf(q)>-1)?'':'none'})}
+
+/* ============ ALERTS ENGINE ============ */
+function generateAlerts(){
+ var newAlerts=[];var existing=DB.alerts.map(function(a){return a.asset_id+'|'+a.alert_type+'|'+a.due_date});
+ DB.inspections.forEach(function(s){var a=gAsset(s.asset_id);if(!a||a.plant!==SPL)return;var days=daysUntil(s.next_due);
+  if(days<=7){var key=s.asset_id+'|inspection:'+s.type+'|'+s.next_due;
+   if(existing.indexOf(s.asset_id+'|inspection:'+s.type+'|'+s.next_due)===-1){var al={asset_id:s.asset_id,alert_type:'inspection:'+s.type,message:'Inspection due for '+a.name+' ('+a.asset_number+') on '+s.next_due,due_date:s.next_due,severity:days<0?'critical':'warning',acknowledged:false,created_at:new Date().toISOString()};DB.alerts.unshift(al);sbAlert(al)}}});
+ DB.refills.forEach(function(s){var a=gAsset(s.asset_id);if(!a||a.plant!==SPL)return;var days=daysUntil(s.next_due);
+  if(days<=7){if(existing.indexOf(s.asset_id+'|refill:'+s.type+'|'+s.next_due)===-1){var al={asset_id:s.asset_id,alert_type:'refill:'+s.type,message:s.type+' due for '+a.name+' ('+a.asset_number+') on '+s.next_due,due_date:s.next_due,severity:days<0?'critical':'warning',acknowledged:false,created_at:new Date().toISOString()};DB.alerts.unshift(al);sbAlert(al)}}});
+ myAssets().forEach(function(a){
+  if(a.expiry_date){var days=daysUntil(a.expiry_date);
+   if(days<=30&&existing.indexOf(a.id+'|expiry|'+a.expiry_date)===-1){var al={asset_id:a.id,alert_type:'expiry',message:a.name+' ('+a.asset_number+') expires on '+a.expiry_date,due_date:a.expiry_date,severity:days<0?'critical':'warning',acknowledged:false,created_at:new Date().toISOString()};DB.alerts.unshift(al);sbAlert(al)}}
+  if(a.min_quantity&&a.quantity<=a.min_quantity&&existing.indexOf(a.id+'|lowstock|')===-1){var al={asset_id:a.id,alert_type:'lowstock',message:a.name+' ('+a.asset_number+') low stock: '+a.quantity+' remaining (min '+a.min_quantity+')',due_date:null,severity:'critical',acknowledged:false,created_at:new Date().toISOString()};DB.alerts.unshift(al);sbAlert(al)}})}
+
+function myAlerts(){return DB.alerts.filter(function(a){var as=gAsset(a.asset_id);return as&&as.plant===SPL&&!a.acknowledged})}
+
+/* ============ DASHBOARD ============ */
+function pgLanding(){
+ generateAlerts();
+ var assets=myAssets();
+ var insp=myInspections();var inspOverdue=insp.filter(function(s){return daysUntil(s.next_due)<0}).length;
+ var inspSoon=insp.filter(function(s){var d=daysUntil(s.next_due);return d>=0&&d<=7}).length;
+ var refill=myRefills();var refillOverdue=refill.filter(function(s){return daysUntil(s.next_due)<0}).length;
+ var refillSoon=refill.filter(function(s){var d=daysUntil(s.next_due);return d>=0&&d<=7}).length;
+ var expired=assets.filter(function(a){return a.expiry_date&&daysUntil(a.expiry_date)<0}).length;
+ var expSoon=assets.filter(function(a){return a.expiry_date&&daysUntil(a.expiry_date)>=0&&daysUntil(a.expiry_date)<=30}).length;
+ var lowStock=assets.filter(function(a){return a.min_quantity&&a.quantity<=a.min_quantity}).length;
+ var alerts=myAlerts();
+ var h=bc([{label:'Dashboard'}]);
+ // Alert banners
+ if(alerts.length){h+='<div style="margin-bottom:20px;display:grid;gap:8px">';
+  alerts.slice(0,5).forEach(function(a){
+   var cls=a.severity==='critical'?'alert-crit':(a.severity==='warning'?'alert-warn':'alert-info');
+   var ic=a.severity==='critical'?'fa-circle-exclamation':(a.severity==='warning'?'fa-triangle-exclamation':'fa-circle-info');
+   h+='<div class="alert-banner '+cls+'"><i class="fas '+ic+'"></i><span style="flex:1">'+esc(a.message)+'</span><button class="bs bsm" onclick="ackAlert('+a.id+')">OK</button></div>'});
+  if(alerts.length>5)h+='<div style="text-align:center;font-size:12px;color:var(--tx2)">'+(alerts.length-5)+' more alerts - <a onclick="goTo(\'a-alerts\')" style="color:var(--ac);cursor:pointer;text-decoration:underline">view all</a></div>';
+  h+='</div>'}
+ h+='<div class="kgrid">'+
+  kpi('fa-boxes-stacked','Total Assets',assets.length,'cyan')+
+  kpi('fa-clipboard-check','Inspections Overdue',inspOverdue,'red')+
+  kpi('fa-clock','Inspections Due ≤7d',inspSoon,'amber')+
+  kpi('fa-arrows-rotate','Refills Overdue',refillOverdue,'red')+
+  kpi('fa-hourglass-half','Expiring ≤30d',expSoon,'amber')+
+  kpi('fa-triangle-exclamation','Low Stock',lowStock,'red')+
+ '</div>';
+ h+='<div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4 class="fd" style="font-size:15px">Upcoming Schedules (next 7 days)</h4></div>';
+ var upcoming=[];
+ insp.forEach(function(s){if(daysUntil(s.next_due)<=7){var a=gAsset(s.asset_id);upcoming.push({due:s.next_due,what:'Inspection',asset:a?a.name+' ('+a.asset_number+')':s.asset_id,fn:"goTo('a-insp')"})}});
+ refill.forEach(function(s){if(daysUntil(s.next_due)<=7){var a=gAsset(s.asset_id);upcoming.push({due:s.next_due,what:s.type,asset:a?a.name+' ('+a.asset_number+')':s.asset_id,fn:"goTo('a-refill')"})}});
+ upcoming.sort(function(a,b){return a.due<b.due?-1:1});
+ if(upcoming.length){
+  h+='<div class="tbl-wrap"><table><thead><tr><th>Due Date</th><th>Type</th><th>Asset</th><th>Status</th></tr></thead><tbody>'+
+  upcoming.map(function(u){return '<tr style="cursor:pointer" onclick="'+u.fn+'"><td style="font-weight:600">'+u.due+'</td><td><span class="chip">'+u.what+'</span></td><td>'+esc(u.asset)+'</td><td>'+dueBadge(u.due)+'</td></tr>'}).join('')+'</tbody></table></div>';
+ } else h+='<div class="empty-state" style="padding:32px"><i class="fas fa-circle-check"></i><p>Nothing due in the next 7 days</p></div>';
+ h+='</div>';
+ return h}
+
+function ackAlert(id){DB.alerts.forEach(function(a){if(a.id===id)a.acknowledged=true});_post('asset_alerts',{id:id,acknowledged:true},'resolution=merge-duplicates');toast('Alert acknowledged','s');goTo('landing')}
+
+/* ============ INVENTORY ============ */
+function pgInventory(){
+ var list=myAssets();
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Inventory'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search name, number, location..." oninput="tblSearch(this)"></div><div style="display:flex;gap:10px;align-items:center"><div style="color:var(--tx2);font-size:13px">'+list.length+' assets</div><button class="bp bsm" onclick="showAssetForm(null)"><i class="fas fa-plus"></i> Add Asset</button></div></div></div>';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-boxes-stacked"></i><p>No assets. Add your first asset.</p></div>';
+ else{
+  h+='<div class="tbl-wrap"><table><thead><tr><th>Number</th><th>Name</th><th>Type</th><th>Location</th><th>Stock</th><th>Expiry</th><th>Status</th><th></th></tr></thead><tbody>';
+  list.forEach(function(a){
+   h+='<tr data-n="'+esc((a.name+' '+a.asset_number+' '+(a.location||'')).toLowerCase())+'"><td style="font-weight:600;color:var(--ac)">'+esc(a.asset_number)+'</td><td style="font-weight:600">'+esc(a.name)+'</td><td>'+typeBadge(a.type_id)+'</td><td style="font-size:12px;color:var(--tx2)">'+esc(a.location||'-')+'</td><td>'+stockBadge(a)+'</td><td>'+expBadge(a)+'</td><td>'+stBadge(a.status)+'</td><td><button class="bs bsm" onclick="showAssetDetail(\''+a.id+'\')"><i class="fas fa-eye"></i></button> <button class="bs bsm" onclick="showAssetForm(\''+a.id+'\')"><i class="fas fa-pen"></i></button></td></tr>'});
+  h+='</tbody></table></div>'}
+ h+='</div>';return h}
+
+function showAssetDetail(id){var a=gAsset(id);if(!a)return;
+ var insp=DB.inspections.filter(function(s){return s.asset_id===id});
+ var refill=DB.refills.filter(function(s){return s.asset_id===id});
+ var logs=DB.inspLogs.filter(function(l){return l.asset_id===id}).slice(0,5);
+ var h='<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;font-size:13px;margin-bottom:16px">'+
+  det('Asset Number',esc(a.asset_number))+det('Name',esc(a.name))+det('Type',(gType(a.type_id)||{}).name||'-')+det('Category',(gCat(a.category_id)||{}).name||'-')+det('Location',esc(a.location||'-'))+det('Plant',esc(a.plant))+det('Quantity',a.quantity+' '+(a.unit||''))+det('Min Quantity',a.min_quantity||'-')+det('Shelf Life',a.shelf_life_days?a.shelf_life_days+' days':'-')+det('Expiry',a.expiry_date||'-')+det('Supplier',esc(a.supplier||'-'))+det('Status',a.status)+'</div>';
+ h+='<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px">INSPECTION SCHEDULES</div>';
+ h+=insp.length?insp.map(function(s){return '<div class="qopt" style="cursor:default"><span style="flex:1">'+esc(s.type)+' - '+esc(s.frequency||'')+'</span>'+dueBadge(s.next_due)+'</div>'}).join(''):'<div style="font-size:13px;color:var(--mt)">None</div>';h+='</div>';
+ h+='<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px">REFILL/REPLACE SCHEDULES</div>';
+ h+=refill.length?refill.map(function(s){return '<div class="qopt" style="cursor:default"><span style="flex:1">'+esc(s.type)+' - '+esc(s.frequency||'')+' (qty '+s.quantity_needed+')</span>'+dueBadge(s.next_due)+'</div>'}).join(''):'<div style="font-size:13px;color:var(--mt)">None</div>';h+='</div>';
+ h+='<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px">RECENT INSPECTIONS</div>';
+ h+=logs.length?logs.map(function(l){return '<div class="qopt" style="cursor:default"><span style="flex:1">'+esc(l.inspected_by)+' - '+l.inspected_at.replace('T',' ').slice(0,16)+'</span><span class="badge '+(l.result==='Pass'?'b-ok':'b-err')+'">'+esc(l.result)+'</span></div>'}).join(''):'<div style="font-size:13px;color:var(--mt)">No inspections logged</div>';h+='</div>';
+ h+='<button class="bs" style="width:100%;justify-content:center" onclick="closeM()">Close</button>';
+ showM(esc(a.name)+' - '+esc(a.asset_number),h,true)}
+
+function showAssetForm(id){var a=id?gAsset(id):null;
+ var typeOpts=DB.types.map(function(t){return '<option value="'+t.id+'"'+(a&&a.type_id===t.id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('');
+ var catOpts=DB.categories.map(function(c){return '<option value="'+c.id+'"'+(a&&a.category_id===c.id?' selected':'')+'>'+esc(c.name)+'</option>'}).join('');
+ var h='<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Asset Number *</label><input class="i" id="af-num" value="'+(a?esc(a.asset_number):'')+'" placeholder="FE-CO2-003"></div>'+
+ '<div><label class="lb">Name *</label><input class="i" id="af-nm" value="'+(a?esc(a.name):'')+'" placeholder="CO2 Extinguisher #3"></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Category</label><select class="i sl" id="af-cat">'+catOpts+'</select></div><div><label class="lb">Type</label><select class="i sl" id="af-type">'+typeOpts+'</select></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Location</label><input class="i" id="af-loc" value="'+(a?esc(a.location||''):'')+'" placeholder="Block C - Corridor"></div><div><label class="lb">Plant</label><input class="i" value="'+SPL+'" disabled></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"><div><label class="lb">Quantity</label><input class="i" id="af-qty" type="number" min="0" value="'+(a?a.quantity:1)+'"></div><div><label class="lb">Min Quantity</label><input class="i" id="af-min" type="number" min="0" value="'+(a?a.min_quantity||0:0)+'"></div><div><label class="lb">Unit</label><input class="i" id="af-unit" value="'+(a?esc(a.unit||''):'unit')+'" placeholder="pcs/unit"></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Shelf Life (days)</label><input class="i" id="af-sl" type="number" min="0" value="'+(a?a.shelf_life_days||'':'')+'" placeholder="365"></div><div><label class="lb">Expiry Date</label><input class="i" id="af-exp" type="date" value="'+(a?a.expiry_date||'':'')+'"></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Supplier</label><input class="i" id="af-sup" value="'+(a?esc(a.supplier||''):'')+'"></div><div><label class="lb">Status</label><select class="i sl" id="af-st"><option'+(a&&a.status==='Active'?' selected':'')+'>Active</option><option'+(a&&a.status==='Expired'?' selected':'')+'>Expired</option><option'+(a&&a.status==='Damaged'?' selected':'')+'>Damaged</option><option'+(a&&a.status==='Retired'?' selected':'')+'>Retired</option></select></div></div>'+
+ '<div><label class="lb">Notes</label><input class="i" id="af-notes" value="'+(a?esc(a.notes||''):'')+'"></div>';
+ if(a){
+  var inspFor=DB.inspections.filter(function(s){return s.asset_id===a.id});
+  h+='<div style="padding:12px;background:var(--abg);border-radius:8px;font-size:12px;color:var(--tx2)"><strong>Schedules:</strong> '+inspFor.length+' inspection(s), '+DB.refills.filter(function(s){return s.asset_id===a.id}).length+' refill/replace schedule(s). Manage from Inspections and Refill pages.</div>'}
+ h+='<button class="bp" onclick="saveAsset(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save Asset</button></div>';
+ showM((id?'Edit':'Add')+' Asset',h)}
+
+function saveAsset(id){var num=val('af-num'),nm=val('af-nm');if(!num||!nm){toast('Asset number and name required','e');return}
+ var row={id:id||gid('AST-'),asset_number:num,name:nm,type_id:val('af-type'),category_id:val('af-cat'),plant:SPL,location:val('af-loc'),quantity:parseInt(val('af-qty'))||1,min_quantity:parseInt(val('af-min'))||0,unit:val('af-unit')||'unit',shelf_life_days:val('af-sl')?parseInt(val('af-sl')):null,expiry_date:val('af-exp')||null,manufactured_date:null,status:val('af-st'),supplier:val('af-sup'),purchase_date:null,cost:null,notes:val('af-notes'),created_by:CU?CU.nm:'system'};
+ if(id){Object.assign(gAsset(id),row)}else{DB.assets.push(row)}
+ sbAsset(row);closeM();toast('Asset saved','s');goTo('a-inventory')}
+
+/* ============ INSPECTIONS ============ */
+function pgInsp(){
+ var list=myInspections().sort(function(a,b){return a.next_due<b.next_due?-1:1});
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Inspection Schedules'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search..." oninput="tblSearch(this)"></div><button class="bp bsm" onclick="showInspForm(null)"><i class="fas fa-plus"></i> Add Schedule</button></div></div>';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-clipboard-check"></i><p>No inspection schedules</p></div>';
+ else{h+='<div class="tbl-wrap"><table><thead><tr><th>Asset</th><th>Type</th><th>Frequency</th><th>Next Due</th><th>Assigned To</th><th>Status</th><th></th></tr></thead><tbody>';
+ list.forEach(function(s){var a=gAsset(s.asset_id);
+  h+='<tr data-n="'+esc(((a?a.name:'')+' '+(a?a.asset_number:'')).toLowerCase())+'"><td style="font-weight:600">'+(a?esc(a.name)+' <span style="color:var(--mt);font-size:11px">'+esc(a.asset_number)+'</span>':s.asset_id)+'</td><td><span class="chip">'+esc(s.type||'Inspection')+'</span></td><td>'+esc(s.frequency||'-')+'</td><td>'+dueBadge(s.next_due)+'</td><td style="font-size:12px;color:var(--tx2)">'+esc(s.assigned_to||'-')+'</td><td>'+stBadge(daysUntil(s.next_due)<0?'Overdue':(daysUntil(s.next_due)<=7?'Due Soon':'Scheduled'))+'</td><td><button class="bg bsm" onclick="doInsp(\''+s.id+'\')"><i class="fas fa-check"></i> Done</button></td></tr>'});
+ h+='</tbody></table></div>'}
+ h+='</div>';return h}
+
+function showInspForm(id){var s=id?DB.inspections.filter(function(x){return x.id===id})[0]:null;
+ var assetOpts=myAssets().map(function(a){return '<option value="'+a.id+'"'+(s&&s.asset_id===a.id?' selected':'')+'>'+esc(a.name)+' ('+esc(a.asset_number)+')</option>'}).join('');
+ var clOpts='<option value="">-- None --</option>'+DB.checklists.map(function(c){return '<option value="'+c.id+'"'+(s&&s.checklist_id===c.id?' selected':'')+'>'+esc(c.name)+'</option>'}).join('');
+ var h='<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Asset *</label><select class="i sl" id="if-asset">'+assetOpts+'</select></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Type</label><select class="i sl" id="if-type"><option>Inspection</option><option>Maintenance</option><option>Calibration</option><option>Hydro Test</option></select></div><div><label class="lb">Frequency</label><select class="i sl" id="if-freq"><option>Weekly</option><option>Monthly</option><option>Quarterly</option><option>Semi-Annual</option><option>Annual</option></select></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Next Due *</label><input class="i" id="if-due" type="date" value="'+(s?s.next_due:addDays(today,30))+'"></div><div><label class="lb">Assigned To</label><input class="i" id="if-assigned" value="'+(s?esc(s.assigned_to||''):'Safety Officer')+'"></div></div>'+
+ '<div><label class="lb">Checklist</label><select class="i sl" id="if-cl">'+clOpts+'</select></div>'+
+ '<div><label class="lb">Notes</label><input class="i" id="if-notes" value="'+(s?esc(s.notes||''):'')+'"></div>'+
+ '<button class="bp" onclick="saveInsp(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>';
+ showM((id?'Edit':'Add')+' Inspection Schedule',h)}
+
+function saveInsp(id){var asset=val('if-asset'),due=val('if-due');if(!asset||!due){toast('Select asset and due date','e');return}
+ var row={id:id||gid('IS-'),asset_id:asset,type:val('if-type'),frequency:val('if-freq'),next_due:due,last_done:null,assigned_to:val('if-assigned'),checklist_id:val('if-cl')||null,status:'Scheduled',notes:val('if-notes')};
+ if(id){Object.assign(DB.inspections.filter(function(x){return x.id===id})[0],row)}else{DB.inspections.push(row)}
+ sbInsp(row);closeM();toast('Schedule saved','s');goTo('a-insp')}
+
+function doInsp(sid){var s=DB.inspections.filter(function(x){return x.id===sid})[0];if(!s)return;
+ var a=gAsset(s.asset_id);var cl=s.checklist_id?gChecklist(s.checklist_id):null;
+ var h='<div style="margin-bottom:16px">'+det('Asset',esc(a?a.name:s.asset_id))+det('Type',esc(s.type))+det('Due',s.next_due)+'</div>';
+ if(cl&&cl.items&&cl.items.length){
+  h+='<div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:10px">CHECKLIST: '+esc(cl.name)+'</div>';
+  cl.items.forEach(function(item,i){
+   if(item.type==='checkbox')h+='<label class="qopt"><input type="checkbox" id="ci-'+i+'"><span>'+esc(item.text)+'</span></label>';
+   else h+='<div style="margin-bottom:8px"><label style="font-size:13px;display:block;margin-bottom:4px">'+esc(item.text)+'</label><input class="i" id="ci-'+i+'" placeholder="'+esc(item.placeholder||'Enter value')+'"></div>'})}
+ h+='<div style="margin-top:12px"><label class="lb">Inspection Notes</label><input class="i" id="ci-notes" placeholder="Optional observations"></div>';
+ h+='<button class="bg" style="width:100%;justify-content:center;margin-top:12px" onclick="completeInsp(\''+sid+'\','+(cl?cl.items.length:0)+')"><i class="fas fa-check"></i> Complete Inspection</button>';
+ showM('Inspect: '+esc(a?a.name:'Asset'),h,true)}
+
+function completeInsp(sid,itemCount){var s=DB.inspections.filter(function(x){return x.id===sid})[0];if(!s)return;
+ var cl=s.checklist_id?gChecklist(s.checklist_id):null;
+ var answers={};var allChecked=true;
+ for(var i=0;i<itemCount;i++){var el=document.getElementById('ci-'+i);if(el){if(el.type==='checkbox'){answers[i]=el.checked;if(!el.checked)allChecked=false}else{answers[i]=el.value}}}
+ var result=allChecked?'Pass':'Fail';
+ var log={asset_id:s.asset_id,schedule_id:sid,checklist_id:s.checklist_id,inspected_by:CU?CU.nm:'Unknown',inspected_at:new Date().toISOString(),result:result,checklist_data:{answers:answers},notes:val('ci-notes')||''};
+ DB.inspLogs.unshift(log);sbInspLog(log);
+ s.last_done=today;s.next_due=freqNext(s.frequency);s.status='Scheduled';
+ sbInsp(s);
+ // Auto-alert resolution: acknowledge related alert
+ DB.alerts.forEach(function(al){if(al.asset_id===s.asset_id&&al.due_date===s.next_due)al.acknowledged=true});
+ closeM();toast('Inspection completed - '+result+'. Next: '+s.next_due,'s');goTo('a-insp')}
+
+/* ============ REFILL / REPLACE ============ */
+function pgRefill(){
+ var list=myRefills().sort(function(a,b){return a.next_due<b.next_due?-1:1});
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Refill / Replace'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search..." oninput="tblSearch(this)"></div><button class="bp bsm" onclick="showRefillForm(null)"><i class="fas fa-plus"></i> Add Schedule</button></div></div>';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-arrows-rotate"></i><p>No refill/replace schedules</p></div>';
+ else{h+='<div class="tbl-wrap"><table><thead><tr><th>Asset</th><th>Action</th><th>Frequency</th><th>Qty Needed</th><th>Next Due</th><th>Status</th><th></th></tr></thead><tbody>';
+ list.forEach(function(s){var a=gAsset(s.asset_id);
+  h+='<tr data-n="'+esc(((a?a.name:'')+' '+(a?a.asset_number:'')).toLowerCase())+'"><td style="font-weight:600">'+(a?esc(a.name)+' <span style="color:var(--mt);font-size:11px">'+esc(a.asset_number)+'</span>':s.asset_id)+'</td><td><span class="chip">'+esc(s.type||'Refill')+'</span></td><td>'+esc(s.frequency||'-')+'</td><td>'+s.quantity_needed+'</td><td>'+dueBadge(s.next_due)+'</td><td>'+stBadge(daysUntil(s.next_due)<0?'Overdue':(daysUntil(s.next_due)<=7?'Due Soon':'Scheduled'))+'</td><td><button class="bg bsm" onclick="doRefill(\''+s.id+'\')"><i class="fas fa-check"></i> Done</button></td></tr>'});
+ h+='</tbody></table></div>'}
+ h+='</div>';return h}
+
+function showRefillForm(id){var s=id?DB.refills.filter(function(x){return x.id===id})[0]:null;
+ var assetOpts=myAssets().map(function(a){return '<option value="'+a.id+'"'+(s&&s.asset_id===a.id?' selected':'')+'>'+esc(a.name)+' ('+esc(a.asset_number)+')</option>'}).join('');
+ var h='<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Asset *</label><select class="i sl" id="rf-asset">'+assetOpts+'</select></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Action Type</label><select class="i sl" id="rf-type"><option>Refill</option><option>Replace</option></select></div><div><label class="lb">Frequency</label><select class="i sl" id="rf-freq"><option>Monthly</option><option>Quarterly</option><option>Semi-Annual</option><option>Annual</option></select></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Next Due *</label><input class="i" id="rf-due" type="date" value="'+(s?s.next_due:addDays(today,30))+'"></div><div><label class="lb">Quantity Needed</label><input class="i" id="rf-qty" type="number" min="1" value="'+(s?s.quantity_needed:1)+'"></div></div>'+
+ '<div><label class="lb">Notes</label><input class="i" id="rf-notes" value="'+(s?esc(s.notes||''):'')+'"></div>'+
+ '<button class="bp" onclick="saveRefill(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>';
+ showM((id?'Edit':'Add')+' Refill/Replace Schedule',h)}
+
+function saveRefill(id){var asset=val('rf-asset'),due=val('rf-due');if(!asset||!due){toast('Select asset and due date','e');return}
+ var row={id:id||gid('RS-'),asset_id:asset,type:val('rf-type'),frequency:val('rf-freq'),next_due:due,last_done:null,quantity_needed:parseInt(val('rf-qty'))||1,status:'Scheduled',notes:val('rf-notes')};
+ if(id){Object.assign(DB.refills.filter(function(x){return x.id===id})[0],row)}else{DB.refills.push(row)}
+ sbRefill(row);closeM();toast('Schedule saved','s');goTo('a-refill')}
+
+function doRefill(rid){var s=DB.refills.filter(function(x){return x.id===rid})[0];if(!s)return;
+ var a=gAsset(s.asset_id);
+ showConfirm('Mark '+esc(s.type)+' for '+(a?esc(a.name):s.asset_id)+' as done? This will update stock and reschedule.',"completeRefill('"+rid+"')",'Complete')}
+
+function completeRefill(rid){var s=DB.refills.filter(function(x){return x.id===rid})[0];if(!s)return;
+ var a=gAsset(s.asset_id);
+ if(a){if(s.type==='Replace'){a.quantity=Math.max(a.quantity,a.min_quantity?a.min_quantity*2:s.quantity_needed)}else{a.quantity+=s.quantity_needed}
+  sbAsset(a)}
+ var log={asset_id:s.asset_id,action:s.type,quantity:s.quantity_needed,by:CU?CU.nm:'Unknown',at:new Date().toISOString(),notes:''};
+ DB.consumLogs.unshift(log);sbConsumLog(log);
+ s.last_done=today;s.next_due=freqNext(s.frequency);sbRefill(s);
+ DB.alerts.forEach(function(al){if(al.asset_id===s.asset_id&&al.alert_type.indexOf('refill')===0)al.acknowledged=true});
+ toast(s.type+' completed - next due '+s.next_due,'s');goTo('a-refill')}
+
+/* ============ CONSUMABLES ============ */
+function pgConsum(){
+ var list=myAssets().filter(function(a){var c=gCat(a.category_id);return c&&(c.id==='AC-PPE'||a.min_quantity>0)});
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Consumables'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search..." oninput="tblSearch(this)"></div><div style="color:var(--tx2);font-size:13px">'+list.length+' items</div></div></div>';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-helmet-safety"></i><p>No consumables</p></div>';
+ else{h+='<div class="tbl-wrap"><table><thead><tr><th>Item</th><th>Type</th><th>Stock</th><th>Min</th><th>Status</th><th>Actions</th></tr></thead><tbody>';
+ list.forEach(function(a){
+  h+='<tr data-n="'+esc((a.name+' '+a.asset_number).toLowerCase())+'"><td style="font-weight:600">'+esc(a.name)+' <span style="color:var(--mt);font-size:11px">'+esc(a.asset_number)+'</span></td><td>'+typeBadge(a.type_id)+'</td><td>'+a.quantity+' '+(a.unit||'')+'</td><td>'+(a.min_quantity||'-')+'</td><td>'+stockBadge(a)+'</td><td><button class="bg bsm" onclick="issueStock(\''+a.id+'\')"><i class="fas fa-arrow-down"></i> Issue</button> <button class="bp bsm" onclick="addStock(\''+a.id+'\')"><i class="fas fa-plus"></i> Add</button></td></tr>'});
+ h+='</tbody></table></div>'}
+ h+='</div>';
+ h+='<div class="c p0" style="margin-top:20px"><div style="padding:16px 16px 0"><h4 class="fd" style="font-size:15px">Recent Stock Movements</h4></div><div class="tbl-wrap" style="border:none">';
+ var logs=DB.consumLogs.filter(function(l){var a=gAsset(l.asset_id);return a&&a.plant===SPL}).slice(0,10);
+ h+=logs.length?'<table><thead><tr><th>Date</th><th>Asset</th><th>Action</th><th>Qty</th><th>By</th></tr></thead><tbody>'+logs.map(function(l){var a=gAsset(l.asset_id);return '<tr><td style="font-size:12px;color:var(--tx2)">'+l.at.replace('T',' ').slice(0,16)+'</td><td>'+esc(a?a.name:l.asset_id)+'</td><td><span class="chip">'+esc(l.action)+'</span></td><td>'+l.quantity+'</td><td>'+esc(l.by)+'</td></tr>'}).join('')+'</tbody></table>':'<div class="empty-state" style="padding:24px"><p>No movements</p></div>';
+ h+='</div></div>';
+ return h}
+
+function issueStock(id){var a=gAsset(id);if(!a)return;
+ showM('Issue Stock - '+esc(a.name),'<div style="display:grid;gap:14px"><div style="padding:12px;background:var(--abg);border-radius:8px;font-size:13px">Current: '+a.quantity+' '+esc(a.unit||'')+'</div><div><label class="lb">Quantity to Issue</label><input class="i" id="st-qty" type="number" min="1" max="'+a.quantity+'" value="1"></div><div><label class="lb">Issued To</label><input class="i" id="st-to" placeholder="Person or department"></div><button class="bd" onclick="doIssue(\''+id+'\')"><i class="fas fa-arrow-down"></i> Issue</button></div>')}
+function doIssue(id){var a=gAsset(id);if(!a)return;var qty=parseInt(val('st-qty'))||1;
+ if(qty>a.quantity){toast('Not enough stock','e');return}
+ a.quantity-=qty;sbAsset(a);
+ var log={asset_id:id,action:'Issue',quantity:qty,by:CU?CU.nm:'Unknown',at:new Date().toISOString(),notes:'Issued to '+val('st-to')};
+ DB.consumLogs.unshift(log);sbConsumLog(log);
+ closeM();toast(qty+' issued - remaining '+a.quantity,'s');goTo('a-consum')}
+function addStock(id){var a=gAsset(id);if(!a)return;
+ showM('Add Stock - '+esc(a.name),'<div style="display:grid;gap:14px"><div style="padding:12px;background:var(--abg);border-radius:8px;font-size:13px">Current: '+a.quantity+' '+esc(a.unit||'')+'</div><div><label class="lb">Quantity to Add</label><input class="i" id="st-qty" type="number" min="1" value="10"></div><button class="bg" onclick="doAdd(\''+id+'\')"><i class="fas fa-plus"></i> Add Stock</button></div>')}
+function doAdd(id){var a=gAsset(id);if(!a)return;var qty=parseInt(val('st-qty'))||1;
+ a.quantity+=qty;sbAsset(a);
+ var log={asset_id:id,action:'Restock',quantity:qty,by:CU?CU.nm:'Unknown',at:new Date().toISOString(),notes:''};
+ DB.consumLogs.unshift(log);sbConsumLog(log);
+ closeM();toast(qty+' added - total '+a.quantity,'s');goTo('a-consum')}
+
+/* ============ FIRE EXTINGUISHERS ============ */
+function pgFire(){
+ var list=myAssets().filter(function(a){var c=gCat(a.category_id);return c&&c.id==='AC-FIRE'});
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Fire Extinguishers'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search..." oninput="tblSearch(this)"></div><div style="color:var(--tx2);font-size:13px">'+list.length+' extinguisher(s)</div></div></div>';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-fire-extinguisher"></i><p>No fire extinguishers registered</p></div>';
+ else{h+='<div class="tbl-wrap"><table><thead><tr><th>Number</th><th>Type</th><th>Location</th><th>Next Inspection</th><th>Pressure</th><th>Seal</th><th>Actions</th></tr></thead><tbody>';
+ list.forEach(function(a){
+  var insp=DB.inspections.filter(function(s){return s.asset_id===a.id})[0];
+  var lastLog=DB.inspLogs.filter(function(l){return l.asset_id===a.id})[0];
+  var pressure='OK',seal='OK';
+  if(lastLog&&lastLog.checklist_data&&lastLog.checklist_data.answers){
+   if(lastLog.checklist_data.answers[0]===false)pressure='CHECK';
+   if(lastLog.checklist_data.answers[1]===false)seal='BROKEN'}
+  h+='<tr data-n="'+esc((a.name+' '+a.asset_number+' '+(a.location||'')).toLowerCase())+'"><td style="font-weight:600;color:var(--ac)">'+esc(a.asset_number)+'</td><td>'+typeBadge(a.type_id)+'</td><td>'+esc(a.location||'-')+'</td><td>'+(insp?dueBadge(insp.next_due):'<span class="badge b-err">No schedule</span>')+'</td><td>'+(pressure==='OK'?'<span class="badge b-ok">OK</span>':'<span class="badge b-err">'+pressure+'</span>')+'</td><td>'+(seal==='OK'?'<span class="badge b-ok">OK</span>':'<span class="badge b-err">'+seal+'</span>')+'</td><td>'+(insp?'<button class="bg bsm" onclick="doInsp(\''+insp.id+'\')"><i class="fas fa-clipboard-check"></i> Inspect</button>':'<button class="bp bsm" onclick="showInspForm(null)">Schedule</button>')+'</td></tr>'});
+ h+='</tbody></table></div>'}
+ h+='</div>';return h}
+
+/* ============ ALERTS PAGE ============ */
+function pgAlerts(){
+ generateAlerts();
+ var list=myAlerts();
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Alerts'}]);
+ h+='<div class="kgrid" style="margin-bottom:20px">'+
+ kpi('fa-bell','Active Alerts',list.length,'amber')+
+ kpi('fa-circle-exclamation','Critical',list.filter(function(a){return a.severity==='critical'}).length,'red')+
+ kpi('fa-triangle-exclamation','Warnings',list.filter(function(a){return a.severity==='warning'}).length,'amber')+'</div>';
+ h+='<div class="c p0">';
+ if(!list.length)h+='<div class="empty-state"><i class="fas fa-circle-check"></i><p>No active alerts. All clear!</p></div>';
+ else{h+='<div class="tbl-wrap" style="border:none"><table><thead><tr><th>Severity</th><th>Alert</th><th>Due Date</th><th></th></tr></thead><tbody>';
+ list.forEach(function(a){
+  h+='<tr><td><span class="badge '+(a.severity==='critical'?'b-err':'b-wrn')+'">'+a.severity.toUpperCase()+'</span></td><td style="font-weight:600">'+esc(a.message)+'</td><td>'+(a.due_date||'-')+'</td><td><button class="bs bsm" onclick="ackAlert('+a.id+')">Acknowledge</button></td></tr>'});
+ h+='</tbody></table></div>'}
+ h+='</div>';return h}
+
+/* ============ CHECKLISTS (Manager) ============ */
+function pgChecklists(){
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Checklists'}]);
+ h+='<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.checklists.length+' checklist(s)</div><button class="bp bsm" onclick="showClForm(null)"><i class="fas fa-plus"></i> Add Checklist</button></div></div>';
+ h+='<div style="padding:0 16px 16px"><div style="display:grid;gap:12px">';
+ DB.checklists.forEach(function(c){
+  h+='<div class="c" style="background:var(--bg2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px"><div><div style="font-weight:700;font-size:15px">'+esc(c.name)+'</div><div style="font-size:12px;color:var(--mt)">'+(c.asset_type_id?(gType(c.asset_type_id)||{}).name||c.asset_type_id:'Any type')+' - '+c.items.length+' items</div></div><button class="bs bsm" onclick="showClForm(\''+c.id+'\')"><i class="fas fa-pen"></i></button></div></div>'});
+ h+='</div></div></div>';return h}
+
+function showClForm(id){var c=id?gChecklist(id):{name:'',asset_type_id:'',items:[],active:true};
+ var typeOpts='<option value="">-- Any Type --</option>'+DB.types.map(function(t){return '<option value="'+t.id+'"'+(c.asset_type_id===t.id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('');
+ var h='<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Checklist Name *</label><input class="i" id="cl-nm" value="'+esc(c.name)+'" placeholder="Fire Extinguisher Inspection"></div>'+
+ '<div><label class="lb">Asset Type</label><select class="i sl" id="cl-type">'+typeOpts+'</select></div>'+
+ '<div><label class="lb">Items (one per line, format: text | checkbox or text)</label><textarea class="i" id="cl-items" rows="8" placeholder="Pressure gauge in green zone | checkbox&#10;Hose and nozzle unobstructed | checkbox">'+esc(c.items.map(function(item){return item.text+' | '+(item.type||'checkbox')}).join('\n'))+'</textarea></div>'+
+ '<button class="bp" onclick="saveCl(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>';
+ showM((id?'Edit':'Add')+' Checklist',h)}
+
+function saveCl(id){var nm=val('cl-nm');if(!nm){toast('Enter name','e');return}
+ var lines=val('cl-items').split('\n').filter(function(l){return l.trim()});
+ var items=lines.map(function(l){var parts=l.split('|');var text=parts[0].trim();var tp=(parts[1]||'checkbox').trim()==='text'?'text':'checkbox';return{text:text,type:tp,required:true}});
+ if(!items.length){toast('Add at least one item','e');return}
+ var row={id:id||gid('ACL-'),name:nm,asset_type_id:val('cl-type')||null,items:items,active:true};
+ if(id){Object.assign(gChecklist(id),row)}else{DB.checklists.push(row)}
+ sbChecklist(row);closeM();toast('Checklist saved','s');goTo('a-checklists')}
+
+/* ============ CONFIG (Manager) ============ */
+function pgConfig(){
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Categories & Types'}]);
+ h+='<div class="two" style="margin-bottom:20px"><div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h4 class="fd" style="font-size:15px">Categories ('+DB.categories.length+')</h4><button class="bp bsm" onclick="showCatForm(null)"><i class="fas fa-plus"></i></button></div><div style="padding:0 16px 16px"><div style="display:grid;gap:8px">';
+ DB.categories.forEach(function(c){h+='<div class="qopt" style="cursor:default"><i class="fas '+(c.icon||'fa-box')+'" style="color:'+(c.color||'#F59E0B')+';width:20px"></i><span style="flex:1;font-weight:600">'+esc(c.name)+'</span><button class="bs bsm" onclick="showCatForm(\''+c.id+'\')"><i class="fas fa-pen"></i></button></div>'});
+ h+='</div></div></div>';
+ h+='<div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:14px"><h4 class="fd" style="font-size:15px">Types ('+DB.types.length+')</h4><button class="bp bsm" onclick="showTypeForm(null)"><i class="fas fa-plus"></i></button></div><div style="padding:0 16px 16px"><div style="display:grid;gap:8px">';
+ DB.types.forEach(function(t){var c=gCat(t.category_id);h+='<div class="qopt" style="cursor:default"><i class="fas '+(t.icon||'fa-box')+'" style="color:var(--ac);width:20px"></i><span style="flex:1">'+esc(t.name)+' <span style="color:var(--mt);font-size:11px">('+(c?c.name:'-')+')</span></span><button class="bs bsm" onclick="showTypeForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></div>'});
+ h+='</div></div></div></div>';return h}
+
+function showCatForm(id){var c=id?gCat(id):{name:'',icon:'fa-box',color:'#F59E0B',active:true};
+ showM((id?'Edit':'Add')+' Category','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="cat-nm" value="'+esc(c.name)+'"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Icon</label><input class="i" id="cat-icon" value="'+esc(c.icon||'')+'" placeholder="fa-fire-extinguisher"></div><div><label class="lb">Color</label><input class="i" id="cat-color" value="'+esc(c.color||'')+'" placeholder="#EF4444"></div></div><button class="bp" onclick="saveCat(\''+(id||'')+'\')">Save</button></div>')}
+function saveCat(id){var nm=val('cat-nm');if(!nm){toast('Enter name','e');return}
+ var row={id:id||gid('AC-'),name:nm,icon:val('cat-icon'),color:val('cat-color'),active:true};
+ if(id){Object.assign(gCat(id),row)}else{DB.categories.push(row)}
+ _post('asset_categories',row,'resolution=merge-duplicates');closeM();toast('Saved','s');goTo('a-config')}
+
+function showTypeForm(id){var t=id?gType(id):{name:'',category_id:'',icon:'',active:true};
+ var catOpts=DB.categories.map(function(c){return '<option value="'+c.id+'"'+(t.category_id===c.id?' selected':'')+'>'+esc(c.name)+'</option>'}).join('');
+ showM((id?'Edit':'Add')+' Type','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="typ-nm" value="'+esc(t.name)+'"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Category</label><select class="i sl" id="typ-cat">'+catOpts+'</select></div><div><label class="lb">Icon</label><input class="i" id="typ-icon" value="'+esc(t.icon||'')+'" placeholder="fa-helmet-safety"></div></div><button class="bp" onclick="saveType(\''+(id||'')+'\')">Save</button></div>')}
+function saveType(id){var nm=val('typ-nm');if(!nm){toast('Enter name','e');return}
+ var row={id:id||gid('AT-'),name:nm,category_id:val('typ-cat'),icon:val('typ-icon'),active:true};
+ if(id){Object.assign(gType(id),row)}else{DB.types.push(row)}
+ _post('asset_types',row,'resolution=merge-duplicates');closeM();toast('Saved','s');goTo('a-config')}
+
+/* ============ BOOT ============ */
+(function(){try{var t=localStorage.getItem('d3theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
+ syncThemeIcon();
+ var btn=document.querySelector('#ls form button[type=submit]'),st=document.createElement('div');
+ st.style.cssText='text-align:center;font-size:12px;color:var(--mt);margin-top:12px';
+ st.textContent='Connecting to database...';btn.parentNode.appendChild(st);btn.disabled=true;
+ loadDB().then(function(){btn.disabled=false;st.innerHTML='<span style="color:var(--ok)">● Cloud connected</span>';toast('Database connected','s')}).catch(function(e){st.textContent='DB error: '+(e.message||e)});
+ document.addEventListener('click',function(e){if(e.target.classList&&e.target.classList.contains('mo'))closeM()})})();
+</script>
+</body>
+</html>
