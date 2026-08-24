@@ -212,7 +212,7 @@ async function loadDB(){
   ]);
   DB.users=r[0]||[];DB.profiles=r[1]||[];
   DB.vpacks=(r[2]||[]).map(function(x){return{id:x.id,name:x.name,cat:x.cat,lang:x.lang,dur:x.dur,st:x.st,mods:x.mods||[],qs:x.qs||[],video_url:x.video_url||''}});
-  DB.groups=r[3]||[];DB.visitors=r[5]||[];DB.audit=r[4]||[];
+  DB.groups=r[3]||[];DB.visitors=r[4]||[];DB.audit=r[5]||[];
   DB.notifications=(r[6]||[]).map(function(x){return{id:x.id,icon:x.icon,color:x.color,msg:x.msg,time:x.time,read:x.read}});
   var c=(r[7]||[])[0];
   if(c)DB.cfg={pass:c.pass||80,maxAt:c.maxAt||3,passportDays:c.passportDays||180,visitorPassValidity:c.visitorPassValidity||30};
