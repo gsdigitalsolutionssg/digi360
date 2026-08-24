@@ -51,14 +51,12 @@ h1,h2,h3,h4,.fd{font-family:'Space Grotesk',sans-serif}
 .kpi{position:relative;overflow:hidden}.kpi::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.06}
 .kpi.amber::after{background:var(--ac)}.kpi.green::after{background:var(--ok)}.kpi.cyan::after{background:var(--inf)}.kpi.red::after{background:var(--err)}
 .kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}
-.two{display:grid;grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px}
 table{width:100%;border-collapse:collapse;font-size:14px}
 th{text-align:left;padding:12px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);border-bottom:1px solid var(--bd);font-weight:700;position:sticky;top:0;background:var(--card);z-index:2;white-space:nowrap}
 td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--card-h)}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;background:var(--bg2);border:1px solid var(--bd);color:var(--tx2)}
 .tbl-wrap{overflow:auto;max-height:520px;border-radius:var(--rd);border:1px solid var(--bd)}
 .tbl-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;color:var(--tx2);background:var(--card);border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--rd) var(--rd)}
-.tbl-search{position:relative;flex:1;max-width:340px}.tbl-search input{padding-left:36px}.tbl-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mt);font-size:14px}
 .empty-state{text-align:center;padding:48px 24px;color:var(--mt)}.empty-state i{font-size:40px;margin-bottom:12px;display:block;opacity:.5}
 .confirm-box{padding:20px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:10px;margin-bottom:16px;text-align:center}
 .confirm-box i{font-size:32px;color:var(--wrn);margin-bottom:12px;display:block}
@@ -69,9 +67,7 @@ td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbo
 .notif-text{font-size:13px;color:var(--tx)}.notif-time{font-size:11px;color:var(--mt);margin-top:4px}
 .qopt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px;transition:.15s}.qopt:hover{border-color:var(--ac);background:var(--abg)}.qopt input{accent-color:var(--ac)}
 .qf{color:var(--ac);text-decoration:underline;cursor:pointer}.qf:hover{opacity:.8}
-.pb{height:6px;background:var(--bd);border-radius:3px;overflow:hidden}.pf{height:100%;background:var(--ac);border-radius:3px;transition:width .3s}
 @media print{#sb,#hd,.notif-panel,#tc{display:none!important}#ma{margin:0!important}#pc{padding:0}}
-@media(max-width:900px){.two{grid-template-columns:1fr}}
 @media(max-width:768px){.ll{display:none}.lr{width:100%}#sb{width:72px}#sb .nl,#sb .sht,#sb .sui{display:none}#ma{margin-left:72px}#pc{padding:16px}.notif-panel{right:12px;width:calc(100% - 24px)}}
 </style>
 </head>
@@ -207,7 +203,6 @@ function emptyRow(cs,msg){return '<tr><td colspan="'+cs+'"><div class="empty-sta
 function det(l,v){return '<div><span style="color:var(--tx2);font-size:11px;display:block;margin-bottom:2px">'+l+'</span><span style="font-weight:600">'+((v==null||v==='')?'-':v)+'</span></div>'}
 function pStatus(s){var m={'Draft':'b-pending','Submitted':'b-wrn','Approved':'b-ok','Rejected':'b-err','Active':'b-in','Closed':'b-out','Expired':'b-err','Self-Approved':'b-ok'};return '<span class="badge '+(m[s]||'b-pending')+'">'+s+'</span>'}
 function profBadge(p){var tc={admin:'adm',manager:'mgr',security:'sec',supervisor:'sup',inductee:'ind'};return p?'<span class="badge b-'+(tc[p.type]||'ind')+'">'+esc(p.name)+'</span>':''}
-function plChip(pl){return '<span class="chip"><i class="fas fa-industry" style="color:var(--ac)"></i>'+pl+'</span>'}
 function pTypeBadge(t){return t?'<span class="badge" style="background:'+(t.color||'#F59E0B')+'22;color:'+(t.color||'#F59E0B')+'"><i class="fas '+(t.icon||'fa-file')+'" style="margin-right:4px"></i>'+esc(t.name)+'</span>':''}
 function catBadge(c){var m={'start':'b-wrn','hourly':'b-in','end':'b-ok'};var lbl={'start':'Start','hourly':'Hourly','end':'End'};return '<span class="badge '+(m[c]||'b-pending')+'">'+(lbl[c]||c)+'</span>'}
 function apprBadge(a){return '<span class="badge '+(a==='approval_required'?'b-err':'b-ok')+'">'+(a==='approval_required'?'Approval Required':'Self Approval')+'</span>'}
@@ -229,14 +224,12 @@ function doLogin(){
   if(user.pl!=='All'&&user.pl!==pl){toast(esc(user.nm)+' is not assigned to '+pl,'e');return}
   SPL=(user.pl==='All')?pl:user.pl;CU=user;CP=gProf(user.pid);
   enterApp();goTo('landing');toast('Welcome, '+user.nm+' - '+CP.name,'s')}
-
 function enterApp(){
   document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';
   document.getElementById('sb-nm').textContent=CU.nm;document.getElementById('sb-av').textContent=CU.nm.charAt(0);
   document.getElementById('sb-pr').textContent=CP.name;document.getElementById('hd-nm').textContent=CU.nm;document.getElementById('hd-av').textContent=CU.nm.charAt(0);
   var hp=document.getElementById('hd-pl');if(hp){hp.style.display='inline-flex';hp.innerHTML='<i class="fas fa-industry" style="color:var(--ac)"></i>'+SPL}
   buildNav();renderNotifs()}
-
 function doLogout(){
   CU=null;CP=null;SPL=null;CURP='';
   document.getElementById('pc').innerHTML='';document.getElementById('pt').textContent='Dashboard';
@@ -253,7 +246,6 @@ function buildNav(){var h='';
   else if(CP.type==='supervisor')h+=ni('landing','fa-table-cells','Dashboard')+ni('p-create','fa-file-circle-plus','Create Permit')+ni('p-permits','fa-file-signature','My Permits');
   else if(CP.type==='manager')h+=ni('landing','fa-table-cells','Dashboard')+ni('p-permits','fa-file-signature','All Permits');
   document.getElementById('nl').innerHTML=h}
-
 function goTo(p){
   for(var k in CI){try{CI[k].destroy()}catch(e){}}CI={};CURP=p;
   document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
@@ -265,7 +257,6 @@ function goTo(p){
 function myPermits(){
   if(CP.type==='supervisor')return DB.permits.filter(function(p){return p.created_by===CU.id&&p.plant===SPL});
   return DB.permits.filter(function(p){return p.plant===SPL})}
-
 function pgLanding(){
   var list=myPermits();
   var h=bc([{label:'Dashboard'}]);
@@ -274,7 +265,6 @@ function pgLanding(){
   if(!list.length)h+='<div class="empty-state" style="padding:32px"><i class="fas fa-file-circle-plus" style="font-size:40px"></i><p>No permits yet. Create your first permit to get started.</p></div>';
   else h+=permitTable(list.slice(0,8));
   h+='</div>';return h}
-
 function permitTable(list){
   var rows=list.map(function(p){var t=gPType(p.type_id);
     return '<tr style="cursor:pointer" onclick="showPermitDetail(\''+p.id+'\')"><td style="font-weight:600;color:var(--ac)">'+p.id+'</td><td style="font-weight:600">'+esc(p.title)+'</td><td>'+pTypeBadge(t)+'</td><td>'+pStatus(p.status)+'</td><td style="font-size:12px;color:var(--tx2)">'+esc(p.location||'-')+'</td><td style="font-size:11px;color:var(--tx2)">'+(p.work_started_at?calD(p.work_started_at,p.closed_at):'-')+'</td></tr>'}).join('');
@@ -301,7 +291,6 @@ function pgCreate(){
   h+='<div id="cp-checklists-section" style="display:none"><label class="lb">Step 5 - Start Checklists</label><div id="cp-checklists"></div></div>';
   h+='<div id="cp-actions" style="display:none;margin-top:20px;gap:10px"><button class="bs" style="flex:1;justify-content:center;padding:12px" onclick="savePermit(\'Draft\')"><i class="fas fa-floppy-disk"></i> Save Draft</button><button class="bp" style="flex:1;justify-content:center;padding:12px" onclick="savePermit(\'Submitted\')"><i class="fas fa-paper-plane"></i> Submit for Approval</button></div>';
   h+='</div></div>';return h}
-
 function onTypeChange(){
   var tid=val('cp-type');var show=!!tid;
   ['cp-details','cp-persons-section','cp-ppe-section','cp-tools-section','cp-checklists-section'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=show?'block':'none'});
@@ -311,7 +300,6 @@ function onTypeChange(){
     var now=new Date(),p=function(n){return n<10?'0'+n:n};var ds=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate())+'T'+p(now.getHours())+':'+p(now.getMinutes());
     var ed=new Date(now.getTime()+8*3600000);var de=ed.getFullYear()+'-'+p(ed.getMonth()+1)+'-'+p(ed.getDate())+'T'+p(ed.getHours())+':'+p(ed.getMinutes());
     var s=document.getElementById('cp-start');if(s)s.value=ds;var e=document.getElementById('cp-end');if(e)e.value=de}}
-
 function renderCreateChecklists(tid){
   var cls=gChecklists(tid).filter(function(c){return c.category==='start'});
   var box=document.getElementById('cp-checklists');if(!box)return;
@@ -321,7 +309,6 @@ function renderCreateChecklists(tid){
     c.items.map(function(item,i){var id='cl-'+c.id+'-'+i;
       if(item.type==='checkbox')return '<label class="qopt"><input type="checkbox" id="'+id+'" onchange="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.checked"><span>'+esc(item.text)+'</span></label>';
       return '<div style="margin-bottom:8px"><label style="font-size:13px;display:block;margin-bottom:4px">'+esc(item.text)+'</label><input class="i" id="'+id+'" placeholder="'+esc(item.placeholder||'Enter value')+'" oninput="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.value"></div>'}).join('')+'</div>'}).join('')}
-
 function addPerson(){
   var q=val('cp-person-search');if(!q){toast('Enter phone or passport ID','w');return}
   var visitor=DB.visitors.find(function(v){return v.mob===q||(v.doc&&v.doc.id===q)});
@@ -332,13 +319,11 @@ function addPerson(){
   var pr=gProf(visitor.pid);
   PERMIT_PERSONS.push({visitor_id:visitor.id,name:visitor.nm,company:visitor.co,mobile:visitor.mob,passport_id:visitor.doc.id,passport_type:visitor.doc.type==='pass'?'Visitor Pass':'Safety Passport',passport_expires:visitor.doc.expires||'No expiry',induction_status:'Fully Inducted',profile:pr?pr.name:'-'});
   renderPersonsList();document.getElementById('cp-person-search').value='';toast(visitor.nm+' added','s')}
-
 function renderPersonsList(){
   var box=document.getElementById('cp-persons-list');if(!box)return;
   if(!PERMIT_PERSONS.length){box.innerHTML='<div style="font-size:13px;color:var(--mt)">No persons added yet.</div>';return}
   box.innerHTML=PERMIT_PERSONS.map(function(p,i){
     return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:200px"><div style="font-weight:600;font-size:14px">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--mt)">'+p.visitor_id+' - '+esc(p.company)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+p.passport_type+'</span> <span class="chip">'+p.passport_id+'</span> <span style="color:var(--ok)">Valid</span></div></div><button class="bd bsm" onclick="PERMIT_PERSONS.splice('+i+',1);renderPersonsList()"><i class="fas fa-times"></i></button></div>'}).join('')}
-
 function savePermit(status){
   var tid=val('cp-type');if(!tid){toast('Select permit type','e');return}
   var title=val('cp-title');if(!title){toast('Enter title','e');return}
@@ -357,7 +342,6 @@ function savePermit(status){
   if(status==='Submitted')pushNotif('Permit '+p.id+' submitted for approval','fa-file-signature','var(--wrn)');
   else if(status==='Approved'){p.issued_by=CU.nm;p.approved_at=nowStr();sbPermit(p);pushNotif('Permit '+p.id+' self-approved','fa-circle-check','var(--ok)')}
   toast('Permit '+p.id+' saved as '+status,'s');goTo('p-permits')}
-
 function showPermitDetail(id){
   var p=gPPermit(id);if(!p)return;var t=gPType(p.type_id);
   var personsHtml=(p.persons||[]).map(function(pers){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:200px"><div style="font-weight:600;font-size:14px">'+esc(pers.name)+'</div><div style="font-size:12px;color:var(--mt)">'+pers.visitor_id+' - '+esc(pers.company)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+pers.passport_type+'</span> <span class="chip">'+pers.passport_id+'</span> Valid - '+esc(pers.passport_expires)+'</div></div></div>'}).join('')||'<div style="color:var(--mt);font-size:13px">No persons recorded</div>';
@@ -384,7 +368,6 @@ function showPermitDetail(id){
     renderClSection(startCls,'START CHECKLISTS')+renderClSection(hourlyCls,'HOURLY CHECKLISTS')+renderClSection(endCls,'END CHECKLISTS')+
     '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:10px">HISTORY</div>'+historyHtml+'</div>'+
     (actions?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">'+actions+'</div>':''),true)}
-
 function submitPermit(id){var p=gPPermit(id);if(!p)return;var reqApproval=Object.keys(p.checklist_data||{}).some(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.approval_type==='approval_required'});
   p.status=reqApproval?'Submitted':'Approved';if(!reqApproval){p.issued_by=CU.nm;p.approved_at=nowStr()}
   sbPermit(p);pushPHistory(id,p.status,CU.nm,'');pushNotif('Permit '+id+' '+(reqApproval?'submitted':'self-approved'),reqApproval?'fa-file-signature':'fa-circle-check',reqApproval?'var(--wrn)':'var(--ok)');
@@ -395,34 +378,28 @@ function rejectPermit2(id){var p=gPPermit(id);if(!p)return;p.status='Rejected';s
 function startWork(id){var p=gPPermit(id);if(!p)return;p.status='Active';p.work_started_at=nowStr();p.work_started_by=CU.nm;sbPermit(p);pushPHistory(id,'Work Started',CU.nm,'');pushNotif('Work started on permit '+id,'fa-play','var(--inf)');toast('Work started on permit '+id,'s');closeM();goTo('p-permits')}
 function closePermitModal(id){showM('Close Permit', '<div style="display:grid;gap:14px"><div><label class="lb">Close Notes</label><textarea class="i" id="cp-close-notes" rows="3" placeholder="Work completed, area inspected..."></textarea></div><button class="bd" style="justify-content:center;padding:12px" onclick="closePermit(\''+id+'\')"><i class="fas fa-stop"></i> Confirm Close</button></div>')}
 function closePermit(id){var p=gPPermit(id);if(!p)return;var notes=val('cp-close-notes');p.status='Closed';p.closed_at=nowStr();p.closed_by=CU.nm;p.close_notes=notes;sbPermit(p);pushPHistory(id,'Closed',CU.nm,notes);pushNotif('Permit '+id+' closed','fa-check','var(--mt)');toast('Permit '+id+' closed','s');closeM();goTo('p-permits')}
-
 function pgPermits(){
   var list=myPermits();
   var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permits'}]);
   h+='<div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="color:var(--tx2);font-size:13px">'+list.length+' permit(s) at '+SPL+'</div>'+(CP.type==='supervisor'||CP.type==='admin'?'<button class="bp bsm" onclick="goTo(\'p-create\')"><i class="fas fa-plus"></i> New Permit</button>':'')+'</div>';
   h+=permitTable(list);h+='</div>';return h}
-
 function pgPTypes(){var cards=DB.permit_types.map(function(t){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--bg2)"><div style="flex:1;min-width:200px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><i class="fas '+(t.icon||'fa-file')+'" style="color:'+(t.color||'#F59E0B')+';font-size:18px"></i><span style="font-weight:700;font-size:16px">'+esc(t.name)+'</span><span class="chip">'+t.id+'</span></div><div style="font-size:12px;color:var(--mt)">Risk levels: '+((t.risk_levels||[]).join(', '))+'</div></div><button class="bs bsm" onclick="showTypeForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></div>'}).join('');
   return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permit Types'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.permit_types.length+' type(s)</div><button class="bp" onclick="showTypeForm(null)"><i class="fas fa-plus"></i> Add Type</button></div></div><div style="padding:0 16px 16px"><div style="display:grid;gap:12px">'+cards+'</div></div></div>'}
 function showTypeForm(id){var t=id?gPType(id):{name:'',icon:'fa-file',color:'#F59E0B',risk_levels:['Low','Medium','High','Critical']};showM((id?'Edit':'Add')+' Permit Type','<div style="display:grid;gap:14px"><div><label class="lb">Type Name *</label><input class="i" id="pt-nm" value="'+esc(t.name)+'" placeholder="Hot Work Permit"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Icon</label><input class="i" id="pt-icon" value="'+esc(t.icon||'')+'" placeholder="fa-fire"></div><div><label class="lb">Color</label><input class="i" id="pt-color" value="'+esc(t.color||'')+'" placeholder="#EF4444"></div></div><div><label class="lb">Risk Levels (comma separated)</label><input class="i" id="pt-risk" value="'+((t.risk_levels||[]).join(', '))+'" placeholder="Low, Medium, High"></div><button class="bp" onclick="saveType(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
 function saveType(id){var nm=val('pt-nm');if(!nm){toast('Enter name','e');return}var risk=val('pt-risk').split(',').map(function(s){return s.trim()}).filter(Boolean);var row={id:id||gid('PT-'),name:nm,icon:val('pt-icon'),color:val('pt-color'),risk_levels:risk,active:true,sort_order:id?gPType(id).sort_order:99};if(id){Object.assign(gPType(id),row)}else DB.permit_types.push(row);sbPType(row);closeM();toast('Type saved','s');goTo('p-types')}
-
 function pgChecklists(){var cards=DB.checklist_templates.map(function(c){var t=gPType(c.type_id);return '<div class="c" style="background:var(--bg2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:700;font-size:14px">'+esc(c.name)+'</span>'+catBadge(c.category)+apprBadge(c.approval_type)+'</div><button class="bs bsm" onclick="showClForm(\''+c.id+'\')"><i class="fas fa-pen"></i></button></div><div style="font-size:12px;color:var(--mt)">'+pTypeBadge(t)+' '+(c.plant?'<span class="chip">'+esc(c.plant)+'</span>':'<span class="chip">All Plants</span>')+' - '+c.items.length+' items</div></div>'}).join('');
   return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Checklist Templates'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.checklist_templates.length+' template(s)</div><button class="bp" onclick="showClForm(null)"><i class="fas fa-plus"></i> Add Template</button></div></div><div style="padding:0 16px 16px"><div style="display:grid;gap:10px">'+cards+'</div></div></div>'}
 function showClForm(id){var c=id?DB.checklist_templates.filter(function(x){return x.id===id})[0]:{name:'',type_id:'',items:[],category:'start',approval_type:'self_approval',plant:null};var typeOpts=DB.permit_types.map(function(t){return '<option value="'+t.id+'"'+(t.id===c.type_id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('');
-  showM((id?'Edit':'Add')+' Checklist Template','<div style="display:grid;gap:14px"><div><label class="lb">Template Name *</label><input class="i" id="cl-nm" value="'+esc(c.name)+'" placeholder="Pre-Job Checklist"></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"><div><label class="lb">Permit Type *</label><select class="i sl" id="cl-type">'+typeOpts+'</select></div><div><label class="lb">Category *</label><select class="i sl" id="cl-cat"><option value="start"'+(c.category==='start'?' selected':'')+'>Start</option><option value="hourly"'+(c.category==='hourly'?' selected':'')+'>Hourly</option><option value="end"'+(c.category==='end'?' selected':'')+'>End</option></select></div><div><label class="lb">Approval</label><select class="i sl" id="cl-appr"><option value="self_approval"'+(c.approval_type==='self_approval'?' selected':'')+'>Self Approval</option><option value="approval_required"'+(c.approval_type==='approval_required'?' selected':'')+'>Approval Required</option></select></div></div><div><label class="lb">Plant (blank = all plants)</label><input class="i" id="cl-plant" value="'+esc(c.plant||'')+'"></div><div><label class="lb">Items (JSON)</label><textarea class="i" id="cl-items" rows="8" style="font-family:monospace;font-size:12px" placeholder=\'[{"text":"Fire extinguisher available?","type":"checkbox","required":true}]\'>"+esc(JSON.stringify(c.items||[],null,2))+'</textarea></div><button class="bp" onclick="saveCl(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>',true)}
+  showM((id?'Edit':'Add')+' Checklist Template','<div style="display:grid;gap:14px"><div><label class="lb">Template Name *</label><input class="i" id="cl-nm" value="'+esc(c.name)+'" placeholder="Pre-Job Checklist"></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"><div><label class="lb">Permit Type *</label><select class="i sl" id="cl-type">'+typeOpts+'</select></div><div><label class="lb">Category *</label><select class="i sl" id="cl-cat"><option value="start"'+(c.category==='start'?' selected':'')+'>Start</option><option value="hourly"'+(c.category==='hourly'?' selected':'')+'>Hourly</option><option value="end"'+(c.category==='end'?' selected':'')+'>End</option></select></div><div><label class="lb">Approval</label><select class="i sl" id="cl-appr"><option value="self_approval"'+(c.approval_type==='self_approval'?' selected':'')+'>Self Approval</option><option value="approval_required"'+(c.approval_type==='approval_required'?' selected':'')+'>Approval Required</option></select></div></div><div><label class="lb">Plant (blank = all plants)</label><input class="i" id="cl-plant" value="'+esc(c.plant||'')+'"></div><div><label class="lb">Items (JSON array)</label><textarea class="i" id="cl-items" rows="8" style="font-family:monospace;font-size:12px" placeholder="Enter JSON array here">'+esc(JSON.stringify(c.items||[],null,2))+'</textarea></div><button class="bp" onclick="saveCl(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>',true)}
 function saveCl(id){var nm=val('cl-nm');if(!nm){toast('Enter name','e');return}var items;try{items=JSON.parse(val('cl-items'))}catch(e){toast('Invalid JSON for items','e');return}var row={id:id||gid('CL-'),type_id:val('cl-type'),name:nm,items:items,category:val('cl-cat'),approval_type:val('cl-appr'),plant:val('cl-plant')||null,active:true};if(id){Object.assign(DB.checklist_templates.filter(function(x){return x.id===id})[0],row)}else DB.checklist_templates.push(row);sbCl(row);closeM();toast('Template saved','s');goTo('p-checklists')}
-
 function pgPPE(){var rows=DB.ppe_items.map(function(p){return '<tr><td style="font-weight:600">'+esc(p.name)+'</td><td><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac)"></i></td><td><span class="chip">'+esc(p.category||'-')+'</span></td><td>'+(p.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showPPEForm(\''+p.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
   return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'PPE Items'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.ppe_items.length+' items</div><button class="bp" onclick="showPPEForm(null)"><i class="fas fa-plus"></i> Add PPE</button></div></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Icon</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'}
 function showPPEForm(id){var p=id?DB.ppe_items.filter(function(x){return x.id===id})[0]:{name:'',icon:'fa-shield',category:''};showM((id?'Edit':'Add')+' PPE Item','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="ppe-nm" value="'+esc(p.name)+'"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Icon</label><input class="i" id="ppe-icon" value="'+esc(p.icon||'')+'" placeholder="fa-helmet-safety"></div><div><label class="lb">Category</label><input class="i" id="ppe-cat" value="'+esc(p.category||'')+'" placeholder="Head Protection"></div></div><button class="bp" onclick="savePPE(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
 function savePPE(id){var nm=val('ppe-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('PPE-'),name:nm,icon:val('ppe-icon'),category:val('ppe-cat'),active:true};if(id){Object.assign(DB.ppe_items.filter(function(x){return x.id===id})[0],row)}else DB.ppe_items.push(row);sbPPE(row);closeM();toast('PPE saved','s');goTo('p-ppe')}
-
 function pgTools(){var rows=DB.tools.map(function(t){return '<tr><td style="font-weight:600">'+esc(t.name)+'</td><td><span class="chip">'+esc(t.category||'-')+'</span></td><td>'+(t.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showToolForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
   return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Tools'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.tools.length+' tools</div><button class="bp" onclick="showToolForm(null)"><i class="fas fa-plus"></i> Add Tool</button></div></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'}
 function showToolForm(id){var t=id?DB.tools.filter(function(x){return x.id===id})[0]:{name:'',category:''};showM((id?'Edit':'Add')+' Tool','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="tool-nm" value="'+esc(t.name)+'"></div><div><label class="lb">Category</label><input class="i" id="tool-cat" value="'+esc(t.category||'')+'" placeholder="Power Tools"></div><button class="bp" onclick="saveTool(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
 function saveTool(id){var nm=val('tool-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('TOOL-'),name:nm,category:val('tool-cat'),active:true};if(id){Object.assign(DB.tools.filter(function(x){return x.id===id})[0],row)}else DB.tools.push(row);sbTool(row);closeM();toast('Tool saved','s');goTo('p-tools')}
-
 function pgHistory(){var list=DB.permit_history.filter(function(h){var p=gPPermit(h.permit_id);return p&&p.plant===SPL}).slice(0,100);
   var rows=list.map(function(h){return '<tr><td style="font-size:12px;color:var(--tx2);white-space:nowrap">'+h.ts.replace('T',' ').slice(0,19)+'</td><td style="font-weight:600;color:var(--ac)">'+h.permit_id+'</td><td>'+pStatus(h.action)+'</td><td>'+esc(h.by)+'</td><td style="color:var(--tx2);font-size:13px">'+esc(h.notes||'-')+'</td></tr>'}).join('');
   return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Audit Trail'}])+'<div class="c p0"><div class="tbl-wrap" style="border:none"><table><thead><tr><th>Time</th><th>Permit ID</th><th>Action</th><th>By</th><th>Notes</th></tr></thead><tbody>'+(rows||emptyRow(5,'No history'))+'</tbody></table></div><div class="tbl-footer">'+list.length+' entries</div></div>'}
