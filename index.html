@@ -226,8 +226,7 @@ async function loadDB(){
   DB.audit   = r[6]||[];
   DB.notifications=(r[7]||[]).map(function(x){return{id:x.id,icon:x.icon,color:x.color,msg:x.msg,time:x.time,read:x.read}});
   var c=(r[8]||[])[0];
-  if(c)DB.cfg=DB.plants=r[9]||[];PLANTS=DB.plants.filter(function(p){return p.active}).map(function(p){return p.name});rebuildPlantDropdown();{pass:c.pass,maxAt:c.maxAt,passportDays:c.passportDays};
-  DBREADY=true;DB.plants=r[9]||[];PLANTS=DB.plants.filter(function(p){return p.active}).map(function(p){return p.name});rebuildPlantDropdown()}}
+  if(c)DB.cfg={pass:c.pass,maxAt:c.maxAt,passportDays:c.passportDays};DBREADY=true;DB.plants=r[9]||[];PLANTS=DB.plants.filter(function(p){return p.active}).map(function(p){return p.name});rebuildPlantDropdown()}
 function sbVis(v){if(!DBREADY)return;_post('visitors',{id:v.id,nm:v.nm,mob:v.mob,em:v.em||'',co:v.co,purp:v.purp,vd:v.vd,pl:v.pl,hid:v.hid,hn:v.hn,pid:v.pid,st:v.st,grp:v.grp,pp:v.pp,doc:v.doc,ci:v.ci,cot:v.cot,cib:v.cib,cob:v.cob,ppe:v.ppe,pRet:v.pRet},'resolution=merge-duplicates')}
 function sbGroup(g){if(!DBREADY)return;_post('groups',g,'resolution=merge-duplicates')}
 function sbUser(u){if(!DBREADY)return;_post('users',u,'resolution=merge-duplicates')}
