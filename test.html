@@ -1,35 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>DIGI360 Connection Test</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
-</head>
+<head><meta charset="UTF-8"><title>DIGI360 Test</title></head>
 <body style="font-family:monospace;padding:40px;background:#0B0F14;color:#E4E8EE">
-<h1 style="color:#F59E0B">DIGI360 — Connection Test</h1>
-<div id="s" style="font-size:18px;padding:20px;border:1px solid #1E2E42;border-radius:8px">Testing...</div>
+<h1 style="color:#F59E0B">DIGI360 — Connection Test (no library)</h1>
+<div id="s" style="font-size:18px;padding:20px;border:1px solid #1E2E42;border-radius:8px">Testing fetch...</div>
 <div id="r" style="margin-top:20px;font-size:13px;color:#8899AA"></div>
 <script>
-const URL='https://hgffeevtuvhexrztacpd.supabase.co';
-const KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
+var URL='https://hgffeevtuvhexrztacpd.supabase.co';
+var KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
+var H={'apikey':KEY,'Authorization':'Bearer '+KEY};
 var s=document.getElementById('s'),r=document.getElementById('r');
-if(!window.supabase){
-  var sc=document.createElement('script');
-  sc.src='https://unpkg.com/@supabase/supabase-js@2/dist/supabase.min.js';
-  sc.onload=function(){run()};
-  sc.onerror=function(){s.textContent='FAIL: CDN blocked — supabase library will not load from any CDN on your network';s.style.color='#EF4444'};
-  document.head.appendChild(sc);
-}else{run()}
-function run(){
-  s.textContent='Library OK. Testing database...';
-  var sb=window.supabase.createClient(URL,KEY);
-  Promise.all([sb.from('users').select('*'),sb.from('visitors').select('*'),sb.from('config').select('*')]).then(function(res){
-    var errs=res.filter(function(x){return x.error});
-    if(errs.length){s.textContent='FAIL: '+errs[0].error.message;s.style.color='#EF4444';return}
-    s.textContent='✓ SUCCESS — Cloud connected!';s.style.color='#10B981';
-    r.innerHTML='Users: '+res[0].data.length+' rows<br>Visitors: '+res[1].data.length+' rows<br>Config: '+(res[2].data[0]?'pass='+res[2].data[0].pass:'missing');
-  }).catch(function(e){s.textContent='FAIL: '+e.message;s.style.color='#EF4444'});
-}
+fetch(URL+'/rest/v1/users?select=*',{headers:H}).then(function(res){
+  if(!res.ok)throw new Error('HTTP '+res.status);
+  return res.json();
+}).then(function(data){
+  s.textContent='✓ SUCCESS — database reachable via fetch!';
+  s.style.color='#10B981';
+  r.innerHTML='Users found: '+data.length+'<br>First user: '+(data[0]?data[0].nm:'none')+'<br><br>Your Supabase is working. The full app will use this same method — no CDN needed.';
+}).catch(function(e){
+  s.textContent='FAIL: '+e.message;
+  s.style.color='#EF4444';
+  r.textContent='If this fails, your network also blocks the Supabase URL itself. Try with a VPN.';
+});
 </script>
 </body>
 </html>
