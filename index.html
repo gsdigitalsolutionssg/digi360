@@ -195,7 +195,7 @@ async function loadDB(){
 function sbVis(v){if(!DBREADY)return;_post('visitors',{id:v.id,nm:v.nm,mob:v.mob,em:v.em||'',co:v.co,purp:v.purp,vd:v.vd,pl:v.pl,hid:v.hid,hn:v.hn,pid:v.pid,st:v.st,grp:v.grp,pp:v.pp,doc:v.doc,ci:v.ci,cot:v.cot,cib:v.cib,cob:v.cob,ppe:v.ppe,pRet:v.pRet},'resolution=merge-duplicates')}
 function sbGroup(g){if(!DBREADY)return;_post('groups',g,'resolution=merge-duplicates')}
 function sbUser(u){if(!DBREADY)return;_post('users',u,'resolution=merge-duplicates')}
-function sbVPack(p){if(!DBREADY)return;_post('vpacks',{id:p.id,name:p.name,cat:p.cat,lang:p.lang,dur:p.dur,st:p.st,mods:p.mods,qs:p.qs,video_url:p.video_url||''},'resolution=merge-duplicates')},'resolution=merge-duplicates')}
+function sbVPack(p){if(!DBREADY)return;_post('vpacks',{id:p.id,name:p.name,cat:p.cat,lang:p.lang,dur:p.dur,st:p.st,mods:p.mods,qs:p.qs,video_url:p.video_url||''},'resolution=merge-duplicates')}
 function sbProf(p){if(!DBREADY)return;_post('profiles',{id:p.id,name:p.name,type:p.type,mods:p.mods,cert:p.cert,descr:p.desc},'resolution=merge-duplicates')}
 function sbAuditRow(a){if(!DBREADY)return;_post('audit',a,'return=minimal')}
 function sbNotif(n){if(!DBREADY)return;_post('notifications',{id:n.id,icon:n.icon,color:n.color,msg:n.msg,time:n.time,read:n.read},'resolution=merge-duplicates')}
