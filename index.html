@@ -9,6 +9,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+<script>window.supabase||document.write('<script src="https://unpkg.com/@supabase/supabase-js@2/dist/supabase.min.js"><\/script>')</script>
 <script>
 const SUPABASE_URL='https://hgffeevtuvhexrztacpd.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
@@ -903,27 +904,40 @@ function initLoginCanvas(){var c=document.getElementById('lc');if(!c||!c.getCont
  rs();window.addEventListener('resize',rs);if(lcRaf)cancelAnimationFrame(lcRaf);fr()}
 
 /* ================= BOOT (SUPABASE) ================= */
+<script>
 var RTSETUP=false;
 (function(){try{var t=localStorage.getItem('d3theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
  syncThemeIcon();initLoginCanvas();
  var btn=document.querySelector('#ls form button[type=submit]'),st=document.createElement('div');
  st.style.cssText='text-align:center;font-size:12px;color:var(--mt);margin-top:12px';
- st.textContent='Connecting to database...';btn.parentNode.appendChild(st);btn.disabled=true;
- if(!initSupabase()){st.textContent='Error: db.js not loaded - check deployment';return}
- loadDB().then(function(){
-   btn.disabled=false;st.innerHTML='<span style="color:var(--ok)">● Cloud connected</span>';
-   toast('Database connected','s');
-   if(!RTSETUP){RTSETUP=true;
-     SB.channel('d3-sync').on('postgres_changes',{event:'*',schema:'public'},function(){
-       loadDB().then(function(){
-         if(!CU)return;
-         if(document.getElementById('mc').firstChild)return;
-         if(CP&&CP.type==='inductee'&&VP){VP=gVis(VP.id)||VP;renderInducteeFlow()}
-         else if(CURP){goTo(CURP)}
-         if(CP&&CP.type!=='inductee')renderNotifs();
-       })}).subscribe();}
- }).catch(function(e){st.textContent='DB error: '+(e.message||e)});
+ st.textContent='Loading Supabase library...';btn.parentNode.appendChild(st);btn.disabled=true;
+ function tryFallbackCdn(){if(window.supabase)return;if(tryFallbackCdn.done)return;tryFallbackCdn.done=true;
+   var s=document.createElement('script');s.src='https://unpkg.com/@supabase/supabase-js@2/dist/supabase.min.js';
+   document.head.appendChild(s)}
+ function waitLib(n){
+   if(window.supabase){start();return}
+   if(n<=0){st.textContent='Error: Supabase library failed to load - CDN unreachable on this network';return}
+   if(n===12)tryFallbackCdn();
+   setTimeout(function(){waitLib(n-1)},1000)}
+ function start(){
+   st.textContent='Connecting to database...';
+   if(!initSupabase()){st.textContent='Config error: URL/key missing';return}
+   loadDB().then(function(){
+     btn.disabled=false;st.innerHTML='<span style="color:var(--ok)">● Cloud connected</span>';
+     toast('Database connected','s');
+     if(!RTSETUP){RTSETUP=true;
+       SB.channel('d3-sync').on('postgres_changes',{event:'*',schema:'public'},function(){
+         loadDB().then(function(){
+           if(!CU)return;
+           if(document.getElementById('mc').firstChild)return;
+           if(CP&&CP.type==='inductee'&&VP){VP=gVis(VP.id)||VP;renderInducteeFlow()}
+           else if(CURP){goTo(CURP)}
+           if(CP&&CP.type!=='inductee')renderNotifs();
+         })}).subscribe();}
+   }).catch(function(e){st.textContent='DB error: '+(e.message||e)})}
+ waitLib(15);
  document.addEventListener('click',function(e){var p=document.getElementById('notif-panel');if(p&&p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('#nbtn'))p.classList.remove('show')})})();
+</script>
 </script>
 </body>
 </html>
