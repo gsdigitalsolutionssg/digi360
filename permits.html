@@ -2,73 +2,131 @@
 <html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>DIGI360 — Permits &amp; Checklists</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <style>
-:root{--bg:#0B0F14;--bg2:#111920;--card:#172030;--card-h:#1C2840;--tx:#E4E8EE;--tx2:#8899AA;--mt:#4A5A6A;--ac:#F59E0B;--ac2:#D97706;--abg:rgba(245,158,11,.08);--ok:#10B981;--err:#EF4444;--inf:#06B6D4;--wrn:#FBBF24;--bd:#1E2E42;--rd:12px;--sh:0 4px 24px rgba(0,0,0,.4)}
-[data-theme="light"]{--bg:#F3F5F9;--bg2:#FFF;--card:#FFF;--card-h:#F0F3F7;--tx:#111827;--tx2:#5A6B7E;--mt:#9CA3AF;--bd:#E2E8F0;--sh:0 4px 24px rgba(0,0,0,.08)}
-*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+:root{--bg:#0B0F14;--bg2:#111920;--card:#172030;--card-h:#1C2840;--tx:#E4E8EE;--tx2:#8899AA;--mt:#4A5A6A;--ac:#F59E0B;--ac2:#D97706;--abg:rgba(245,158,11,.08);--ok:#10B981;--err:#EF4444;--inf:#06B6D4;--bd:#1E2E42;--rd:12px;--sbw:260px;--hdh:60px}
+[data-theme="light"]{--bg:#F3F5F9;--bg2:#FFF;--card:#FFF;--card-h:#F0F3F7;--tx:#111827;--tx2:#5A6B7E;--mt:#9CA3AF;--bd:#E2E8F0}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh;overflow-x:hidden}
 h1,h2,h3,h4,.fd{font-family:'Space Grotesk',sans-serif}
 ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--mt);border-radius:3px}
-.b{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+.b{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:all .15s;font-family:inherit;min-height:44px}
 .bp{background:var(--ac);color:#000}.bp:hover{background:var(--ac2);transform:translateY(-1px)}
 .bs{background:var(--card);color:var(--tx);border:1px solid var(--bd)}.bs:hover{background:var(--card-h)}
-.bd{background:var(--err);color:#fff}.bg{background:var(--ok);color:#fff}.bsm{padding:6px 14px;font-size:12px}.b:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
-.i{width:100%;padding:10px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:14px;font-family:inherit;transition:border .2s}.i:focus{outline:none;border-color:var(--ac)}.i:disabled{opacity:.65;cursor:not-allowed}
-.sl{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%238899AA' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.bd{background:var(--err);color:#fff}.bg{background:var(--ok);color:#fff}
+.bsm{padding:6px 14px;font-size:12px;min-height:36px;min-width:36px}.b:disabled{opacity:.35;cursor:not-allowed;transform:none!important}
+.i{width:100%;padding:11px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:14px;font-family:inherit;min-height:44px}.i:focus{outline:none;border-color:var(--ac)}.i:disabled{opacity:.65}
+.sl{padding-right:14px}
 .lb{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
 .badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .b-pending{background:rgba(251,191,36,.12);color:#FBBF24}.b-wrn{background:rgba(251,191,36,.12);color:#FBBF24}
 .b-ok{background:rgba(16,185,129,.12);color:#10B981}.b-in{background:rgba(6,182,212,.12);color:#06B6D4}
-.b-out{background:rgba(139,92,246,.12);color:#8B5CF6}.b-err{background:rgba(239,68,68,.12);color:#EF4444}
-.b-inv{background:rgba(96,165,250,.12);color:#60A5FA}.b-sup{background:rgba(139,92,246,.12);color:#8B5CF6}
-.b-adm{background:rgba(245,158,11,.12);color:#F59E0B}.b-mgr{background:rgba(6,182,212,.12);color:#06B6D4}
+.b-out{background:rgba(139,92,246,.12);color:#8B5CF6}.b-err{background:rgba(239,68,68,.12);color:#EF4444}.b-inv{background:rgba(96,165,250,.12);color:#60A5FA}
+.b-adm{background:rgba(245,158,11,.12);color:#F59E0B}.b-mgr{background:rgba(6,182,212,.12);color:#06B6D4}.b-sec{background:rgba(139,92,246,.12);color:#8B5CF6}.b-sup{background:rgba(139,92,246,.12);color:#8B5CF6}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;background:var(--bg2);border:1px solid var(--bd);color:var(--tx2)}
 #ls{min-height:100vh;display:flex;overflow:hidden}
 .ll{flex:1;background:linear-gradient(135deg,#0B0F14,#172030 50%,#1a1000);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
-.lr{width:480px;background:var(--bg2);display:flex;flex-direction:column;justify-content:center;padding:48px;position:relative;z-index:2}
+.lr{width:480px;max-width:100%;background:var(--bg2);display:flex;flex-direction:column;justify-content:center;padding:48px;position:relative;z-index:2;overflow-y:auto}
+.lmt{display:flex;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:24px}
+.lmt button{flex:1;padding:12px;border:none;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;background:transparent;color:var(--tx2);font-family:inherit;min-height:48px}.lmt button.act{background:var(--ac);color:#000}
+.qf{color:var(--ac);text-decoration:underline;cursor:pointer;font-size:13px}
 #app{display:none;min-height:100vh}
-#sb{width:260px;background:var(--bg2);border-right:1px solid var(--bd);position:fixed;top:0;left:0;bottom:0;z-index:40;display:flex;flex-direction:column;transition:width .3s}
+#sb{width:var(--sbw);background:var(--bg2);border-right:1px solid var(--bd);position:fixed;top:0;left:0;bottom:0;z-index:1000;display:flex;flex-direction:column;transition:transform .3s ease}
 #sb.col{width:72px}#sb.col .nl,#sb.col .sht,#sb.col .sui{display:none}#sb.col .ni{justify-content:center;padding:12px}
-.ni{display:flex;align-items:center;gap:12px;padding:10px 20px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--tx2);font-size:14px;font-weight:500;transition:all .15s}
+.ni{display:flex;align-items:center;gap:12px;padding:12px 20px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--tx2);font-size:14px;font-weight:500;min-height:48px}
 .ni:hover{background:var(--abg);color:var(--tx)}.ni.act{background:var(--abg);color:var(--ac);font-weight:600}.ni i{width:20px;text-align:center;font-size:15px}
-#ma{margin-left:260px;transition:margin-left .3s;min-height:100vh}#sb.col~#ma{margin-left:72px}
-#hd{height:64px;background:var(--bg2);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 28px;position:sticky;top:0;z-index:30}
-#pc{padding:28px}
-.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:100;display:flex;align-items:center;justify-content:center;animation:fi .2s;padding:20px}
-.md{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:32px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;animation:su .3s}
+#sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:999}
+#ma{margin-left:var(--sbw);transition:margin-left .3s;min-height:100vh}#sb.col~#ma{margin-left:72px}
+#hd{height:var(--hdh);background:var(--bg2);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 12px;position:sticky;top:0;z-index:500;gap:8px}
+@media(min-width:769px){#hd{padding:0 24px}}
+#pc{padding:16px;max-width:1400px;margin:0 auto}
+@media(min-width:769px){#pc{padding:24px}}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:2000;display:flex;align-items:center;justify-content:center;animation:fi .2s;padding:16px}
+.md{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:24px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;animation:su .3s;-webkit-overflow-scrolling:touch}
+@media(min-width:769px){.md{padding:32px}}
+@media(max-width:768px){.mo{padding:0;align-items:flex-end}.md{max-height:92vh;border-radius:16px 16px 0 0;max-width:100%}}
 .md-lg{max-width:820px}
-#tc{position:fixed;top:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
+#tc{position:fixed;top:20px;right:20px;z-index:3000;display:flex;flex-direction:column;gap:8px;max-width:calc(100vw - 40px)}
 .tt{padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;min-width:280px;box-shadow:var(--sh);animation:si .3s}
+@media(max-width:768px){.tt{min-width:auto;width:100%}}
 .ts{background:#065F46;color:#A7F3D0;border:1px solid #10B981}.te{background:#7F1D1D;color:#FCA5A5;border:1px solid #EF4444}.ti{background:#164E63;color:#A5F3FC;border:1px solid #06B6D4}.tw{background:#78350F;color:#FDE68A;border:1px solid #F59E0B}
 @keyframes fi{from{opacity:0}to{opacity:1}}@keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
-.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:13px;color:var(--mt);flex-wrap:wrap}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:13px;color:var(--mt);flex-wrap:wrap}
 .breadcrumb a{color:var(--tx2);cursor:pointer;text-decoration:none}.breadcrumb a:hover{color:var(--ac)}
 .bc-sep{font-size:10px}.bc-cur{color:var(--tx);font-weight:600}
-.c{background:var(--card);border:1px solid var(--bd);border-radius:var(--rd);padding:20px}
+.c{background:var(--card);border:1px solid var(--bd);border-radius:var(--rd);padding:16px}
+@media(min-width:769px){.c{padding:20px}}
 .p0{padding:0!important}
 .kpi{position:relative;overflow:hidden}.kpi::after{content:'';position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;opacity:.06}
 .kpi.amber::after{background:var(--ac)}.kpi.green::after{background:var(--ok)}.kpi.cyan::after{background:var(--inf)}.kpi.red::after{background:var(--err)}
-.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th{text-align:left;padding:12px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);border-bottom:1px solid var(--bd);font-weight:700;position:sticky;top:0;background:var(--card);z-index:2;white-space:nowrap}
-td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--card-h)}
-.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:16px;font-size:11px;font-weight:600;background:var(--bg2);border:1px solid var(--bd);color:var(--tx2)}
-.tbl-wrap{overflow:auto;max-height:520px;border-radius:var(--rd);border:1px solid var(--bd)}
-.tbl-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;font-size:13px;color:var(--tx2);background:var(--card);border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--rd) var(--rd)}
-.empty-state{text-align:center;padding:48px 24px;color:var(--mt)}.empty-state i{font-size:40px;margin-bottom:12px;display:block;opacity:.5}
+.kgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+@media(min-width:769px){.kgrid{grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:24px}}
+.two{display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:20px}
+@media(min-width:901px){.two{grid-template-columns:2fr 1fr;gap:20px;margin-bottom:24px}}
+.form-row{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:600px){.form-row{grid-template-columns:1fr 1fr}}
+.form-row-3{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:600px){.form-row-3{grid-template-columns:1fr 1fr 1fr}}
+.page-actions{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+@media(min-width:769px){table{font-size:14px}}
+th{text-align:left;padding:8px 10px;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);border-bottom:1px solid var(--bd);font-weight:700;position:sticky;top:0;background:var(--card);z-index:2;white-space:nowrap}
+@media(min-width:769px){th{padding:12px 16px;font-size:11px}}
+td{padding:8px 10px;border-bottom:1px solid var(--bd);vertical-align:middle}
+@media(min-width:769px){td{padding:12px 16px}}
+tbody tr:last-child td{border-bottom:none}tbody tr:hover{background:var(--card-h)}
+.srt{cursor:pointer;user-select:none}
+.tbl-wrap{overflow-x:auto;max-height:520px;overflow-y:auto;border-radius:var(--rd);border:1px solid var(--bd);-webkit-overflow-scrolling:touch}
+.tbl-footer{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;font-size:12px;color:var(--tx2);background:var(--card);border:1px solid var(--bd);border-top:none;border-radius:0 0 var(--rd) var(--rd);flex-wrap:wrap;gap:8px}
+.tbl-search{position:relative;flex:1;max-width:340px;min-width:180px}.tbl-search input{padding-left:36px}.tbl-search i{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--mt);font-size:14px}
+.tbl-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tf{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--bd);background:transparent;color:var(--tx2);font-family:inherit;min-height:36px}
+.tf.act{background:var(--ac);color:#000;border-color:var(--ac)}
+.empty-state{text-align:center;padding:40px 20px;color:var(--mt)}
+.empty-state i{font-size:40px;margin-bottom:12px;display:block;opacity:.5}
 .confirm-box{padding:20px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:10px;margin-bottom:16px;text-align:center}
-.confirm-box i{font-size:32px;color:var(--wrn);margin-bottom:12px;display:block}
-.notif-panel{position:fixed;top:64px;right:28px;width:360px;max-height:440px;background:var(--card);border:1px solid var(--bd);border-radius:12px;z-index:50;box-shadow:var(--sh);overflow:hidden;display:none;animation:su .2s}.notif-panel.show{display:block}
+.confirm-box i{font-size:32px;color:#FBBF24;margin-bottom:12px;display:block}
+.notif-panel{position:fixed;top:var(--hdh);right:0;width:100%;max-height:70vh;background:var(--card);border:1px solid var(--bd);border-radius:0 0 16px 16px;z-index:1500;box-shadow:var(--sh);overflow:hidden;display:none;animation:su .2s}
+@media(min-width:769px){.notif-panel{right:24px;width:360px;max-height:440px;border-radius:12px}}
+.notif-panel.show{display:block}
 .notif-hdr{padding:14px 18px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:14px}
 .notif-item{padding:14px 18px;border-bottom:1px solid var(--bd);cursor:pointer}.notif-item:hover{background:var(--abg)}.notif-item:last-child{border:none}
 .notif-dot{width:8px;height:8px;border-radius:50%;background:var(--ac);flex-shrink:0}
 .notif-text{font-size:13px;color:var(--tx)}.notif-time{font-size:11px;color:var(--mt);margin-top:4px}
-.qopt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px;transition:.15s}.qopt:hover{border-color:var(--ac);background:var(--abg)}.qopt input{accent-color:var(--ac)}
-.qf{color:var(--ac);text-decoration:underline;cursor:pointer}.qf:hover{opacity:.8}
-@media print{#sb,#hd,.notif-panel,#tc{display:none!important}#ma{margin:0!important}#pc{padding:0}}
-@media(max-width:768px){.ll{display:none}.lr{width:100%}#sb{width:72px}#sb .nl,#sb .sht,#sb .sui{display:none}#ma{margin-left:72px}#pc{padding:16px}.notif-panel{right:12px;width:calc(100% - 24px)}}
+.qopt{display:flex;align-items:center;gap:10px;padding:12px 14px;border:1px solid var(--bd);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:15px;min-height:48px}
+.qopt:hover{border-color:var(--ac);background:var(--abg)}
+.qopt input{accent-color:var(--ac);width:20px;height:20px;flex-shrink:0}
+.mobile-only{display:none}
+@media(max-width:768px){.mobile-only{display:block}}
+.desktop-only{display:block}
+@media(max-width:768px){.desktop-only{display:none}}
+.hide-sm{}
+@media(max-width:768px){.hide-sm{display:none!important}}
+.cdd{position:relative;display:block}
+.cdd-btn{width:100%;padding:11px 36px 11px 14px;border-radius:8px;border:1px solid var(--bd);background:var(--bg2);color:var(--tx);font-size:14px;font-family:inherit;min-height:44px;text-align:left;cursor:pointer;position:relative;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cdd-btn::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);color:var(--tx2);font-size:12px;pointer-events:none}
+.cdd-btn:focus{outline:none;border-color:var(--ac)}
+.cdd-panel{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--card);border:1px solid var(--bd);border-radius:10px;z-index:5000;max-height:240px;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,.35);display:none;animation:su .15s}
+.cdd-panel.open{display:block}
+.cdd-opt{padding:11px 14px;font-size:14px;cursor:pointer;color:var(--tx);border-bottom:1px solid var(--bd)}
+.cdd-opt:last-child{border-bottom:none}
+.cdd-opt:hover{background:var(--abg);color:var(--ac)}
+.cdd-opt.sel{background:var(--abg);color:var(--ac);font-weight:600}
+@media(max-width:768px){
+ #sb{transform:translateX(-100%);width:280px!important}
+ #sb.open{transform:translateX(0)}
+ #sb-overlay.show{display:block}
+ #ma{margin-left:0!important}#sb.col~#ma{margin-left:0}
+ .ll{display:none}.lr{width:100%;flex:1;padding:32px 24px}
+ .b:not(.bsm){width:100%;justify-content:center}
+ .i{font-size:16px}
+ .seg{width:100%}.seg button{flex:1;justify-content:center;padding:8px 10px;font-size:12px;min-height:40px}
+ .page-actions{flex-direction:column}.page-actions .b{width:100%;justify-content:center}
+}
+@media print{#sb,#hd,.notif-panel,#tc,#sb-overlay,.cdd-panel{display:none!important}#ma{margin:0!important}#pc{padding:0}}
 </style>
 </head>
 <body>
@@ -78,26 +136,27 @@ td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbo
     <div style="position:relative;z-index:2;text-align:center;padding:40px">
       <div class="fd" style="font-size:50px;font-weight:700;color:var(--ac)">DIGI360</div>
       <div style="font-size:15px;color:var(--tx2);margin-top:8px;letter-spacing:2px">PERMITS AND CHECKLISTS</div>
-      <div style="width:60px;height:3px;background:var(--ac);margin:24px auto 0;border-radius:2px"></div>
     </div>
   </div>
   <div class="lr">
     <div style="margin-bottom:28px"><div class="fd" style="font-size:24px;font-weight:700">Sign In</div><div style="color:var(--tx2);font-size:14px;margin-top:4px">Permits and Checklists Module</div></div>
     <form onsubmit="doLogin();return false" autocomplete="off">
-      <div style="margin-bottom:16px"><label class="lb">Plant / Site</label><select class="i sl" id="l-pl"></select></div>
-      <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" placeholder="admin / supervisor1 / manager1"></div>
-      <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password"></div>
-      <button type="submit" class="bp" style="width:100%;justify-content:center;padding:12px"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
+      <div style="margin-bottom:16px"><label class="lb">Plant / Site</label><select class="i sl" id="l-pl"><option>Jaipur Plant</option></select></div>
+      <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" placeholder="Username" autocapitalize="none"></div>
+      <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password" placeholder="Password"></div>
+      <button type="submit" class="bp" style="width:100%;justify-content:center;padding:14px;font-size:16px"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
     </form>
     <div style="margin-top:20px;padding:14px;background:var(--abg);border-radius:10px;font-size:12px;color:var(--tx2);line-height:1.8">
-  <i class="fas fa-shield-halved" style="color:var(--ac)"></i> Authorized personnel only. Contact your administrator for credentials.
-</div>
+      <i class="fas fa-shield-halved" style="color:var(--ac)"></i> Authorized personnel only. Contact your administrator for credentials.
+      <br><a href="index.html" style="color:var(--ac);font-size:12px;text-decoration:underline">Back to Induction</a>
+    </div>
   </div>
 </div>
 
 <div id="app">
+  <div id="sb-overlay" onclick="toggleSb()"></div>
   <aside id="sb">
-    <div style="padding:20px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
+    <div style="padding:16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
       <div class="fd" style="width:36px;height:36px;background:var(--ac);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#000;font-size:14px;flex-shrink:0">P</div>
       <div class="sht"><div class="fd" style="font-weight:700;font-size:15px">DIGI360</div><div style="font-size:11px;color:var(--mt)">Permits Module</div></div>
     </div>
@@ -105,24 +164,27 @@ td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbo
     <div style="padding:16px;border-top:1px solid var(--bd)">
       <div style="display:flex;align-items:center;gap:10px">
         <div id="sb-av" style="width:34px;height:34px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:13px;flex-shrink:0">A</div>
-        <div class="sui" style="min-width:0"><div style="font-size:13px;font-weight:600" id="sb-nm">Admin</div><div style="font-size:11px;color:var(--mt)" id="sb-pr">Administrator</div></div>
+        <div class="sui" style="min-width:0;overflow:hidden"><div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" id="sb-nm">User</div><div style="font-size:11px;color:var(--mt)" id="sb-pr">Role</div></div>
       </div>
       <button class="bs bsm" style="width:100%;margin-top:12px;justify-content:center" onclick="doLogout()"><i class="fas fa-right-from-bracket"></i> Logout</button>
-      <a href="index.html" class="bs bsm" style="display:flex;width:100%;margin-top:8px;justify-content:center;text-decoration:none"><i class="fas fa-arrow-left"></i> Induction</a>
+      <a href="index.html" class="bs bsm" style="display:flex;width:100%;margin-top:8px;justify-content:center;text-decoration:none;color:inherit"><i class="fas fa-arrow-left"></i> Induction</a>
+      <a href="assets.html" class="bs bsm" style="display:flex;width:100%;margin-top:8px;justify-content:center;text-decoration:none;color:inherit"><i class="fas fa-boxes-stacked"></i> Assets</a>
     </div>
   </aside>
   <div id="ma">
     <header id="hd">
-      <div style="display:flex;align-items:center;gap:14px">
-        <button id="mbtn" onclick="document.getElementById('sb').classList.toggle('col')" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px;padding:4px"><i class="fas fa-bars"></i></button>
-        <div id="pt" class="fd" style="font-size:18px;font-weight:600">Dashboard</div>
-        <span class="chip" id="hd-pl" style="display:none"></span>
+      <div style="display:flex;align-items:center;gap:8px;min-width:0;flex:1">
+        <button class="mobile-only" onclick="toggleSb()" style="background:none;border:none;color:var(--tx);cursor:pointer;font-size:20px;padding:8px;margin-left:-4px;flex-shrink:0"><i class="fas fa-bars"></i></button>
+        <button class="desktop-only" onclick="toggleSb()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px;padding:4px;flex-shrink:0"><i class="fas fa-bars"></i></button>
+        <div id="pt" class="fd" style="font-size:16px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex-shrink:1">Dashboard</div>
+        <span class="chip desktop-only" id="hd-pl" style="display:none;flex-shrink:0"></span>
       </div>
-      <div style="display:flex;align-items:center;gap:16px">
-        <button id="nbtn" onclick="togNotif()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px;padding:6px;position:relative"><i class="fas fa-bell"></i><span id="notif-badge" style="position:absolute;top:2px;right:2px;width:8px;height:8px;background:var(--err);border-radius:50%;display:none"></span></button>
-        <div style="width:1px;height:24px;background:var(--bd)"></div>
-        <button onclick="togTh()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:18px" id="thb"><i class="fas fa-moon"></i></button>
-        <div style="display:flex;align-items:center;gap:8px"><div id="hd-av" style="width:32px;height:32px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:12px">A</div><span style="font-size:13px;font-weight:600" id="hd-nm">Admin</span></div>
+      <div style="display:flex;align-items:center;gap:4px;flex-shrink:0">
+        <button id="nbtn" onclick="togNotif()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:17px;padding:8px;position:relative;min-width:40px;min-height:40px"><i class="fas fa-bell"></i><span id="notif-badge" style="position:absolute;top:4px;right:4px;width:8px;height:8px;background:var(--err);border-radius:50%;display:none"></span></button>
+        <div style="width:1px;height:24px;background:var(--bd)" class="desktop-only"></div>
+        <button onclick="togTh()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:17px;min-width:40px;min-height:40px;padding:8px" id="thb"><i class="fas fa-moon"></i></button>
+        <div class="desktop-only" style="display:flex;align-items:center;gap:8px;flex-shrink:0"><div id="hd-av" style="width:32px;height:32px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:12px">A</div><span style="font-size:13px;font-weight:600" id="hd-nm">User</span></div>
+        <div class="mobile-only" id="hd-av-m" style="width:30px;height:30px;border-radius:50%;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-weight:700;font-size:11px;flex-shrink:0">A</div>
       </div>
     </header>
     <div id="pc"></div>
@@ -131,42 +193,57 @@ td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}tbo
 
 <div class="notif-panel" id="notif-panel">
   <div class="notif-hdr"><span><i class="fas fa-bell" style="color:var(--ac);margin-right:6px"></i>Notifications</span><button onclick="markAllRead()" style="background:none;border:none;color:var(--ac);cursor:pointer;font-size:12px;font-family:inherit;font-weight:600">Mark all read</button></div>
-  <div id="notif-list" style="overflow-y:auto;max-height:380px"></div>
+  <div id="notif-list" style="overflow-y:auto;max-height:calc(70vh - 50px)"></div>
 </div>
 <div id="tc"></div>
 <div id="mc"></div>
 
+<script src="db-local.js"></script>
 <script>
+/* ===== DUAL MODE: GitHub Pages = local test, Vercel = Supabase ===== */
+var IS_LOCAL = window.location.hostname.includes('github.io') || location.protocol === 'file:';
 var SUPABASE_URL='https://hgffeevtuvhexrztacpd.supabase.co';
 var SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
 var DBREADY=false;
-var _H={'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY};
+var _H = IS_LOCAL ? {} : {'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY};
 function _postH(pref){return Object.assign({},_H,{'Content-Type':'application/json','Prefer':pref||'return=minimal'})}
-function _get(t,q){return fetch(SUPABASE_URL+'/rest/v1/'+t+(q||'?select=*'),{headers:_H}).then(function(r){if(!r.ok)throw new Error(t+': HTTP '+r.status);return r.json()})}
-function _post(t,row,pref){return fetch(SUPABASE_URL+'/rest/v1/'+t,{method:'POST',headers:_postH(pref),body:JSON.stringify(row)}).then(function(){},function(e){console.warn(t+' write failed:',e.message)})}
-function _patch(t,filter,data){return fetch(SUPABASE_URL+'/rest/v1/'+t+'?'+filter,{method:'PATCH',headers:_postH('return=minimal'),body:JSON.stringify(data)}).then(function(){},function(e){console.warn(t+' update failed:',e.message)})}
+function _get(t,q){
+ if(IS_LOCAL){return Promise.resolve(DB[t]||[])}
+ return fetch(SUPABASE_URL+'/rest/v1/'+t+(q||'?select=*'),{headers:_H}).then(function(r){if(!r.ok)throw new Error(t+': HTTP '+r.status);return r.json()})}
+function _post(t,row,pref){
+ if(IS_LOCAL){return Promise.resolve()}
+ return fetch(SUPABASE_URL+'/rest/v1/'+t,{method:'POST',headers:_postH(pref),body:JSON.stringify(row)}).then(function(r){if(!r.ok)r.text().then(function(txt){console.error('WRITE FAIL',t,r.status,txt)})})}
+
 async function loadDB(){
-  var r=await Promise.all([
-    _get('users'),_get('profiles'),_get('plants','?select=*&order=name.asc'),
-    _get('permit_types','?select=*&order=sort_order.asc'),
-    _get('checklist_templates','?select=*&order=category.asc'),
-    _get('permits','?select=*&order=created_at.desc'),
-    _get('permit_history','?select=*&order=ts.desc'),
-    _get('ppe_items','?select=*&order=category.asc'),
-    _get('tools','?select=*&order=category.asc'),
-    _get('visitors','?select=id,nm,mob,co,pid,doc,st,pp'),
-    _get('config'),
-    _get('notifications','?select=*&order=created_at.desc')
-  ]);
-  DB.users=r[0]||[];DB.profiles=r[1]||[];
-  DB.plants=(r[2]||[]).filter(function(p){return p.active});PLANTS=DB.plants.map(function(p){return p.name});rebuildPlantDropdown();
-  DB.permit_types=r[3]||[];DB.checklist_templates=r[4]||[];
-  DB.permits=r[5]||[];DB.permit_history=r[6]||[];
-  DB.ppe_items=r[7]||[];DB.tools=r[8]||[];
-  DB.visitors=r[9]||[];
-  var c=(r[10]||[])[0];if(c)DB.config={pass:c.pass,maxAt:c.maxAt,passportDays:c.passportDays};
-  DB.notifications=(r[11]||[]).map(function(x){return{id:x.id,icon:x.icon,color:x.color,msg:x.msg,time:x.time,read:x.read}});
-  DBREADY=true}
+ if(IS_LOCAL){
+  DB = JSON.parse(JSON.stringify(LOCAL_DB));
+  DB.profiles = DB.profiles.map(function(x){return{id:x.id,name:x.name,type:x.type,mods:x.mods||[],cert:x.cert||'none',desc:x.descr}});
+  PLANTS = DB.plants.filter(function(p){return p.active}).map(function(p){return p.name});
+  if(PLANTS.length)rebuildPlantDropdown();
+  DBREADY = true;
+  return}
+ var r=await Promise.all([
+  _get('users'),_get('profiles'),_get('plants','?select=*&order=name.asc'),
+  _get('permit_types','?select=*&order=sort_order.asc'),
+  _get('checklist_templates','?select=*&order=category.asc'),
+  _get('permits','?select=*&order=created_at.desc'),
+  _get('permit_history','?select=*&order=ts.desc'),
+  _get('ppe_items','?select=*&order=category.asc'),
+  _get('tools','?select=*&order=category.asc'),
+  _get('visitors','?select=id,nm,mob,co,pid,doc,st,pp'),
+  _get('config'),
+  _get('notifications','?select=*&order=created_at.desc')
+ ]);
+ DB.users=r[0]||[];DB.profiles=r[1]||[];
+ DB.plants=(r[2]||[]).filter(function(p){return p.active});PLANTS=DB.plants.map(function(p){return p.name});rebuildPlantDropdown();
+ DB.permit_types=r[3]||[];DB.checklist_templates=r[4]||[];
+ DB.permits=r[5]||[];DB.permit_history=r[6]||[];
+ DB.ppe_items=r[7]||[];DB.tools=r[8]||[];
+ DB.visitors=r[9]||[];
+ var c=(r[10]||[])[0];if(c)DB.config={pass:c.pass,maxAt:c.maxAt,passportDays:c.passportDays};
+ DB.notifications=(r[11]||[]).map(function(x){return{id:x.id,icon:x.icon,color:x.color,msg:x.msg,time:x.time,read:x.read}});
+ DBREADY=true}
+
 function sbPermit(p){if(!DBREADY)return;var row={id:p.id,type_id:p.type_id,title:p.title,plant:p.plant,location:p.location,contractor:p.contractor,work_desc:p.work_desc,risk_level:p.risk_level,start_dt:p.start_dt,end_dt:p.end_dt,status:p.status,checklist_data:p.checklist_data,checklist_template_ids:p.checklist_template_ids,isolation_req:p.isolation_req||false,gas_test_req:p.gas_test_req||false,issued_by:p.issued_by,issued_to:p.issued_to,approved_at:p.approved_at,closed_at:p.closed_at,closed_by:p.closed_by,close_notes:p.close_notes,created_by:p.created_by,created_by_role:p.created_by_role,work_started_at:p.work_started_at,work_started_by:p.work_started_by,persons:p.persons,ppe_items:p.ppe_items,tools_items:p.tools_items};_post('permits',row,'resolution=merge-duplicates')}
 function sbPType(t){if(!DBREADY)return;_post('permit_types',t,'resolution=merge-duplicates')}
 function sbCl(c){if(!DBREADY)return;_post('checklist_templates',c,'resolution=merge-duplicates')}
@@ -175,241 +252,309 @@ function sbTool(t){if(!DBREADY)return;_post('tools',t,'resolution=merge-duplicat
 function pushPHistory(pid,action,by,notes){var h={permit_id:pid,action:action,by:by,notes:notes||'',ts:new Date().toISOString()};DB.permit_history.unshift(h);_post('permit_history',h,'return=minimal')}
 function pushNotif(msg,icon,color){var n={id:gid('N'),icon:icon||'fa-bell',color:color||'var(--ac)',msg:msg,time:'Just now',read:false};DB.notifications.unshift(n);_post('notifications',{id:n.id,icon:n.icon,color:n.color,msg:n.msg,time:n.time,read:n.read},'resolution=merge-duplicates');renderNotifs()}
 
-var today=new Date().toISOString().split('T')[0],PLANTS=[];
+var today=new Date().toISOString().split('T')[0],PLANTS=['Jaipur Plant'];
 var DB={users:[],profiles:[],plants:[],permit_types:[],checklist_templates:[],permits:[],permit_history:[],ppe_items:[],tools:[],visitors:[],notifications:[],config:{pass:80,maxAt:3,passportDays:180}};
-var CU=null,CP=null,SPL=null,CURP='',CI={},VID=null,VPLAY=null,lcRaf=null;
+var CU=null,CP=null,SPL=null,CURP='',CI={},VID=null,VPLAY=null;
 var PERMIT_PERSONS=[],PERMIT_PPE=[],PERMIT_TOOLS=[],PERMIT_CL={};
+var EDIT_PERMIT_ID=null,EDIT_TYPE_ID=null;
 
 function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function val(id){var el=document.getElementById(id);return el?el.value.trim():''}
 function gid(p){return p+Math.random().toString(36).slice(2,6).toUpperCase()+String(Date.now()).slice(-4)}
 function nowStr(sec){var d=new Date(),p=function(n){return n<10?'0'+n:n},s=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());return sec?s+':'+p(d.getSeconds()):s}
+function addDays(dstr,n){var d=new Date(dstr+'T00:00:00');d.setDate(d.getDate()+n);return d.toISOString().split('T')[0]}
 function gProf(id){return DB.profiles.filter(function(p){return p.id===id})[0]||null}
 function gPType(id){return DB.permit_types.filter(function(t){return t.id===id})[0]||null}
 function gPPermit(id){return DB.permits.filter(function(p){return p.id===id})[0]||null}
 function gChecklists(typeId){return DB.checklist_templates.filter(function(c){return c.type_id===typeId&&c.active})}
-function calD(ci,co){if(!ci)return '-';var s=new Date(String(ci).replace(' ','T')).getTime(),ms=(co?new Date(String(co).replace(' ','T')).getTime():Date.now())-s;var d=Math.max(0,Math.floor(ms/60000));return d<60?d+'m':Math.floor(d/60)+'h '+(d%60)+'m'}
-function toast(m,t){t=t||'i';var ic={s:'fa-circle-check',e:'fa-circle-exclamation',i:'fa-circle-info',w:'fa-triangle-exclamation'};var c=document.getElementById('tc'),e=document.createElement('div');e.className='tt t'+t;e.innerHTML='<i class="fas '+(ic[t]||ic.i)+'"></i><span>'+m+'</span>';c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateX(40px)';e.style.transition='all .3s';setTimeout(function(){e.remove()},300)},3500)}
-function showM(t,h,lg){document.getElementById('mc').innerHTML='<div class="mo" onclick="if(event.target===this)closeM()"><div class="md'+(lg?' md-lg':'')+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><h3 class="fd" style="font-size:20px;font-weight:700">'+t+'</h3><button onclick="closeM()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:20px;padding:4px"><i class="fas fa-times"></i></button></div>'+h+'</div></div>'}
-function closeM(){if(VPLAY){clearInterval(VPLAY);VPLAY=null}VID=null;document.getElementById('mc').innerHTML=''}
-function showConfirm(msg,fnExpr,btnText){showM('Confirm Action','<div class="confirm-box"><i class="fas fa-triangle-exclamation"></i><p>'+msg+'</p></div><div style="display:flex;gap:12px"><button class="bs" style="flex:1;justify-content:center;padding:12px" onclick="closeM()">Cancel</button><button class="bd" style="flex:1;justify-content:center;padding:12px" onclick="closeM();'+fnExpr+'">'+(btnText||'Confirm')+'</button></div>')}
-function bc(items){var h='<div class="breadcrumb">';items.forEach(function(it,i){if(i>0)h+='<span class="bc-sep"><i class="fas fa-chevron-right"></i></span>';h+=(i===items.length-1)?'<span class="bc-cur">'+it.label+'</span>':'<a onclick="'+(it.action||'')+'">'+it.label+'</a>'});return h+'</div>'}
-function kpi(ic,lb,v,clr){return '<div class="c kpi '+clr+'"><div style="display:flex;align-items:center;justify-content:space-between"><div><div style="font-size:13px;color:var(--tx2);margin-bottom:6px">'+lb+'</div><div class="fd" style="font-size:32px;font-weight:800">'+v+'</div></div><div style="width:44px;height:44px;border-radius:12px;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:18px;flex-shrink:0"><i class="fas '+ic+'"></i></div></div></div>'}
-function emptyRow(cs,msg){return '<tr><td colspan="'+cs+'"><div class="empty-state"><i class="fas fa-inbox"></i><p>'+msg+'</p></div></td></tr>'}
-function det(l,v){return '<div><span style="color:var(--tx2);font-size:11px;display:block;margin-bottom:2px">'+l+'</span><span style="font-weight:600">'+((v==null||v==='')?'-':v)+'</span></div>'}
-function pStatus(s){var m={'Draft':'b-pending','Submitted':'b-wrn','Approved':'b-ok','Rejected':'b-err','Active':'b-in','Closed':'b-out','Expired':'b-err','Self-Approved':'b-ok'};return '<span class="badge '+(m[s]||'b-pending')+'">'+s+'</span>'}
+function myPermits(){if(CP.type==='supervisor')return DB.permits.filter(function(p){return p.created_by===CU.id&&p.plant===SPL});return DB.permits.filter(function(p){return p.plant===SPL})}
+function plChip(pl){return '<span class="chip"><i class="fas fa-industry" style="color:var(--ac)"></i>'+(pl==='All'?'All Plants':pl)+'</span>'}
 function profBadge(p){var tc={admin:'adm',manager:'mgr',security:'sec',supervisor:'sup',inductee:'ind'};return p?'<span class="badge b-'+(tc[p.type]||'ind')+'">'+esc(p.name)+'</span>':''}
+function ppeChips(ids){if(!ids||!ids.length)return '<span style="color:var(--mt);font-size:12px">-</span>';return ids.map(function(id){var p=DB.ppe_items.filter(function(x){return x.id===id})[0];return p?'<span class="chip" style="margin:1px"><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac)"></i>'+esc(p.name)+'</span>':''}).join('')}
+function toolChips(ids){if(!ids||!ids.length)return '<span style="color:var(--mt);font-size:12px">-</span>';return ids.map(function(id){var t=DB.tools.filter(function(x){return x.id===id})[0];return t?'<span class="chip" style="margin:1px"><i class="fas fa-screwdriver-wrench" style="color:var(--ac)"></i>'+esc(t.name)+'</span>':''}).join('')}
+function docName(d){return d?(d.type==='pass'?'Visitor Pass':'Safety Passport'):''}
+function docExpired(v){return !!(v.doc&&v.doc.expires&&v.doc.expires<today)}
+function pStatus(s){var m={'Draft':'b-pending','Submitted':'b-wrn','Approved':'b-ok','Rejected':'b-err','Active':'b-in','Closed':'b-out','Expired':'b-err','Self-Approved':'b-ok'};return '<span class="badge '+(m[s]||'b-pending')+'">'+esc(s)+'</span>'}
 function pTypeBadge(t){return t?'<span class="badge" style="background:'+(t.color||'#F59E0B')+'22;color:'+(t.color||'#F59E0B')+'"><i class="fas '+(t.icon||'fa-file')+'" style="margin-right:4px"></i>'+esc(t.name)+'</span>':''}
 function catBadge(c){var m={'start':'b-wrn','hourly':'b-in','end':'b-ok'};var lbl={'start':'Start','hourly':'Hourly','end':'End'};return '<span class="badge '+(m[c]||'b-pending')+'">'+(lbl[c]||c)+'</span>'}
 function apprBadge(a){return '<span class="badge '+(a==='approval_required'?'b-err':'b-ok')+'">'+(a==='approval_required'?'Approval Required':'Self Approval')+'</span>'}
-function ppeChips(ids){if(!ids||!ids.length)return '<span style="color:var(--mt);font-size:12px">-</span>';return ids.map(function(id){var p=DB.ppe_items.filter(function(x){return x.id===id})[0];return p?'<span class="chip" style="margin:1px"><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac)"></i>'+esc(p.name)+'</span>':''}).join('')}
-function toolChips(ids){if(!ids||!ids.length)return '<span style="color:var(--mt);font-size:12px">-</span>';return ids.map(function(id){var t=DB.tools.filter(function(x){return x.id===id})[0];return t?'<span class="chip" style="margin:1px"><i class="fas fa-screwdriver-wrench" style="color:var(--ac)"></i>'+esc(t.name)+'</span>':''}).join('')}
+function det(l,v){return '<div class="det"><span style="color:var(--tx2);font-size:11px;display:block;margin-bottom:2px">'+l+'</span><span style="font-weight:600">'+((v==null||v==='')?'-':v)+'</span></div>'}
 
+function toast(m,t){t=t||'i';var ic={s:'fa-circle-check',e:'fa-circle-exclamation',i:'fa-circle-info',w:'fa-triangle-exclamation'};var c=document.getElementById('tc'),e=document.createElement('div');e.className='tt t'+t;e.innerHTML='<i class="fas '+(ic[t]||ic.i)+'"></i><span>'+m+'</span>';c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateX(40px)';e.style.transition='all .3s';setTimeout(function(){e.remove()},300)},3500)}
+function showM(t,h,lg){document.getElementById('mc').innerHTML='<div class="mo" onclick="if(event.target===this)closeM()"><div class="md'+(lg?' md-lg':'')+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;position:sticky;top:0;background:var(--card);z-index:5;padding-bottom:12px;border-bottom:1px solid var(--bd)"><h3 class="fd" style="font-size:18px;font-weight:700">'+t+'</h3><button onclick="closeM()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:20px;padding:8px;min-width:44px;min-height:44px"><i class="fas fa-times"></i></button></div>'+h+'</div></div>';initCDD()}
+function closeM(){if(VPLAY){clearInterval(VPLAY);VPLAY=null}VID=null;document.getElementById('mc').innerHTML=''}
+function showConfirm(msg,fnExpr,btnText){showM('Confirm','<div class="confirm-box"><i class="fas fa-triangle-exclamation"></i><p>'+msg+'</p></div><div style="display:flex;gap:12px;flex-wrap:wrap"><button class="bs" style="flex:1;justify-content:center;padding:12px" onclick="closeM()">Cancel</button><button class="bd" style="flex:1;justify-content:center;padding:12px" onclick="closeM();'+fnExpr+'">'+(btnText||'Confirm')+'</button></div>')}
+function bc(items){var h='<div class="breadcrumb">';items.forEach(function(it,i){if(i>0)h+='<span class="bc-sep"><i class="fas fa-chevron-right"></i></span>';h+=(i===items.length-1)?'<span class="bc-cur">'+it.label+'</span>':'<a onclick="'+(it.action||'')+'">'+it.label+'</a>'});return h+'</div>'}
+function kpi(ic,lb,v,clr){return '<div class="c kpi '+clr+'"><div style="display:flex;align-items:center;justify-content:space-between;gap:8px"><div><div style="font-size:12px;color:var(--tx2);margin-bottom:4px">'+lb+'</div><div class="fd" style="font-size:28px;font-weight:800">'+v+'</div></div><div style="width:40px;height:40px;border-radius:12px;background:var(--abg);display:flex;align-items:center;justify-content:center;color:var(--ac);font-size:16px;flex-shrink:0"><i class="fas '+ic+'"></i></div></div></div>'}
+function emptyRow(cs,msg){return '<tr><td colspan="'+cs+'"><div class="empty-state"><i class="fas fa-inbox"></i><p>'+msg+'</p></div></td></tr>'}
+function rebuildPlantDropdown(){var lpl=document.getElementById('l-pl');if(lpl&&PLANTS.length){lpl.innerHTML=PLANTS.map(function(p){return '<option>'+p+'</option>'}).join('');initCDD()}}
+
+/* Custom Dropdown */
+function initCDD(){
+ document.querySelectorAll('select.sl').forEach(function(sel){
+  if(sel.dataset.cdd==='1')return;
+  sel.dataset.cdd='1';
+  sel.style.display='none';
+  var wrap=document.createElement('div');wrap.className='cdd';
+  var btn=document.createElement('button');btn.type='button';btn.className='cdd-btn';
+  var panel=document.createElement('div');panel.className='cdd-panel';
+  function refresh(){
+   var txt=sel.options[sel.selectedIndex]?sel.options[sel.selectedIndex].text:(sel.placeholder||'Select');
+   btn.textContent=txt;
+   panel.innerHTML='';
+   [].forEach.call(sel.options,function(o){
+    var d=document.createElement('div');d.className='cdd-opt'+(o.selected?' sel':'');d.textContent=o.text;
+    d.onclick=function(ev){ev.stopPropagation();sel.value=o.value;
+     sel.dispatchEvent(new Event('change',{bubbles:true}));refresh();panel.classList.remove('open')};
+    panel.appendChild(d)})}
+  btn.onclick=function(ev){ev.stopPropagation();
+   var open=panel.classList.contains('open');
+   document.querySelectorAll('.cdd-panel.open').forEach(function(p){p.classList.remove('open')});
+   if(!open){refresh();panel.classList.add('open');
+    var r=panel.getBoundingClientRect();
+    panel.style.maxHeight=r.bottom>innerHeight?Math.max(120,innerHeight-r.top-10)+'px':'240px'}};
+  document.addEventListener('click',function(){panel.classList.remove('open')});
+  sel.addEventListener('change',refresh);
+  wrap.appendChild(btn);wrap.appendChild(panel);
+  sel.parentNode.insertBefore(wrap,sel.nextSibling);
+  refresh()})}
+
+function toggleSb(){var sb=document.getElementById('sb'),ov=document.getElementById('sb-overlay');
+ if(window.innerWidth<=768){sb.classList.toggle('open');ov.classList.toggle('show')}
+ else{sb.classList.toggle('col')}}
+function closeSbMobile(){if(window.innerWidth<=768){document.getElementById('sb').classList.remove('open');document.getElementById('sb-overlay').classList.remove('show')}}
 function togNotif(){var p=document.getElementById('notif-panel');p.classList.toggle('show');if(p.classList.contains('show'))renderNotifs()}
 function renderNotifs(){var el=document.getElementById('notif-list');if(!el)return;var h='',unread=0;DB.notifications.forEach(function(n){if(!n.read)unread++;h+='<div class="notif-item" style="'+(n.read?'opacity:.55':'')+'"><div style="display:flex;align-items:flex-start;gap:10px">'+(n.read?'':'<div class="notif-dot"></div>')+'<i class="fas '+n.icon+'" style="color:'+n.color+';margin-top:3px;width:16px;text-align:center"></i><div style="flex:1"><div class="notif-text">'+esc(n.msg)+'</div><div class="notif-time">'+n.time+'</div></div></div></div>'});if(!DB.notifications.length)h='<div class="empty-state" style="padding:32px"><i class="fas fa-bell-slash"></i><p>No notifications</p></div>';el.innerHTML=h;var b=document.getElementById('notif-badge');if(b)b.style.display=unread?'block':'none'}
-function markAllRead(){DB.notifications.forEach(function(n){n.read=true});_patch('notifications','read=eq.false',{read:true});renderNotifs()}
+function markAllRead(){DB.notifications.forEach(function(n){n.read=true});renderNotifs()}
 function togTh(){var h=document.documentElement,light=h.getAttribute('data-theme')==='light';h.setAttribute('data-theme',light?'dark':'light');syncThemeIcon();try{localStorage.setItem('d3theme',light?'dark':'light')}catch(e){}}
 function syncThemeIcon(){var light=document.documentElement.getAttribute('data-theme')==='light';document.getElementById('thb').innerHTML='<i class="fas fa-'+(light?'sun':'moon')+'"></i>'}
-function rebuildPlantDropdown(){var lpl=document.getElementById('l-pl');if(lpl&&PLANTS.length)lpl.innerHTML=PLANTS.map(function(p){return '<option>'+p+'</option>'}).join('')}
-
+function qf(u,p){document.getElementById('l-un').value=u;document.getElementById('l-pw').value=p}
 
 function doLogin(){
-  var u=val('l-un'),p=val('l-pw'),pl=val('l-pl');if(!u||!p){toast('Enter credentials','e');return}
-  var user=DB.users.filter(function(x){return x.un===u&&x.pw===p&&x.act})[0];
-  if(!user){toast('Invalid credentials','e');return}
-  if(user.pl!=='All'&&user.pl!==pl){toast(esc(user.nm)+' is not assigned to '+pl,'e');return}
-  SPL=(user.pl==='All')?pl:user.pl;CU=user;CP=gProf(user.pid);
-  enterApp();goTo('landing');toast('Welcome, '+user.nm+' - '+CP.name,'s')}
+ var u=val('l-un'),p=val('l-pw'),pl=val('l-pl');if(!u||!p){toast('Enter credentials','e');return}
+ var user=DB.users.filter(function(x){return x.un===u&&x.pw===p&&x.act})[0];
+ if(!user){toast('Invalid credentials','e');return}
+ if(user.pl!=='All'&&user.pl!==pl){toast(esc(user.nm)+' is not assigned to '+pl,'e');return}
+ var prof=gProf(user.pid);
+ if(prof&&prof.type!=='safety_mgr'&&prof.type!=='safety_off'&&prof.type!=='admin'&&prof.type!=='supervisor'&&prof.type!=='manager'){toast('This module requires Supervisor, Safety Manager, Safety Officer, Manager or Admin role','e');return}
+ SPL=(user.pl==='All')?pl:user.pl;CU=user;CP=prof;
+ enterApp();goTo('landing');toast('Welcome, '+user.nm+' - '+CP.name,'s')}
 function enterApp(){
-  document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';
-  document.getElementById('sb-nm').textContent=CU.nm;document.getElementById('sb-av').textContent=CU.nm.charAt(0);
-  document.getElementById('sb-pr').textContent=CP.name;document.getElementById('hd-nm').textContent=CU.nm;document.getElementById('hd-av').textContent=CU.nm.charAt(0);
-  var hp=document.getElementById('hd-pl');if(hp){hp.style.display='inline-flex';hp.innerHTML='<i class="fas fa-industry" style="color:var(--ac)"></i>'+SPL}
-  buildNav();renderNotifs()}
+ document.getElementById('ls').style.display='none';document.getElementById('app').style.display='block';
+ document.getElementById('sb-nm').textContent=CU.nm;document.getElementById('sb-av').textContent=CU.nm.charAt(0);
+ document.getElementById('sb-pr').textContent=CP.name;document.getElementById('hd-nm').textContent=CU.nm;document.getElementById('hd-av').textContent=CU.nm.charAt(0);
+ var avm=document.getElementById('hd-av-m');if(avm)avm.textContent=CU.nm.charAt(0);
+ var hp=document.getElementById('hd-pl');if(hp){hp.style.display='inline-flex';hp.innerHTML='<i class="fas fa-industry" style="color:var(--ac)"></i>'+SPL}
+ buildNav();renderNotifs()}
 function doLogout(){
-  CU=null;CP=null;SPL=null;CURP='';
-  document.getElementById('pc').innerHTML='';document.getElementById('pt').textContent='Dashboard';
-  document.getElementById('notif-panel').classList.remove('show');
-  var hp=document.getElementById('hd-pl');if(hp)hp.style.display='none';
-  document.getElementById('sb').style.display='flex';document.getElementById('sb').classList.remove('col');
-  document.getElementById('ma').style.marginLeft='';document.getElementById('mbtn').style.display='';
-  document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';
-  document.getElementById('l-un').value='';document.getElementById('l-pw').value='';document.getElementById('l-un').focus()}
+ CU=null;CP=null;SPL=null;CURP='';
+ document.getElementById('pc').innerHTML='';document.getElementById('pt').textContent='Dashboard';
+ document.getElementById('notif-panel').classList.remove('show');
+ var hp=document.getElementById('hd-pl');if(hp)hp.style.display='none';
+ document.getElementById('sb').style.display='flex';document.getElementById('sb').classList.remove('col','open');
+ document.getElementById('sb-overlay').classList.remove('show');
+ document.getElementById('ma').style.marginLeft='';
+ document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';
+ document.getElementById('l-un').value='';document.getElementById('l-pw').value='';document.getElementById('l-un').focus()}
 
 function ni(id,ic,lb){return '<div class="ni" data-p="'+id+'" onclick="goTo(\''+id+'\')"><i class="fas '+ic+'"></i><span class="nl">'+lb+'</span></div>'}
 function buildNav(){var h='';
-  if(CP.type==='admin')h+=ni('landing','fa-table-cells','Dashboard')+ni('p-types','fa-fire','Permit Types')+ni('p-checklists','fa-list-check','Checklists')+ni('p-ppe','fa-helmet-safety','PPE Items')+ni('p-tools','fa-screwdriver-wrench','Tools')+ni('p-permits','fa-file-signature','All Permits')+ni('p-history','fa-clock-rotate-left','Audit Trail');
-  else if(CP.type==='supervisor')h+=ni('landing','fa-table-cells','Dashboard')+ni('p-create','fa-file-circle-plus','Create Permit')+ni('p-permits','fa-file-signature','My Permits');
-  else if(CP.type==='manager')h+=ni('landing','fa-table-cells','Dashboard')+ni('p-permits','fa-file-signature','All Permits');
-  document.getElementById('nl').innerHTML=h}
+ h+=ni('landing','fa-table-cells','Dashboard')+ni('p-permits','fa-file-signature','Permits');
+ if(CP.type==='admin')h+=ni('p-types','fa-fire','Permit Types')+ni('p-checklists','fa-list-check','Checklists')+ni('p-ppe','fa-helmet-safety','PPE')+ni('p-tools','fa-screwdriver-wrench','Tools')+ni('p-history','fa-clock-rotate-left','Audit Trail');
+ else if(CP.type==='supervisor')h+=ni('p-create','fa-file-circle-plus','Create Permit');
+ document.getElementById('nl').innerHTML=h}
 function goTo(p){
-  for(var k in CI){try{CI[k].destroy()}catch(e){}}CI={};CURP=p;
-  document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
-  var titles={landing:'Dashboard','p-types':'Permit Types','p-checklists':'Checklist Templates','p-ppe':'PPE Items','p-tools':'Tools','p-permits':'Permits','p-history':'Audit Trail','p-create':'Create Permit'};
-  document.getElementById('pt').textContent=titles[p]||'Dashboard';
-  var fn={landing:pgLanding,'p-types':pgPTypes,'p-checklists':pgChecklists,'p-ppe':pgPPE,'p-tools':pgTools,'p-permits':pgPermits,'p-history':pgHistory,'p-create':pgCreate};
-  document.getElementById('pc').innerHTML=fn[p]?fn[p]():'<div class="c empty-state">Under construction</div>'}
+ closeSbMobile();
+ for(var k in CI){try{CI[k].destroy()}catch(e){}}CI={};CURP=p;
+ document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
+ var titles={landing:'Dashboard','p-permits':'Permits','p-types':'Permit Types','p-checklists':'Checklists','p-ppe':'PPE Items','p-tools':'Tools','p-create':'Create Permit','p-history:'Audit Trail'};
+ document.getElementById('pt').textContent=titles[p]||'Dashboard';
+ var fn={landing:pgLanding,'p-permits':pgPermits,'p-types':pgPTypes,'p-checklists':pgChecklists,'p-ppe':pgPPE,'p-tools':pgTools,'p-create':pgCreate,'p-history':pgHistory};
+ document.getElementById('pc').innerHTML=fn[p]?fn[p]():'<div class="c empty-state">Not found</div>';
+ initCDD();window.scrollTo(0,0)}
+function tblSearch(inp){var q=inp.value.toLowerCase();var root=inp.closest('.tw-root')||document;root.querySelectorAll('tbody tr').forEach(function(r){var n=r.getAttribute('data-n')||'';r.style.display=(!q||n.indexOf(q)>-1)?'':'none'})}
 
-function myPermits(){
-  if(CP.type==='supervisor')return DB.permits.filter(function(p){return p.created_by===CU.id&&p.plant===SPL});
-  return DB.permits.filter(function(p){return p.plant===SPL})}
+/* ============ DASHBOARD ============ */
 function pgLanding(){
-  var list=myPermits();
-  var h=bc([{label:'Dashboard'}]);
-  h+='<div class="kgrid">'+kpi('fa-file-circle-plus','Draft',list.filter(function(p){return p.status==='Draft'}).length,'amber')+kpi('fa-clock','Pending Approval',list.filter(function(p){return p.status==='Submitted'}).length,'cyan')+kpi('fa-play','Active',list.filter(function(p){return p.status==='Active'}).length,'green')+kpi('fa-check','Closed',list.filter(function(p){return p.status==='Closed'}).length,'amber')+kpi('fa-ban','Rejected',list.filter(function(p){return p.status==='Rejected'}).length,'red')+'</div>';
-  h+='<div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h4 class="fd" style="font-size:15px">Recent Permits</h4>'+(CP.type==='supervisor'||CP.type==='admin'?'<button class="bp bsm" onclick="goTo(\'p-create\')"><i class="fas fa-plus"></i> New Permit</button>':'')+'</div>';
-  if(!list.length)h+='<div class="empty-state" style="padding:32px"><i class="fas fa-file-circle-plus" style="font-size:40px"></i><p>No permits yet. Create your first permit to get started.</p></div>';
-  else h+=permitTable(list.slice(0,8));
-  h+='</div>';return h}
+ var list=myPermits();
+ var draft=list.filter(function(p){return p.status==='Draft'}).length;
+ var submitted=list.filter(function(p){return p.status==='Submitted'}).length;
+ var active=list.filter(function(p){return p.status==='Active'}).length;
+ var closed=list.filter(function(p){return p.status==='Closed'}).length;
+ var rejected=list.filter(function(p){return p.status==='Rejected'}).length;
+ var h=bc([{label:'Dashboard'}]);
+ h+='<div class="kgrid">'+kpi('fa-file-circle-plus','Draft',draft,'amber')+kpi('fa-clock','Pending Approval',submitted,'cyan')+kpi('fa-play','Active',active,'green')+kpi('fa-check','Closed',closed,'amber')+kpi('fa-ban','Rejected',rejected,'red')+'</div>';
+ h+='<div class="page-actions">'+(CP.type==='supervisor'||CP.type==='admin'?'<button class="bp" onclick="goTo(\'p-create\')"><i class="fas fa-plus"></i> New Permit</button>':'')+'<button class="bs" onclick="goTo(\'p-permits\')"><i class="fas fa-file-signature"></i> All Permits</button></div>';
+ h+='<div class="c p0"><div style="padding:12px 14px 0"><h4 class="fd" style="font-size:14px">Recent Permits</h4></div>';
+ if(!list.length)h+='<div class="empty-state" style="padding:32px"><i class="fas fa-file-circle-plus" style="font-size:40px"></i><p>No permits yet</p></div>';
+ else h+=permitTable(list.slice(0,8));
+ h+='</div>';return h}
 function permitTable(list){
-  var rows=list.map(function(p){var t=gPType(p.type_id);
-    return '<tr style="cursor:pointer" onclick="showPermitDetail(\''+p.id+'\')"><td style="font-weight:600;color:var(--ac)">'+p.id+'</td><td style="font-weight:600">'+esc(p.title)+'</td><td>'+pTypeBadge(t)+'</td><td>'+pStatus(p.status)+'</td><td style="font-size:12px;color:var(--tx2)">'+esc(p.location||'-')+'</td><td style="font-size:11px;color:var(--tx2)">'+(p.work_started_at?calD(p.work_started_at,p.closed_at):'-')+'</td></tr>'}).join('');
-  return '<div class="tbl-wrap"><table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Status</th><th>Location</th><th>Duration</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+ var rows=list.map(function(p){var t=gPType(p.type_id);
+  return '<tr data-n="'+esc((p.title+' '+p.id).toLowerCase())+'" style="cursor:pointer" onclick="showPermitDetail(\''+p.id+'\')"><td style="font-weight:600;color:var(--ac)">'+p.id+'</td><td style="font-weight:600">'+esc(p.title)+'</td><td>'+pTypeBadge(t)+'</td><td>'+pStatus(p.status)+'</td><td class="hide-sm" style="font-size:12px;color:var(--tx2)">'+esc(p.location||'-')+'</td></tr>'}).join('');
+ return '<div class="tbl-wrap"><table><thead><tr><th>ID</th><th>Title</th><th>Type</th><th>Status</th><th class="hide-sm">Location</th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
 
+/* ============ CREATE PERMIT ============ */
 function pgCreate(){
-  PERMIT_PERSONS=[];PERMIT_PPE=[];PERMIT_TOOLS=[];PERMIT_CL={};
-  var typeOpts=DB.permit_types.filter(function(t){return t.active}).map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>'}).join('');
-  var ppeOpts=DB.ppe_items.filter(function(p){return p.active}).map(function(p){return '<label class="qopt"><input type="checkbox" id="ppe-'+p.id+'"><span><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac);width:18px"></i> '+esc(p.name)+'</span></label>'}).join('');
-  var toolOpts=DB.tools.filter(function(t){return t.active}).map(function(t){return '<label class="qopt"><input type="checkbox" id="tool-'+t.id+'"><span><i class="fas fa-screwdriver-wrench" style="color:var(--ac);width:18px"></i> '+esc(t.name)+'</span></label>'}).join('');
-  var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Create Permit'}]);
-  h+='<div class="c" style="max-width:860px"><h4 class="fd" style="font-size:18px;margin-bottom:20px"><i class="fas fa-file-circle-plus" style="color:var(--ac);margin-right:8px"></i>New Permit to Work</h4><div style="display:grid;gap:20px">';
-  h+='<div><label class="lb">Step 1 - Permit Type *</label><select class="i sl" id="cp-type" onchange="onTypeChange()"><option value="">-- Select Type --</option>'+typeOpts+'</select></div>';
-  h+='<div id="cp-details" style="display:none">';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><label class="lb">Title *</label><input class="i" id="cp-title" placeholder="Welding repair on Pipe Line 3"></div><div><label class="lb">Location *</label><input class="i" id="cp-location" placeholder="Unit 2, Floor 3"></div></div>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><label class="lb">Contractor</label><input class="i" id="cp-contractor" placeholder="ABC Engineering"></div><div><label class="lb">Risk Level *</label><select class="i sl" id="cp-risk"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div></div>';
-  h+='<div><label class="lb">Work Description *</label><textarea class="i" id="cp-desc" rows="3" placeholder="Describe the work to be performed..."></textarea></div>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><label class="lb">Start Date/Time *</label><input class="i" id="cp-start" type="datetime-local"></div><div><label class="lb">End Date/Time *</label><input class="i" id="cp-end" type="datetime-local"></div></div>';
-  h+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px"><div><label class="lb">Plant</label><input class="i" value="'+esc(SPL)+'" disabled></div><div style="display:flex;gap:12px;align-items:flex-end"><label class="qopt" style="margin:0"><input type="checkbox" id="cp-iso"><span>Isolation</span></label><label class="qopt" style="margin:0"><input type="checkbox" id="cp-gas"><span>Gas Test</span></label></div></div>';
-  h+='</div>';
-  h+='<div id="cp-persons-section" style="display:none"><label class="lb">Step 2 - Persons Involved (validated against induction records)</label><div style="display:flex;gap:10px;margin-bottom:10px"><input class="i" id="cp-person-search" placeholder="Enter phone or passport ID (e.g. +1 555 0301)" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addPerson()}"><button class="bp bsm" onclick="addPerson()"><i class="fas fa-user-plus"></i> Add</button></div><div id="cp-persons-list"></div></div>';
-  h+='<div id="cp-ppe-section" style="display:none"><label class="lb">Step 3 - Required PPE</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+ppeOpts+'</div></div>';
-  h+='<div id="cp-tools-section" style="display:none"><label class="lb">Step 4 - Tools</label><div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">'+toolOpts+'</div></div>';
-  h+='<div id="cp-checklists-section" style="display:none"><label class="lb">Step 5 - Start Checklists</label><div id="cp-checklists"></div></div>';
-  h+='<div id="cp-actions" style="display:none;margin-top:20px;gap:10px"><button class="bs" style="flex:1;justify-content:center;padding:12px" onclick="savePermit(\'Draft\')"><i class="fas fa-floppy-disk"></i> Save Draft</button><button class="bp" style="flex:1;justify-content:center;padding:12px" onclick="savePermit(\'Submitted\')"><i class="fas fa-paper-plane"></i> Submit for Approval</button></div>';
-  h+='</div></div>';return h}
+ PERMIT_PERSONS=[];PERMIT_PPE=[];PERMIT_TOOLS=[];PERMIT_CL={};
+ var typeOpts=DB.permit_types.filter(function(t){return t.active}).map(function(t){return '<option value="'+t.id+'">'+esc(t.name)+'</option>'}).join('');
+ var ppeOpts=DB.ppe_items.filter(function(p){return p.active}).map(function(p){return '<label class="qopt"><input type="checkbox" id="ppe-'+p.id+'"><span><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac);width:18px"></i> '+esc(p.name)+'</span></label>'}).join('');
+ var toolOpts=DB.tools.filter(function(t){return t.active}).map(function(t){return '<label class="qopt"><input type="checkbox" id="tool-'+t.id+'"><span><i class="fas fa-screwdriver-wrench" style="color:var(--ac);width:18px"></i> '+esc(t.name)+'</span></label>'}).join('');
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Create Permit'}]);
+ h+='<div class="c"><h4 class="fd" style="font-size:17px;margin-bottom:16px"><i class="fas fa-file-circle-plus" style="color:var(--ac);margin-right:8px"></i>New Permit to Work</h4><div style="display:grid;gap:16px">';
+ h+='<div><label class="lb">Step 1 - Permit Type *</label><select class="i sl" id="cp-type" onchange="onTypeChange()"><option value="">-- Select Type --</option>'+typeOpts+'</select></div>';
+ h+='<div id="cp-details" style="display:none">';
+ h+='<div class="form-row"><div><label class="lb">Title *</label><input class="i" id="cp-title" placeholder="Welding repair on Pipeline 3"></div><div><label class="lb">Location *</label><input class="i" id="cp-location" placeholder="Unit 2, Floor 3"></div></div>';
+ h+='<div class="form-row"><div><label class="lb">Contractor</label><input class="i" id="cp-contractor" placeholder="ABC Engineering"></div><div><label class="lb">Risk Level *</label><select class="i sl" id="cp-risk"><option>Low</option><option>Medium</option><option>High</option><option>Critical</option></select></div></div>';
+ h+='<div><label class="lb">Work Description *</label><textarea class="i" id="cp-desc" rows="3" placeholder="Describe the work..."></textarea></div>';
+ h+='<div class="form-row"><div><label class="lb">Start Date/Time *</label><input class="i" id="cp-start" type="datetime-local"></div><div><label class="lb">End Date/Time *</label><input class="i" id="cp-end" type="datetime-local"></div></div>';
+ h+='<div class="form-row"><div><label class="lb">Plant</label><input class="i" value="'+esc(SPL)+'" disabled></div><div style="display:flex;gap:12px;align-items:flex-end"><label class="qopt" style="margin:0"><input type="checkbox" id="cp-iso"><span>Isolation</span></label><label class="qopt" style="margin:0"><input type="checkbox" id="cp-gas"><span>Gas Test</span></label></div></div>';
+ h+='</div>';
+ h+='<div id="cp-persons-section" style="display:none"><label class="lb">Step 2 - Persons Involved (validated against induction)</label><div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap"><input class="i" id="cp-person-search" placeholder="Enter phone or passport ID" style="flex:1;min-width:180px" onkeydown="if(event.key===\'Enter\'){event.preventDefault();addPerson()}"><button class="bp bsm" onclick="addPerson()"><i class="fas fa-user-plus"></i> Add</button></div><div id="cp-persons-list"></div></div>';
+ h+='<div id="cp-ppe-section" style="display:none"><label class="lb">Step 3 - Required PPE</label><div style="display:grid;grid-template-columns:1fr;gap:6px">'+ppeOpts+'</div></div>';
+ h+='<div id="cp-tools-section" style="display:none"><label class="lb">Step 4 - Tools</label><div style="display:grid;grid-template-columns:1fr;gap:6px">'+toolOpts+'</div></div>';
+ h+='<div id="cp-checklists-section" style="display:none"><label class="lb">Step 5 - Start Checklists</label><div id="cp-checklists"></div></div>';
+ h+='<div id="cp-actions" style="display:none;margin-top:16px;gap:10px;flex-wrap:wrap"><button class="bs" style="flex:1;min-width:150px;justify-content:center;padding:12px" onclick="savePermit(\'Draft\')"><i class="fas fa-floppy-disk"></i> Save Draft</button><button class="bp" style="flex:1;min-width:150px;justify-content:center;padding:12px" onclick="savePermit(\'Submitted\')"><i class="fas fa-paper-plane"></i> Submit</button></div>';
+ h+='</div></div>';return h}
+
 function onTypeChange(){
-  var tid=val('cp-type');var show=!!tid;
-  ['cp-details','cp-persons-section','cp-ppe-section','cp-tools-section','cp-checklists-section'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=show?'block':'none'});
-  var actEl=document.getElementById('cp-actions');if(actEl)actEl.style.display=show?'flex':'none';
-  if(show){var t=gPType(tid);var riskSel=document.getElementById('cp-risk');if(riskSel&&t.risk_levels)riskSel.innerHTML=t.risk_levels.map(function(r){return '<option>'+r+'</option>'}).join('');
-    renderCreateChecklists(tid);
-    var now=new Date(),p=function(n){return n<10?'0'+n:n};var ds=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate())+'T'+p(now.getHours())+':'+p(now.getMinutes());
-    var ed=new Date(now.getTime()+8*3600000);var de=ed.getFullYear()+'-'+p(ed.getMonth()+1)+'-'+p(ed.getDate())+'T'+p(ed.getHours())+':'+p(ed.getMinutes());
-    var s=document.getElementById('cp-start');if(s)s.value=ds;var e=document.getElementById('cp-end');if(e)e.value=de}}
+ var tid=val('cp-type');var show=!!tid;
+ ['cp-details','cp-persons-section','cp-ppe-section','cp-tools-section','cp-checklists-section'].forEach(function(id){var el=document.getElementById(id);if(el)el.style.display=show?'block':'none'});
+ var actEl=document.getElementById('cp-actions');if(actEl)actEl.style.display=show?'flex':'none';
+ if(show){var t=gPType(tid);var riskSel=document.getElementById('cp-risk');if(riskSel&&t.risk_levels)riskSel.innerHTML=t.risk_levels.map(function(r){return '<option>'+r+'</option>'}).join('');
+  renderCreateChecklists(tid);
+  var now=new Date(),p=function(n){return n<10?'0'+n:n};var ds=now.getFullYear()+'-'+p(now.getMonth()+1)+'-'+p(now.getDate())+'T'+p(now.getHours())+':'+p(now.getMinutes());
+  var ed=new Date(now.getTime()+8*3600000);var de=ed.getFullYear()+'-'+p(ed.getMonth()+1)+'-'+p(ed.getDate())+'T'+p(ed.getHours())+':'+p(ed.getMinutes());
+  var s=document.getElementById('cp-start');if(s)s.value=ds;var e=document.getElementById('cp-end');if(e)e.value=de}}
+
 function renderCreateChecklists(tid){
-  var cls=gChecklists(tid).filter(function(c){return c.category==='start'});
-  var box=document.getElementById('cp-checklists');if(!box)return;
-  if(!cls.length){box.innerHTML='<div style="color:var(--mt);font-size:13px">No start checklists for this permit type.</div>';return}
-  box.innerHTML=cls.map(function(c){PERMIT_CL[c.id]={answers:{},completed:false};
-    return '<div class="c" style="background:var(--bg2);margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-weight:700;font-size:14px">'+esc(c.name)+'</span>'+apprBadge(c.approval_type)+'</div>'+
-    c.items.map(function(item,i){var id='cl-'+c.id+'-'+i;
-      if(item.type==='checkbox')return '<label class="qopt"><input type="checkbox" id="'+id+'" onchange="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.checked"><span>'+esc(item.text)+'</span></label>';
-      return '<div style="margin-bottom:8px"><label style="font-size:13px;display:block;margin-bottom:4px">'+esc(item.text)+'</label><input class="i" id="'+id+'" placeholder="'+esc(item.placeholder||'Enter value')+'" oninput="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.value"></div>'}).join('')+'</div>'}).join('')}
+ var cls=gChecklists(tid).filter(function(c){return c.category==='start'});
+ var box=document.getElementById('cp-checklists');if(!box)return;
+ if(!cls.length){box.innerHTML='<div style="color:var(--mt);font-size:13px">No start checklists for this type.</div>';return}
+ box.innerHTML=cls.map(function(c){PERMIT_CL[c.id]={answers:{},completed:false};
+  return '<div class="c" style="background:var(--bg2);margin-bottom:12px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><span style="font-weight:700;font-size:14px">'+esc(c.name)+'</span>'+apprBadge(c.approval_type)+'</div>'+
+  c.items.map(function(item,i){var id='cl-'+c.id+'-'+i;
+   if(item.type==='checkbox')return '<label class="qopt"><input type="checkbox" id="'+id+'" onchange="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.checked"><span>'+esc(item.text)+'</span></label>';
+   return '<div style="margin-bottom:8px"><label style="font-size:13px;display:block;margin-bottom:4px">'+esc(item.text)+'</label><input class="i" id="'+id+'" placeholder="'+esc(item.placeholder||'Enter value')+'" oninput="PERMIT_CL[\''+c.id+'\'].answers['+i+']=this.value"></div>'}).join('')+'</div>'}).join('')}
+
 function addPerson(){
-  var q=val('cp-person-search');if(!q){toast('Enter phone or passport ID','w');return}
-  var visitor=DB.visitors.find(function(v){return v.mob===q||(v.doc&&v.doc.id===q)});
-  if(!visitor){toast('Person not found in induction system','e');return}
-  if(!visitor.doc){toast(visitor.nm+' has not completed induction - no safety document issued','e');return}
-  if(visitor.doc.expires&&visitor.doc.expires<today){toast(visitor.nm+' safety passport expired on '+visitor.doc.expires,'e');return}
-  if(PERMIT_PERSONS.some(function(p){return p.visitor_id===visitor.id})){toast(visitor.nm+' already added','w');return}
-  var pr=gProf(visitor.pid);
-  PERMIT_PERSONS.push({visitor_id:visitor.id,name:visitor.nm,company:visitor.co,mobile:visitor.mob,passport_id:visitor.doc.id,passport_type:visitor.doc.type==='pass'?'Visitor Pass':'Safety Passport',passport_expires:visitor.doc.expires||'No expiry',induction_status:'Fully Inducted',profile:pr?pr.name:'-'});
-  renderPersonsList();document.getElementById('cp-person-search').value='';toast(visitor.nm+' added','s')}
+ var q=val('cp-person-search');if(!q){toast('Enter phone or passport ID','w');return}
+ var visitor=DB.visitors.find(function(v){return v.mob===q||(v.doc&&v.doc.id===q)});
+ if(!visitor){toast('Person not found in induction system','e');return}
+ if(!visitor.doc){toast(visitor.nm+' has not completed induction','e');return}
+ if(visitor.doc.expires&&visitor.doc.expires<today){toast(visitor.nm+' safety passport expired on '+visitor.doc.expires,'e');return}
+ if(PERMIT_PERSONS.some(function(p){return p.visitor_id===visitor.id})){toast(visitor.nm+' already added','w');return}
+ var pr=gProf(visitor.pid);
+ PERMIT_PERSONS.push({visitor_id:visitor.id,name:visitor.nm,company:visitor.co,mobile:visitor.mob,passport_id:visitor.doc.id,passport_type:visitor.doc.type==='pass'?'Visitor Pass':'Safety Passport',passport_expires:visitor.doc.expires||'No expiry',induction_status:'Fully Inducted',profile:pr?pr.name:'-'});
+ renderPersonsList();document.getElementById('cp-person-search').value='';toast(visitor.nm+' added','s')}
 function renderPersonsList(){
-  var box=document.getElementById('cp-persons-list');if(!box)return;
-  if(!PERMIT_PERSONS.length){box.innerHTML='<div style="font-size:13px;color:var(--mt)">No persons added yet.</div>';return}
-  box.innerHTML=PERMIT_PERSONS.map(function(p,i){
-    return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:200px"><div style="font-weight:600;font-size:14px">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--mt)">'+p.visitor_id+' - '+esc(p.company)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+p.passport_type+'</span> <span class="chip">'+p.passport_id+'</span> <span style="color:var(--ok)">Valid</span></div></div><button class="bd bsm" onclick="PERMIT_PERSONS.splice('+i+',1);renderPersonsList()"><i class="fas fa-times"></i></button></div>'}).join('')}
+ var box=document.getElementById('cp-persons-list');if(!box)return;
+ if(!PERMIT_PERSONS.length){box.innerHTML='<div style="font-size:13px;color:var(--mt)">No persons added yet.</div>';return}
+ box.innerHTML=PERMIT_PERSONS.map(function(p,i){
+  return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:180px"><div style="font-weight:600;font-size:14px">'+esc(p.name)+'</div><div style="font-size:12px;color:var(--mt)">'+p.visitor_id+' · '+esc(p.company)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+p.passport_type+'</span> <span class="chip">'+p.passport_id+'</span></div></div><button class="bd bsm" onclick="PERMIT_PERSONS.splice('+i+',1);renderPersonsList()"><i class="fas fa-times"></i></button></div>'}).join('')}
+
 function savePermit(status){
-  var tid=val('cp-type');if(!tid){toast('Select permit type','e');return}
-  var title=val('cp-title');if(!title){toast('Enter title','e');return}
-  var loc=val('cp-location');if(!loc){toast('Enter location','e');return}
-  var start=val('cp-start'),end=val('cp-end');if(!start||!end){toast('Enter start and end times','e');return}
-  if(!PERMIT_PERSONS.length){toast('Add at least one person','e');return}
-  var clIds=Object.keys(PERMIT_CL);
-  var clData={};clIds.forEach(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];clData[cid]={category:'start',approval_type:c?c.approval_type:'self_approval',answers:PERMIT_CL[cid].answers,completed:true,completed_at:nowStr()}});
-  if(status==='Submitted'){var reqApproval=clIds.some(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.approval_type==='approval_required'});
-    status=reqApproval?'Submitted':'Approved'}
-  var ppeSel=[];DB.ppe_items.forEach(function(p){var el=document.getElementById('ppe-'+p.id);if(el&&el.checked)ppeSel.push(p.id)});
-  var toolSel=[];DB.tools.forEach(function(t){var el=document.getElementById('tool-'+t.id);if(el&&el.checked)toolSel.push(t.id)});
-  var p={id:gid('PTW-'),type_id:tid,title:title,plant:SPL,location:loc,contractor:val('cp-contractor'),work_desc:val('cp-desc'),risk_level:val('cp-risk'),start_dt:start,end_dt:end,status:status,checklist_data:clData,checklist_template_ids:clIds,isolation_req:document.getElementById('cp-iso').checked,gas_test_req:document.getElementById('cp-gas').checked,issued_by:null,issued_to:null,approved_at:null,closed_at:null,closed_by:null,close_notes:null,created_by:CU.id,created_by_role:CP.type,work_started_at:null,work_started_by:null,persons:PERMIT_PERSONS,ppe_items:ppeSel,tools_items:toolSel};
-  DB.permits.unshift(p);sbPermit(p);
-  pushPHistory(p.id,status==='Submitted'?'Submitted':(status==='Approved'?'Self-Approved':'Created'),CU.nm,'');
-  if(status==='Submitted')pushNotif('Permit '+p.id+' submitted for approval','fa-file-signature','var(--wrn)');
-  else if(status==='Approved'){p.issued_by=CU.nm;p.approved_at=nowStr();sbPermit(p);pushNotif('Permit '+p.id+' self-approved','fa-circle-check','var(--ok)')}
-  toast('Permit '+p.id+' saved as '+status,'s');goTo('p-permits')}
+ var tid=val('cp-type');if(!tid){toast('Select permit type','e');return}
+ var title=val('cp-title');if(!title){toast('Enter title','e');return}
+ var loc=val('cp-location');if(!loc){toast('Enter location','e');return}
+ var start=val('cp-start'),end=val('cp-end');if(!start||!end){toast('Enter start and end times','e');return}
+ if(!PERMIT_PERSONS.length){toast('Add at least one person','e');return}
+ var clIds=Object.keys(PERMIT_CL);
+ var clData={};clIds.forEach(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];clData[cid]={category:'start',approval_type:c?c.approval_type:'self_approval',answers:PERMIT_CL[cid].answers,completed:true,completed_at:nowStr()}});
+ if(status==='Submitted'){var reqApproval=clIds.some(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.approval_type==='approval_required'});
+  status=reqApproval?'Submitted':'Approved'}
+ var ppeSel=[];DB.ppe_items.forEach(function(p){var el=document.getElementById('ppe-'+p.id);if(el&&el.checked)ppeSel.push(p.id)});
+ var toolSel=[];DB.tools.forEach(function(t){var el=document.getElementById('tool-'+t.id);if(el&&el.checked)toolSel.push(t.id)});
+ var p={id:gid('PTW-'),type_id:tid,title:title,plant:SPL,location:loc,contractor:val('cp-contractor'),work_desc:val('cp-desc'),risk_level:val('cp-risk'),start_dt:start,end_dt:end,status:status,checklist_data:clData,checklist_template_ids:clIds,isolation_req:document.getElementById('cp-iso').checked,gas_test_req:document.getElementById('cp-gas').checked,issued_by:null,issued_to:null,approved_at:null,closed_at:null,closed_by:null,close_notes:null,created_by:CU.id,created_by_role:CP.type,work_started_at:null,work_started_by:null,persons:PERMIT_PERSONS,ppe_items:ppeSel,tools_items:toolSel};
+ DB.permits.unshift(p);sbPermit(p);
+ pushPHistory(p.id,status==='Submitted'?'Submitted':(status==='Approved'?'Self-Approved':'Created'),CU.nm,'');
+ if(status==='Submitted')pushNotif('Permit '+p.id+' submitted for approval','fa-file-signature','var(--wrn)');
+ else if(status==='Approved'){p.issued_by=CU.nm;p.approved_at=nowStr();sbPermit(p);pushNotif('Permit '+p.id+' self-approved','fa-circle-check','var(--ok)')}
+ toast('Permit '+p.id+' saved as '+status,'s');goTo('p-permits')}
+
+/* ============ PERMIT DETAIL ============ */
 function showPermitDetail(id){
-  var p=gPPermit(id);if(!p)return;var t=gPType(p.type_id);
-  var personsHtml=(p.persons||[]).map(function(pers){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:200px"><div style="font-weight:600;font-size:14px">'+esc(pers.name)+'</div><div style="font-size:12px;color:var(--mt)">'+pers.visitor_id+' - '+esc(pers.company)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+pers.passport_type+'</span> <span class="chip">'+pers.passport_id+'</span> Valid - '+esc(pers.passport_expires)+'</div></div></div>'}).join('')||'<div style="color:var(--mt);font-size:13px">No persons recorded</div>';
-  var clData=p.checklist_data||{};var clIds=p.checklist_template_ids||[];
-  function renderClSection(ids,label){if(!ids.length)return '';var items=ids.map(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];if(!c)return '';var data=clData[cid]||{};
-    return '<div class="c" style="background:var(--bg2);margin-bottom:10px;padding:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-weight:700;font-size:13px">'+esc(c.name)+'</span>'+apprBadge(c.approval_type)+'</div>'+
-      c.items.map(function(item,i){var ans=data.answers?data.answers[i]:null;var val=ans===true?'<i class="fas fa-circle-check" style="color:var(--ok)"></i>':(ans===false?'<i class="fas fa-circle-xmark" style="color:var(--err)"></i>':(ans?'<span style="color:var(--tx)">'+esc(ans)+'</span>':'<span style="color:var(--mt)">Not filled</span>'));
-        return '<div style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--tx2);margin-right:8px">'+val+'</span>'+esc(item.text)+'</div>'}).join('')+'</div>'}).join('');
-    return '<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:10px">'+label+'</div>'+items+'</div>'}
-  var startCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='start'});
-  var hourlyCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='hourly'});
-  var endCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='end'});
-  var historyHtml=DB.permit_history.filter(function(h){return h.permit_id===id}).map(function(h){return '<div class="si" style="border-left:3px solid var(--ac);padding-left:12px;margin-bottom:8px"><div style="font-size:13px;font-weight:600">'+esc(h.action)+'</div><div style="font-size:11px;color:var(--mt)">By '+esc(h.by)+' - '+h.ts.replace('T',' ').slice(0,19)+(h.notes?' - '+esc(h.notes):'')+'</div></div>'}).join('')||'<div style="color:var(--mt);font-size:13px">No history</div>';
-  var actions='';
-  if(p.status==='Draft'&&(CU.id===p.created_by||CP.type==='admin'))actions+='<button class="bp bsm" onclick="submitPermit(\''+id+'\')"><i class="fas fa-paper-plane"></i> Submit</button> ';
-  if(p.status==='Submitted'&&CP.type==='manager')actions+='<button class="bg bsm" onclick="approvePermit(\''+id+'\')"><i class="fas fa-circle-check"></i> Approve</button> <button class="bd bsm" onclick="rejectPermit(\''+id+'\')"><i class="fas fa-ban"></i> Reject</button> ';
-  if(p.status==='Approved'&&(CU.id===p.created_by||CP.type==='admin'))actions+='<button class="bp bsm" onclick="startWork(\''+id+'\')"><i class="fas fa-play"></i> Start Work</button> ';
-  if(p.status==='Active'&&(CU.id===p.created_by||CP.type==='admin'||CP.type==='manager'))actions+='<button class="bd bsm" onclick="closePermitModal(\''+id+'\')"><i class="fas fa-stop"></i> Close Permit</button> ';
-  showM('Permit '+p.id+' - '+esc(p.title),'<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:16px"><div>'+pTypeBadge(t)+' '+pStatus(p.status)+'</div><div style="font-size:12px;color:var(--mt)">'+(p.work_started_at?'Started: '+p.work_started_at:'')+'</div></div>'+
-    '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;font-size:13px;margin-bottom:16px">'+det('Plant',esc(p.plant))+det('Location',esc(p.location))+det('Contractor',esc(p.contractor||'-'))+det('Risk',esc(p.risk_level||'-'))+det('Start',p.start_dt)+det('End',p.end_dt)+det('Created By',esc(p.created_by_role||'-'))+'</div>'+
-    '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:10px">PERSONS INVOLVED</div>'+personsHtml+'</div>'+
-    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px"><div><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:8px">PPE</div>'+ppeChips(p.ppe_items)+'</div><div><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:8px">TOOLS</div>'+toolChips(p.tools_items)+'</div></div>'+
-    '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:10px">WORK DESCRIPTION</div><div style="font-size:14px;padding:12px;background:var(--bg2);border-radius:8px">'+esc(p.work_desc||'-')+'</div></div>'+
-    renderClSection(startCls,'START CHECKLISTS')+renderClSection(hourlyCls,'HOURLY CHECKLISTS')+renderClSection(endCls,'END CHECKLISTS')+
-    '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);letter-spacing:1px;margin-bottom:10px">HISTORY</div>'+historyHtml+'</div>'+
-    (actions?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">'+actions+'</div>':''),true)}
+ var p=gPPermit(id);if(!p)return;var t=gPType(p.type_id);
+ var personsHtml=(p.persons||[]).map(function(pers){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:var(--bg2);margin-bottom:8px;padding:12px"><div style="flex:1;min-width:180px"><div style="font-weight:600;font-size:14px">'+esc(pers.name)+'</div><div style="font-size:12px;color:var(--mt)">'+pers.visitor_id+' · '+esc(pers.company)+' · '+esc(pers.mobile)+'</div><div style="font-size:11px;margin-top:4px"><span class="badge b-ok">'+pers.passport_type+'</span> <span class="chip">'+pers.passport_id+'</span> Valid · '+esc(pers.passport_expires)+'</div></div></div>'}).join('')||'<div style="color:var(--mt);font-size:13px">No persons recorded</div>';
+ var clData=p.checklist_data||{};var clIds=p.checklist_template_ids||[];
+ function renderClSection(ids,label){if(!ids.length)return '';var items=ids.map(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];if(!c)return '';var data=clData[cid]||{};
+  return '<div class="c" style="background:var(--bg2);margin-bottom:10px;padding:14px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><span style="font-weight:700;font-size:13px">'+esc(c.name)+'</span>'+apprBadge(c.approval_type)+'</div>'+
+  c.items.map(function(item,i){var ans=data.answers?data.answers[i]:null;var val2=ans===true?'<i class="fas fa-circle-check" style="color:var(--ok)"></i>':(ans===false?'<i class="fas fa-circle-xmark" style="color:var(--err)"></i>':(ans?'<span style="color:var(--tx)">'+esc(ans)+'</span>':'<span style="color:var(--mt)">Not filled</span>'));
+   return '<div style="font-size:13px;padding:6px 0;border-bottom:1px solid var(--bd)"><span style="color:var(--tx2);margin-right:8px">'+val2+'</span>'+esc(item.text)+'</div>'}).join('')+'</div>'}).join('');
+  return '<div style="margin-bottom:20px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:10px">'+label+'</div>'+items+'</div>'}
+ var startCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='start'});
+ var hourlyCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='hourly'});
+ var endCls=clIds.filter(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.category==='end'});
+ var historyHtml=DB.permit_history.filter(function(h){return h.permit_id===id}).map(function(h){return '<div class="si" style="border-left:3px solid var(--ac);padding-left:12px;margin-bottom:8px"><div style="font-size:13px;font-weight:600">'+esc(h.action)+'</div><div style="font-size:11px;color:var(--mt)">By '+esc(h.by)+' · '+h.ts.replace('T',' ').slice(0,19)+(h.notes?' · '+esc(h.notes):'')+'</div></div>'}).join('')||'<div style="color:var(--mt);font-size:13px">No history</div>';
+ var actions='';
+ if(p.status==='Draft'&&(CU.id===p.created_by||CP.type==='admin'))actions+='<button class="bp bsm" onclick="submitPermit(\''+id+'\')"><i class="fas fa-paper-plane"></i> Submit</button> ';
+ if(p.status==='Submitted'&&CP.type==='manager')actions+='<button class="bg bsm" onclick="approvePermit(\''+id+'\')"><i class="fas fa-circle-check"></i> Approve</button> <button class="bd bsm" onclick="rejectPermit(\''+id+'\')"><i class="fas fa-ban"></i> Reject</button> ';
+ if(p.status==='Approved'&&(CU.id===p.created_by||CP.type==='admin'))actions+='<button class="bp bsm" onclick="startWork(\''+id+'\')"><i class="fas fa-play"></i> Start Work</button> ';
+ if(p.status==='Active')actions+='<button class="bd bsm" onclick="closePermitModal(\''+id+'\')"><i class="fas fa-stop"></i> Close Permit</button> ';
+ showM('Permit '+p.id+' - '+esc(p.title),
+  '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:16px"><div>'+pTypeBadge(t)+' '+pStatus(p.status)+'</div><div style="font-size:12px;color:var(--mt)">'+(p.work_started_at?'Started: '+p.work_started_at:'')+'</div></div>'+
+  '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;font-size:13px;margin-bottom:16px">'+det('Plant',esc(p.plant))+det('Location',esc(p.location))+det('Contractor',esc(p.contractor||'-'))+det('Risk',esc(p.risk_level||'-'))+det('Start',p.start_dt)+det('End',p.end_dt)+det('Created By',esc(p.created_by_role||'-'))+'</div>'+
+  '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:10px">PERSONS INVOLVED</div>'+personsHtml+'</div>'+
+  '<div style="display:grid;grid-template-columns:1fr;gap:16px;margin-bottom:16px"><div><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px">PPE</div>'+ppeChips(p.ppe_items)+'</div><div><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:8px">TOOLS</div>'+toolChips(p.tools_items)+'</div></div>'+
+  '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:10px">WORK DESCRIPTION</div><div style="font-size:14px;padding:12px;background:var(--bg2);border-radius:8px">'+esc(p.work_desc||'-')+'</div></div>'+
+  renderClSection(startCls,'START CHECKLISTS')+renderClSection(hourlyCls,'HOURLY CHECKLISTS')+renderClSection(endCls,'END CHECKLISTS')+
+  '<div style="margin-bottom:16px"><div style="font-size:12px;font-weight:700;color:var(--tx2);margin-bottom:10px">HISTORY</div>'+historyHtml+'</div>'+
+  (actions?'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px">'+actions+'</div>':''),true)}
+
 function submitPermit(id){var p=gPPermit(id);if(!p)return;var reqApproval=Object.keys(p.checklist_data||{}).some(function(cid){var c=DB.checklist_templates.filter(function(x){return x.id===cid})[0];return c&&c.approval_type==='approval_required'});
-  p.status=reqApproval?'Submitted':'Approved';if(!reqApproval){p.issued_by=CU.nm;p.approved_at=nowStr()}
-  sbPermit(p);pushPHistory(id,p.status,CU.nm,'');pushNotif('Permit '+id+' '+(reqApproval?'submitted':'self-approved'),reqApproval?'fa-file-signature':'fa-circle-check',reqApproval?'var(--wrn)':'var(--ok)');
-  toast('Permit '+id+' '+p.status,'s');closeM();goTo('p-permits')}
+ p.status=reqApproval?'Submitted':'Approved';if(!reqApproval){p.issued_by=CU.nm;p.approved_at=nowStr()}
+ sbPermit(p);pushPHistory(id,p.status,CU.nm,'');pushNotif('Permit '+id+' '+(reqApproval?'submitted':'self-approved'),reqApproval?'fa-file-signature':'fa-circle-check',reqApproval?'var(--wrn)':'var(--ok)');
+ toast('Permit '+id+' '+p.status,'s');closeM();goTo('p-permits')}
 function approvePermit(id){var p=gPPermit(id);if(!p)return;p.status='Approved';p.issued_by=CU.nm;p.approved_at=nowStr();sbPermit(p);pushPHistory(id,'Approved',CU.nm,'');pushNotif('Permit '+id+' approved','fa-circle-check','var(--ok)');toast('Permit '+id+' approved','s');closeM();goTo('p-permits')}
 function rejectPermit(id){showConfirm('Reject this permit?','rejectPermit2(\''+id+'\')','Reject')}
 function rejectPermit2(id){var p=gPPermit(id);if(!p)return;p.status='Rejected';sbPermit(p);pushPHistory(id,'Rejected',CU.nm,'');pushNotif('Permit '+id+' rejected','fa-ban','var(--err)');toast('Permit '+id+' rejected','w');closeM();goTo('p-permits')}
-function startWork(id){var p=gPPermit(id);if(!p)return;p.status='Active';p.work_started_at=nowStr();p.work_started_by=CU.nm;sbPermit(p);pushPHistory(id,'Work Started',CU.nm,'');pushNotif('Work started on permit '+id,'fa-play','var(--inf)');toast('Work started on permit '+id,'s');closeM();goTo('p-permits')}
-function closePermitModal(id){showM('Close Permit', '<div style="display:grid;gap:14px"><div><label class="lb">Close Notes</label><textarea class="i" id="cp-close-notes" rows="3" placeholder="Work completed, area inspected..."></textarea></div><button class="bd" style="justify-content:center;padding:12px" onclick="closePermit(\''+id+'\')"><i class="fas fa-stop"></i> Confirm Close</button></div>')}
+function startWork(id){var p=gPPermit(id);if(!p)return;p.status='Active';p.work_started_at=nowStr();p.work_started_by=CU.nm;sbPermit(p);pushPHistory(id,'Work Started',CU.nm,'');pushNotif('Work started on permit '+id,'fa-play','var(--inf)');toast('Work started','s');closeM();goTo('p-permits')}
+function closePermitModal(id){showM('Close Permit','<div style="display:grid;gap:14px"><div><label class="lb">Close Notes</label><textarea class="i" id="cp-close-notes" rows="3" placeholder="Work completed, area inspected..."></textarea></div><button class="bd" style="justify-content:center;padding:12px" onclick="closePermit(\''+id+'\')"><i class="fas fa-stop"></i> Confirm Close</button></div>')}
 function closePermit(id){var p=gPPermit(id);if(!p)return;var notes=val('cp-close-notes');p.status='Closed';p.closed_at=nowStr();p.closed_by=CU.nm;p.close_notes=notes;sbPermit(p);pushPHistory(id,'Closed',CU.nm,notes);pushNotif('Permit '+id+' closed','fa-check','var(--mt)');toast('Permit '+id+' closed','s');closeM();goTo('p-permits')}
-function pgPermits(){
-  var list=myPermits();
-  var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permits'}]);
-  h+='<div class="c p0"><div style="padding:16px 16px 0;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><div style="color:var(--tx2);font-size:13px">'+list.length+' permit(s) at '+SPL+'</div>'+(CP.type==='supervisor'||CP.type==='admin'?'<button class="bp bsm" onclick="goTo(\'p-create\')"><i class="fas fa-plus"></i> New Permit</button>':'')+'</div>';
-  h+=permitTable(list);h+='</div>';return h}
-function pgPTypes(){var cards=DB.permit_types.map(function(t){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;background:var(--bg2)"><div style="flex:1;min-width:200px"><div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><i class="fas '+(t.icon||'fa-file')+'" style="color:'+(t.color||'#F59E0B')+';font-size:18px"></i><span style="font-weight:700;font-size:16px">'+esc(t.name)+'</span><span class="chip">'+t.id+'</span></div><div style="font-size:12px;color:var(--mt)">Risk levels: '+((t.risk_levels||[]).join(', '))+'</div></div><button class="bs bsm" onclick="showTypeForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></div>'}).join('');
-  return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permit Types'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.permit_types.length+' type(s)</div><button class="bp" onclick="showTypeForm(null)"><i class="fas fa-plus"></i> Add Type</button></div></div><div style="padding:0 16px 16px"><div style="display:grid;gap:12px">'+cards+'</div></div></div>'}
-function showTypeForm(id){var t=id?gPType(id):{name:'',icon:'fa-file',color:'#F59E0B',risk_levels:['Low','Medium','High','Critical']};showM((id?'Edit':'Add')+' Permit Type','<div style="display:grid;gap:14px"><div><label class="lb">Type Name *</label><input class="i" id="pt-nm" value="'+esc(t.name)+'" placeholder="Hot Work Permit"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Icon</label><input class="i" id="pt-icon" value="'+esc(t.icon||'')+'" placeholder="fa-fire"></div><div><label class="lb">Color</label><input class="i" id="pt-color" value="'+esc(t.color||'')+'" placeholder="#EF4444"></div></div><div><label class="lb">Risk Levels (comma separated)</label><input class="i" id="pt-risk" value="'+((t.risk_levels||[]).join(', '))+'" placeholder="Low, Medium, High"></div><button class="bp" onclick="saveType(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
-function saveType(id){var nm=val('pt-nm');if(!nm){toast('Enter name','e');return}var risk=val('pt-risk').split(',').map(function(s){return s.trim()}).filter(Boolean);var row={id:id||gid('PT-'),name:nm,icon:val('pt-icon'),color:val('pt-color'),risk_levels:risk,active:true,sort_order:id?gPType(id).sort_order:99};if(id){Object.assign(gPType(id),row)}else DB.permit_types.push(row);sbPType(row);closeM();toast('Type saved','s');goTo('p-types')}
-function pgChecklists(){var cards=DB.checklist_templates.map(function(c){var t=gPType(c.type_id);return '<div class="c" style="background:var(--bg2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:700;font-size:14px">'+esc(c.name)+'</span>'+catBadge(c.category)+apprBadge(c.approval_type)+'</div><button class="bs bsm" onclick="showClForm(\''+c.id+'\')"><i class="fas fa-pen"></i></button></div><div style="font-size:12px;color:var(--mt)">'+pTypeBadge(t)+' '+(c.plant?'<span class="chip">'+esc(c.plant)+'</span>':'<span class="chip">All Plants</span>')+' - '+c.items.length+' items</div></div>'}).join('');
-  return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Checklist Templates'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.checklist_templates.length+' template(s)</div><button class="bp" onclick="showClForm(null)"><i class="fas fa-plus"></i> Add Template</button></div></div><div style="padding:0 16px 16px"><div style="display:grid;gap:10px">'+cards+'</div></div></div>'}
-function showClForm(id){var c=id?DB.checklist_templates.filter(function(x){return x.id===id})[0]:{name:'',type_id:'',items:[],category:'start',approval_type:'self_approval',plant:null};var typeOpts=DB.permit_types.map(function(t){return '<option value="'+t.id+'"'+(t.id===c.type_id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('');
-  showM((id?'Edit':'Add')+' Checklist Template','<div style="display:grid;gap:14px"><div><label class="lb">Template Name *</label><input class="i" id="cl-nm" value="'+esc(c.name)+'" placeholder="Pre-Job Checklist"></div><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px"><div><label class="lb">Permit Type *</label><select class="i sl" id="cl-type">'+typeOpts+'</select></div><div><label class="lb">Category *</label><select class="i sl" id="cl-cat"><option value="start"'+(c.category==='start'?' selected':'')+'>Start</option><option value="hourly"'+(c.category==='hourly'?' selected':'')+'>Hourly</option><option value="end"'+(c.category==='end'?' selected':'')+'>End</option></select></div><div><label class="lb">Approval</label><select class="i sl" id="cl-appr"><option value="self_approval"'+(c.approval_type==='self_approval'?' selected':'')+'>Self Approval</option><option value="approval_required"'+(c.approval_type==='approval_required'?' selected':'')+'>Approval Required</option></select></div></div><div><label class="lb">Plant (blank = all plants)</label><input class="i" id="cl-plant" value="'+esc(c.plant||'')+'"></div><div><label class="lb">Items (JSON array)</label><textarea class="i" id="cl-items" rows="8" style="font-family:monospace;font-size:12px" placeholder="Enter JSON array here">'+esc(JSON.stringify(c.items||[],null,2))+'</textarea></div><button class="bp" onclick="saveCl(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>',true)}
-function saveCl(id){var nm=val('cl-nm');if(!nm){toast('Enter name','e');return}var items;try{items=JSON.parse(val('cl-items'))}catch(e){toast('Invalid JSON for items','e');return}var row={id:id||gid('CL-'),type_id:val('cl-type'),name:nm,items:items,category:val('cl-cat'),approval_type:val('cl-appr'),plant:val('cl-plant')||null,active:true};if(id){Object.assign(DB.checklist_templates.filter(function(x){return x.id===id})[0],row)}else DB.checklist_templates.push(row);sbCl(row);closeM();toast('Template saved','s');goTo('p-checklists')}
-function pgPPE(){var rows=DB.ppe_items.map(function(p){return '<tr><td style="font-weight:600">'+esc(p.name)+'</td><td><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac)"></i></td><td><span class="chip">'+esc(p.category||'-')+'</span></td><td>'+(p.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showPPEForm(\''+p.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
-  return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'PPE Items'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.ppe_items.length+' items</div><button class="bp" onclick="showPPEForm(null)"><i class="fas fa-plus"></i> Add PPE</button></div></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Icon</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'}
-function showPPEForm(id){var p=id?DB.ppe_items.filter(function(x){return x.id===id})[0]:{name:'',icon:'fa-shield',category:''};showM((id?'Edit':'Add')+' PPE Item','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="ppe-nm" value="'+esc(p.name)+'"></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Icon</label><input class="i" id="ppe-icon" value="'+esc(p.icon||'')+'" placeholder="fa-helmet-safety"></div><div><label class="lb">Category</label><input class="i" id="ppe-cat" value="'+esc(p.category||'')+'" placeholder="Head Protection"></div></div><button class="bp" onclick="savePPE(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
-function savePPE(id){var nm=val('ppe-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('PPE-'),name:nm,icon:val('ppe-icon'),category:val('ppe-cat'),active:true};if(id){Object.assign(DB.ppe_items.filter(function(x){return x.id===id})[0],row)}else DB.ppe_items.push(row);sbPPE(row);closeM();toast('PPE saved','s');goTo('p-ppe')}
-function pgTools(){var rows=DB.tools.map(function(t){return '<tr><td style="font-weight:600">'+esc(t.name)+'</td><td><span class="chip">'+esc(t.category||'-')+'</span></td><td>'+(t.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showToolForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
-  return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Tools'}])+'<div class="c p0"><div style="padding:16px 16px 0"><div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:14px"><div style="color:var(--tx2);font-size:13px">'+DB.tools.length+' tools</div><button class="bp" onclick="showToolForm(null)"><i class="fas fa-plus"></i> Add Tool</button></div></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'}
-function showToolForm(id){var t=id?DB.tools.filter(function(x){return x.id===id})[0]:{name:'',category:''};showM((id?'Edit':'Add')+' Tool','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="tool-nm" value="'+esc(t.name)+'"></div><div><label class="lb">Category</label><input class="i" id="tool-cat" value="'+esc(t.category||'')+'" placeholder="Power Tools"></div><button class="bp" onclick="saveTool(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> Save</button></div>')}
-function saveTool(id){var nm=val('tool-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('TOOL-'),name:nm,category:val('tool-cat'),active:true};if(id){Object.assign(DB.tools.filter(function(x){return x.id===id})[0],row)}else DB.tools.push(row);sbTool(row);closeM();toast('Tool saved','s');goTo('p-tools')}
-function pgHistory(){var list=DB.permit_history.filter(function(h){var p=gPPermit(h.permit_id);return p&&p.plant===SPL}).slice(0,100);
-  var rows=list.map(function(h){return '<tr><td style="font-size:12px;color:var(--tx2);white-space:nowrap">'+h.ts.replace('T',' ').slice(0,19)+'</td><td style="font-weight:600;color:var(--ac)">'+h.permit_id+'</td><td>'+pStatus(h.action)+'</td><td>'+esc(h.by)+'</td><td style="color:var(--tx2);font-size:13px">'+esc(h.notes||'-')+'</td></tr>'}).join('');
-  return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Audit Trail'}])+'<div class="c p0"><div class="tbl-wrap" style="border:none"><table><thead><tr><th>Time</th><th>Permit ID</th><th>Action</th><th>By</th><th>Notes</th></tr></thead><tbody>'+(rows||emptyRow(5,'No history'))+'</tbody></table></div><div class="tbl-footer">'+list.length+' entries</div></div>'}
 
+/* ============ PERMITS LIST ============ */
+function pgPermits(){
+ var list=myPermits();
+ var h=bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permits'}]);
+ h+='<div class="c p0 tw-root"><div style="padding:12px 14px 0"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px;flex-wrap:wrap"><div class="tbl-search"><i class="fas fa-magnifying-glass"></i><input class="i" placeholder="Search permits..." oninput="tblSearch(this)"></div><div style="display:flex;gap:10px;align-items:center"><div style="color:var(--tx2);font-size:13px">'+list.length+' permit(s)</div>'+(CP.type==='supervisor'||CP.type==='admin'?'<button class="bp bsm" onclick="goTo(\'p-create\')"><i class="fas fa-plus"></i> New</button>':'')+'</div></div></div>';
+ h+=permitTable(list);h+='</div>';return h}
+
+/* ============ ADMIN: PERMIT TYPES ============ */
+function pgPTypes(){var cards=DB.permit_types.map(function(t){return '<div class="c" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;background:var(--bg2)"><div style="flex:1;min-width:180px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap"><i class="fas '+(t.icon||'fa-file')+'" style="color:'+(t.color||'#F59E0B')+';font-size:18px"></i><span style="font-weight:700;font-size:15px">'+esc(t.name)+'</span></div><div style="font-size:12px;color:var(--mt)">Risk levels: '+((t.risk_levels||[]).join(', ')||'Default')+'</div></div><button class="bs bsm" onclick="showTypeForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></div>'}).join('');
+ return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Permit Types'}])+'<div class="page-actions"><button class="bp" onclick="showTypeForm(null)"><i class="fas fa-plus"></i> Add Type</button></div><div style="display:grid;gap:10px">'+cards+'</div>'}
+function showTypeForm(id){var t=id?gPType(id):{name:'',icon:'fa-file',color:'#F59E0B',risk_levels:['Low','Medium','High','Critical']};showM((id?'Edit':'Add')+' Permit Type','<div style="display:grid;gap:14px"><div><label class="lb">Type Name *</label><input class="i" id="pt-nm" value="'+esc(t.name)+'"></div><div class="form-row"><div><label class="lb">Icon</label><input class="i" id="pt-icon" value="'+esc(t.icon||'')+'" placeholder="fa-fire"></div><div><label class="lb">Color</label><input class="i" id="pt-color" value="'+esc(t.color||'')+'" placeholder="#EF4444"></div></div><div><label class="lb">Risk Levels (comma separated)</label><input class="i" id="pt-risk" value="'+((t.risk_levels||[]).join(', '))+'"></div><button class="bp" onclick="saveType(\''+(id||'')+'\')">Save</button></div>')}
+function saveType(id){var nm=val('pt-nm');if(!nm){toast('Enter name','e');return}var risk=val('pt-risk').split(',').map(function(s){return s.trim()}).filter(Boolean);var row={id:id||gid('PT-'),name:nm,icon:val('pt-icon'),color:val('pt-color'),risk_levels:risk,active:true,sort_order:id?gPType(id).sort_order:99};if(id){Object.assign(gPType(id),row)}else{DB.permit_types.push(row)}sbPType(row);closeM();toast('Type saved','s');goTo('p-types')}
+
+/* ============ ADMIN: CHECKLISTS ============ */
+function pgChecklists(){var cards=DB.checklist_templates.map(function(c){var t=gPType(c.type_id);return '<div class="c" style="background:var(--bg2)"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:8px"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="font-weight:700;font-size:14px">'+esc(c.name)+'</span>'+catBadge(c.category)+apprBadge(c.approval_type)+'</div><button class="bs bsm" onclick="showClForm(\''+c.id+'\')"><i class="fas fa-pen"></i></button></div><div style="font-size:12px;color:var(--mt)">'+pTypeBadge(t)+' '+(c.plant?'<span class="chip">'+esc(c.plant)+'</span>':'<span class="chip">All Plants</span>')+' · '+c.items.length+' items</div></div>'}).join('');
+ return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Checklists'}])+'<div class="page-actions"><button class="bp" onclick="showClForm(null)"><i class="fas fa-plus"></i> Add Template</button></div><div style="display:grid;gap:10px">'+cards+'</div>'}
+function showClForm(id){var c=id?DB.checklist_templates.filter(function(x){return x.id===id})[0]:{name:'',type_id:'',items:[],category:'start',approval_type:'self_approval',plant:null};var typeOpts=DB.permit_types.map(function(t){return '<option value="'+t.id+'"'+(c.type_id===t.id?' selected':'')+'>'+esc(t.name)+'</option>'}).join('');
+ showM((id?'Edit':'Add')+' Checklist Template','<div style="display:grid;gap:14px"><div><label class="lb">Template Name *</label><input class="i" id="cl-nm" value="'+esc(c.name)+'"></div><div class="form-row-3"><div><label class="lb">Permit Type *</label><select class="i sl" id="cl-type">'+typeOpts+'</select></div><div><label class="lb">Category *</label><select class="i sl" id="cl-cat"><option value="start"'+(c.category==='start'?' selected':'')+'>Start</option><option value="hourly"'+(c.category==='hourly'?' selected':'')+'>Hourly</option><option value="end"'+(c.category==='end'?' selected':'')+'>End</option></select></div><div><label class="lb">Approval</label><select class="i sl" id="cl-appr"><option value="self_approval"'+(c.approval_type==='self_approval'?' selected':'')+'>Self Approval</option><option value="approval_required"'+(c.approval_type==='approval_required'?' selected':'')+'>Approval Required</option></select></div></div><div><label class="lb">Plant (blank = all plants)</label><input class="i" id="cl-plant" value="'+esc(c.plant||'')+'"></div><div><label class="lb">Items (one per line: text | checkbox or text)</label><textarea class="i" id="cl-items" rows="8" placeholder="Pressure gauge in green zone | checkbox&#10;Gas test reading | text">'+esc((c.items||[]).map(function(item){return item.text+' | '+(item.type||'checkbox')}).join('\n'))+'</textarea></div><button class="bp" onclick="saveCl(\''+(id||'')+'\')">Save Template</button></div>',true)}
+function saveCl(id){var nm=val('cl-nm');if(!nm){toast('Enter name','e');return}var lines=val('cl-items').split('\n').filter(function(l){return l.trim()});var items=lines.map(function(l){var parts=l.split('|');var text=parts[0].trim();var tp=(parts[1]||'checkbox').trim()==='text'?'text':'checkbox';return{text:text,type:tp,required:true}});if(!items.length){toast('Add at least one item','e');return}var row={id:id||gid('CL-'),type_id:val('cl-type'),name:nm,items:items,category:val('cl-cat'),approval_type:val('cl-appr'),plant:val('cl-plant')||null,active:true};if(id){Object.assign(DB.checklist_templates.filter(function(x){return x.id===id})[0],row)}else{DB.checklist_templates.push(row)}sbCl(row);closeM();toast('Template saved','s');goTo('p-checklists')}
+
+/* ============ ADMIN: PPE & TOOLS ============ */
+function pgPPE(){var rows=DB.ppe_items.map(function(p){return '<tr><td style="font-weight:600">'+esc(p.name)+'</td><td><i class="fas '+(p.icon||'fa-shield')+'" style="color:var(--ac)"></i></td><td><span class="chip">'+esc(p.category||'-')+'</span></td><td>'+(p.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showPPEForm(\''+p.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
+ return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'PPE Items'}])+'<div class="page-actions"><button class="bp" onclick="showPPEForm(null)"><i class="fas fa-plus"></i> Add PPE</button></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Icon</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+function showPPEForm(id){var p=id?DB.ppe_items.filter(function(x){return x.id===id})[0]:{name:'',icon:'fa-shield',category:''};showM((id?'Edit':'Add')+' PPE Item','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="ppe-nm" value="'+esc(p.name)+'"></div><div class="form-row"><div><label class="lb">Icon</label><input class="i" id="ppe-icon" value="'+esc(p.icon||'')+'"></div><div><label class="lb">Category</label><input class="i" id="ppe-cat" value="'+esc(p.category||'')+'"></div></div><button class="bp" onclick="savePPE(\''+(id||'')+'\')">Save</button></div>')}
+function savePPE(id){var nm=val('ppe-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('PPE-'),name:nm,icon:val('ppe-icon'),category:val('ppe-cat'),active:true};if(id){Object.assign(DB.ppe_items.filter(function(x){return x.id===id})[0],row)}else{DB.ppe_items.push(row)}sbPPE(row);closeM();toast('PPE saved','s');goTo('p-ppe')}
+function pgTools(){var rows=DB.tools.map(function(t){return '<tr><td style="font-weight:600">'+esc(t.name)+'</td><td><span class="chip">'+esc(t.category||'-')+'</span></td><td>'+(t.active?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Inactive</span>')+'</td><td><button class="bs bsm" onclick="showToolForm(\''+t.id+'\')"><i class="fas fa-pen"></i></button></tr>'}).join('');
+ return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Tools'}])+'<div class="page-actions"><button class="bp" onclick="showToolForm(null)"><i class="fas fa-plus"></i> Add Tool</button></div><div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Category</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+function showToolForm(id){var t=id?DB.tools.filter(function(x){return x.id===id})[0]:{name:'',category:''};showM((id?'Edit':'Add')+' Tool','<div style="display:grid;gap:14px"><div><label class="lb">Name *</label><input class="i" id="tool-nm" value="'+esc(t.name)+'"></div><div><label class="lb">Category</label><input class="i" id="tool-cat" value="'+esc(t.category||'')+'"></div><button class="bp" onclick="saveTool(\''+(id||'')+'\')">Save</button></div>')}
+function saveTool(id){var nm=val('tool-nm');if(!nm){toast('Enter name','e');return}var row={id:id||gid('TOOL-'),name:nm,category:val('tool-cat'),active:true};if(id){Object.assign(DB.tools.filter(function(x){return x.id===id})[0],row)}else{DB.tools.push(row)}sbTool(row);closeM();toast('Tool saved','s');goTo('p-tools')}
+
+/* ============ AUDIT TRAIL ============ */
+function pgHistory(){var list=DB.permit_history.filter(function(h){var p=gPPermit(h.permit_id);return p&&p.plant===SPL}).slice(0,100);
+ var rows=list.map(function(h){return '<tr><td style="font-size:11px;color:var(--tx2);white-space:nowrap">'+h.ts.replace('T',' ').slice(0,19)+'</td><td style="font-weight:600;color:var(--ac)">'+h.permit_id+'</td><td>'+pStatus(h.action)+'</td><td>'+esc(h.by)+'</td><td class="hide-sm" style="color:var(--tx2);font-size:13px">'+esc(h.notes||'-')+'</td></tr>'}).join('');
+ return bc([{label:'Dashboard',action:"goTo('landing')"},{label:'Audit Trail'}])+'<div class="c p0"><div class="tbl-wrap" style="border:none"><table><thead><tr><th>Time</th><th>Permit ID</th><th>Action</th><th>By</th><th class="hide-sm">Notes</th></tr></thead><tbody>'+(rows||emptyRow(5,'No history'))+'</tbody></table></div></div>'}
+
+/* ============ BOOT ============ */
 (function(){try{var t=localStorage.getItem('d3theme');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}
  syncThemeIcon();
  var btn=document.querySelector('#ls form button[type=submit]'),st=document.createElement('div');
  st.style.cssText='text-align:center;font-size:12px;color:var(--mt);margin-top:12px';
- st.textContent='Connecting to database...';btn.parentNode.appendChild(st);btn.disabled=true;
- loadDB().then(function(){
-   btn.disabled=false;st.innerHTML='<span style="color:var(--ok)">● Cloud connected</span>';
-   toast('Database connected','s');
- }).catch(function(e){st.textContent='DB error: '+(e.message||e)});
- document.addEventListener('click',function(e){var p=document.getElementById('notif-panel');if(p&&p.classList.contains('show')&&!p.contains(e.target)&&!e.target.closest('#nbtn'))p.classList.remove('show')})})();
+ st.textContent='Connecting...';btn.parentNode.appendChild(st);btn.disabled=true;
+ loadDB().then(function(){btn.disabled=false;st.innerHTML='<span style="color:var(--ok)">● '+(IS_LOCAL?'Test Mode (Local Data)':'Cloud Connected')+'</span>';toast(IS_LOCAL?'Local test data loaded':'Database connected','s')}).catch(function(e){st.textContent='Error: '+(e.message||e)});
+ document.addEventListener('click',function(e){if(e.target.classList&&e.target.classList.contains('mo'))closeM()})})();
 </script>
 </body>
 </html>
