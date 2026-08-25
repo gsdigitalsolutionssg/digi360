@@ -176,8 +176,8 @@ video{width:100%;border-radius:12px;background:#000;display:block;max-height:400
     <form onsubmit="doLogin();return false" autocomplete="off">
       <div style="margin-bottom:16px"><label class="lb">Plant / Site</label><select class="i sl" id="l-pl"><option>Jaipur Plant</option></select></div>
       <div id="sf-staff">
-        <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" value="admin" autocapitalize="none"></div>
-        <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password" value="admin123"></div>
+        <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" placeholder="Username" autocapitalize="none"></div>
+        <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password" placeholder="Password"></div>
       </div>
       <div id="sf-vis" style="display:none">
         <div style="margin-bottom:16px"><label class="lb">Mobile Number</label><input class="i" id="l-mob" placeholder="Mobile number" type="tel"></div>
@@ -185,14 +185,9 @@ video{width:100%;border-radius:12px;background:#000;display:block;max-height:400
       </div>
       <button type="submit" class="bp" style="width:100%;justify-content:center;padding:14px;font-size:16px"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
     </form>
-    <div style="margin-top:20px;padding:14px;background:var(--abg);border-radius:10px;font-size:12px;color:var(--tx2);line-height:2">
-      <strong style="color:var(--ac)">Demo:</strong>
-      <span class="qf" onclick="qf('admin','admin123')">admin</span> ·
-      <span class="qf" onclick="qf('manager1','pass123')">manager1</span> ·
-      <span class="qf" onclick="qf('security1','pass123')">security1</span> ·
-      <span class="qf" onclick="qf('supervisor1','pass123')">supervisor1</span>
-      <br>Inductees: mobile + plant
-    </div>
+    <div style="margin-top:20px;padding:14px;background:var(--abg);border-radius:10px;font-size:12px;color:var(--tx2);line-height:1.8">
+  <i class="fas fa-shield-halved" style="color:var(--ac)"></i> Authorized personnel only. Contact your administrator for credentials.
+</div>
   </div>
 </div>
 
@@ -374,7 +369,7 @@ function markAllRead(){DB.notifications.forEach(function(n){n.read=true});render
 function togTh(){var h=document.documentElement,light=h.getAttribute('data-theme')==='light';h.setAttribute('data-theme',light?'dark':'light');syncThemeIcon();try{localStorage.setItem('d3theme',light?'dark':'light')}catch(e){}}
 function syncThemeIcon(){var light=document.documentElement.getAttribute('data-theme')==='light';document.getElementById('thb').innerHTML='<i class="fas fa-'+(light?'sun':'moon')+'"></i>'}
 function swLM(m){lM=m;var bs=document.querySelectorAll('#lmt button');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('act',bs[i].getAttribute('data-m')===m);document.getElementById('sf-staff').style.display=m==='staff'?'block':'none';document.getElementById('sf-vis').style.display=m==='visitor'?'block':'none';VP=null}
-function qf(u,p){swLM('staff');document.getElementById('l-un').value=u;document.getElementById('l-pw').value=p}
+
 
 function doLogin(){
  if(lM==='visitor'){
@@ -406,7 +401,7 @@ function doLogout(){
  document.getElementById('sb-overlay').classList.remove('show');
  document.getElementById('ma').style.marginLeft='';
  document.getElementById('app').style.display='none';document.getElementById('ls').style.display='flex';
- swLM('staff');document.getElementById('l-un').value='admin';document.getElementById('l-pw').value='admin123';document.getElementById('l-mob').value='';rebuildPlantDropdown()}
+ swLM('staff');document.getElementById('l-un').value='';document.getElementById('l-pw').value='';document.getElementById('l-mob').value='';rebuildPlantDropdown()}
 
 function ni(id,ic,lb){return '<div class="ni" data-p="'+id+'" onclick="goTo(\''+id+'\')"><i class="fas '+ic+'"></i><span class="nl">'+lb+'</span></div>'}
 function buildNav(){var h='';
