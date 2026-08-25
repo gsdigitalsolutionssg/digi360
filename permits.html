@@ -367,7 +367,7 @@ function goTo(p){
  closeSbMobile();
  for(var k in CI){try{CI[k].destroy()}catch(e){}}CI={};CURP=p;
  document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
- var titles={landing:'Dashboard','p-permits':'Permits','p-types':'Permit Types','p-checklists':'Checklists','p-ppe':'PPE Items','p-tools':'Tools','p-create':'Create Permit','p-history:'Audit Trail'};
+ var titles={landing:'Dashboard','p-permits':'Permits','p-types':'Permit Types','p-checklists':'Checklists','p-ppe':'PPE Items','p-tools':'Tools','p-create':'Create Permit','p-history':'Audit Trail'};
  document.getElementById('pt').textContent=titles[p]||'Dashboard';
  var fn={landing:pgLanding,'p-permits':pgPermits,'p-types':pgPTypes,'p-checklists':pgChecklists,'p-ppe':pgPPE,'p-tools':pgTools,'p-create':pgCreate,'p-history':pgHistory};
  document.getElementById('pc').innerHTML=fn[p]?fn[p]():'<div class="c empty-state">Not found</div>';
