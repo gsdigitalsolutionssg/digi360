@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EHS 360 — Sign In</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root{--bg:#F5F6F8;--bg2:#FFF;--card:#FFF;--card-h:#F0F3F7;--tx:#1a1a2e;--tx2:#5A6B7E;--mt:#9CA3AF;--ac:#10B981;--ac2:#059669;--abg:rgba(16,185,129,.08);--ok:#10B981;--err:#EF4444;--inf:#06B6D4;--wrn:#FBBF24;--bd:#E2E8F0;--rd:12px;--sh:0 4px 24px rgba(0,0,0,.08);--green:#10B981;--green-d:#059669;--green-l:#ECFDF5;--left-bg:#FAFBFC}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--tx);min-height:100vh}
+h1,h2,h3,h4,.fd{font-family:'Space Grotesk',sans-serif}
+::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:var(--bg2)}::-webkit-scrollbar-thumb{background:var(--mt);border-radius:3px}
+#ls{min-height:100vh;display:flex;overflow:hidden}
+.ll{flex:1;background:var(--left-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:60px}
+.ll-c{position:relative;z-index:2;text-align:center;max-width:500px;width:100%}
+.lr{width:480px;background:#FFF;display:flex;flex-direction:column;justify-content:center;padding:48px;position:relative;z-index:2;border-left:1px solid var(--bd);box-shadow:-4px 0 24px rgba(0,0,0,.03)}
+.b{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;font-weight:600;font-size:14px;border:none;cursor:pointer;transition:all .15s;font-family:inherit}
+.bp{background:var(--green);color:#fff}.bp:hover{background:var(--green-d);transform:translateY(-1px)}
+.bs{background:var(--card);color:var(--tx);border:1px solid var(--bd)}.bs:hover{background:var(--card-h)}
+.bd{background:var(--err);color:#fff}.bg{background:var(--ok);color:#fff}.bsm{padding:6px 14px;font-size:12px}
+.b:disabled{opacity:.35;cursor:not-allowed}
+.i{width:100%;padding:12px 16px;border-radius:10px;border:1.5px solid var(--bd);background:#FAFBFC;color:var(--tx);font-size:14px;font-family:inherit;transition:border .2s}.i:focus{outline:none;border-color:var(--green);background:#FFF}
+.i:disabled{opacity:.65;cursor:not-allowed}
+.sl{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%235A6B7E' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.lb{display:block;font-size:13px;font-weight:600;color:var(--tx2);margin-bottom:6px}
+.lmt{display:flex;background:#F0F2F5;border-radius:10px;padding:4px;margin-bottom:24px}
+.lmt button{flex:1;padding:10px;border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;background:transparent;color:var(--tx2);font-family:inherit;transition:all .15s}
+.lmt button.act{background:var(--green);color:#fff}
+.qf{color:var(--green-d);text-decoration:underline;cursor:pointer;font-size:12px}.qf:hover{opacity:.8}
+.mod-item{display:flex;align-items:center;gap:14px;padding:16px 20px;border:1.5px solid var(--bd);border-radius:14px;cursor:pointer;transition:.15s;background:#FFF;margin-bottom:10px}
+.mod-item:hover{border-color:var(--green);background:var(--green-l);transform:translateY(-1px)}
+.mod-item i{font-size:24px;width:28px;text-align:center}
+.mod-item .mi-tx{flex:1}.mod-item .mi-nm{font-weight:700;font-size:15px;color:var(--tx)}.mod-item .mi-ds{font-size:12px;color:var(--mt);margin-top:2px}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.b-ok{background:rgba(16,185,129,.1);color:#10B981}.b-err{background:rgba(239,68,68,.1);color:#EF4444}.b-pending{background:rgba(251,191,36,.1);color:#FBBF24}
+.b-adm{background:rgba(16,185,129,.1);color:#10B981}.b-mgr{background:rgba(6,182,212,.1);color:#06B6D4}.b-sec{background:rgba(139,92,246,.1);color:#8B5CF6}.b-sup{background:rgba(139,92,246,.1);color:#8B5CF6}.b-sm{background:rgba(16,185,129,.1);color:#10B981}.b-so{background:rgba(6,182,212,.1);color:#06B6D4}
+.chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:16px;font-size:10px;font-weight:600;background:#F0F2F5;border:1px solid var(--bd);color:var(--tx2);margin:1px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;padding:12px 16px;font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--tx2);border-bottom:2px solid var(--bd);font-weight:700;white-space:nowrap}
+td{padding:12px 16px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tbody tr:hover{background:var(--card-h)}
+.tbl-wrap{overflow:auto;max-height:400px;border-radius:var(--rd);border:1px solid var(--bd);background:#FFF}
+#tc{position:fixed;top:20px;right:20px;z-index:200;display:flex;flex-direction:column;gap:8px}
+.tt{padding:14px 20px;border-radius:10px;font-size:14px;font-weight:500;display:flex;align-items:center;gap:10px;min-width:280px;box-shadow:0 4px 24px rgba(0,0,0,.12);animation:si .3s;color:#fff}
+.ts{background:#059669}.te{background:#DC2626}.ti{background:#0891B2}.tw{background:#D97706}
+@keyframes si{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes su{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.qopt{display:flex;align-items:center;gap:10px;padding:10px 14px;border:1.5px solid var(--bd);border-radius:10px;margin-bottom:8px;cursor:pointer;font-size:14px;transition:.15s;background:#FAFBFC}
+.qopt:hover{border-color:var(--green);background:var(--green-l)}
+.qopt input{accent-color:var(--green)}
+.empty-state{text-align:center;padding:48px 24px;color:var(--mt)}.empty-state i{font-size:40px;margin-bottom:12px;display:block;opacity:.5}
+#admin-panel{display:none;min-height:100vh;background:var(--bg)}
+#sb{width:240px;background:#FFF;border-right:1px solid var(--bd);position:fixed;top:0;left:0;bottom:0;z-index:40;display:flex;flex-direction:column}
+.ni{display:flex;align-items:center;gap:12px;padding:11px 20px;margin:2px 8px;border-radius:8px;cursor:pointer;color:var(--tx2);font-size:14px;font-weight:500;transition:all .15s}
+.ni:hover{background:var(--green-l);color:var(--green-d)}.ni.act{background:var(--green-l);color:var(--green-d);font-weight:600}.ni i{width:20px;text-align:center;font-size:15px}
+#ma{margin-left:240px;min-height:100vh}
+#hd{height:60px;background:#FFF;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:30}
+#pc{padding:24px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:flex;align-items:center;justify-content:center;animation:fi .2s;padding:20px}
+.md{background:#FFF;border:1px solid var(--bd);border-radius:16px;padding:32px;max-width:600px;width:100%;max-height:85vh;overflow-y:auto;animation:su .3s;box-shadow:0 20px 60px rgba(0,0,0,.15)}
+.md-lg{max-width:780px}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+.breadcrumb{display:flex;align-items:center;gap:8px;margin-bottom:20px;font-size:13px;color:var(--mt);flex-wrap:wrap}
+.bc-cur{color:var(--tx);font-weight:600}
+#db-status{position:fixed;bottom:20px;right:20px;z-index:10;font-size:11px;color:var(--mt);background:rgba(255,255,255,.9);padding:6px 12px;border-radius:8px;border:1px solid var(--bd)}
+@media(max-width:768px){.ll{display:none}.lr{width:100%;border-left:none}#sb{width:60px}#sb .nl{display:none}#ma{margin-left:60px}}
+</style>
+</head>
+<body>
+
+<!-- ============ LOGIN PAGE ============ -->
+<div id="ls">
+  <div class="ll">
+    <div class="ll-c">
+      <div style="display:flex;align-items:center;gap:16px;justify-content:center;margin-bottom:60px">
+        <div class="fd" style="width:56px;height:56px;background:var(--green);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:24px"><i class="fas fa-leaf"></i></div>
+        <div>
+          <div class="fd" style="font-size:28px;font-weight:700;color:var(--tx)">EHS 360</div>
+          <div style="font-size:12px;color:var(--mt);letter-spacing:3px;margin-top:2px">KERAKOLL</div>
+        </div>
+      </div>
+      <div style="display:grid;gap:14px;margin-bottom:50px">
+        <div style="display:flex;align-items:center;gap:14px;padding:18px;background:#FFF;border:1px solid var(--bd);border-radius:14px;transition:.15s" onmouseover="this.style.borderColor='var(--green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform=''">
+          <div style="width:44px;height:44px;background:var(--green-l);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--green-d);font-size:18px"><i class="fas fa-graduation-cap"></i></div>
+          <div><div style="font-weight:700;font-size:15px">Safety Induction</div><div style="font-size:12px;color:var(--mt)">Visitor & contractor onboarding</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:18px;background:#FFF;border:1px solid var(--bd);border-radius:14px;transition:.15s" onmouseover="this.style.borderColor='var(--green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform=''">
+          <div style="width:44px;height:44px;background:var(--green-l);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--green-d);font-size:18px"><i class="fas fa-file-signature"></i></div>
+          <div><div style="font-weight:700;font-size:15px">Permits & Checklists</div><div style="font-size:12px;color:var(--mt)">Work permit management</div></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;padding:18px;background:#FFF;border:1px solid var(--bd);border-radius:14px;transition:.15s" onmouseover="this.style.borderColor='var(--green)';this.style.transform='translateY(-2px)'" onmouseout="this.style.borderColor='var(--bd)';this.style.transform=''">
+          <div style="width:44px;height:44px;background:var(--green-l);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--green-d);font-size:18px"><i class="fas fa-boxes-stacked"></i></div>
+          <div><div style="font-weight:700;font-size:15px">HSE Assets</div><div style="font-size:12px;color:var(--mt)">Inventory & inspections</div></div>
+        </div>
+      </div>
+      <div style="font-size:22px;font-weight:300;color:var(--tx);letter-spacing:1px">Health <span style="color:var(--green)">.</span> Safety <span style="color:var(--green)">.</span> Environment</div>
+      <div style="font-size:13px;color:var(--mt);margin-top:8px;font-style:italic">Building a safer environment together</div>
+    </div>
+  </div>
+  <div class="lr">
+    <div style="margin-bottom:28px"><div class="fd" style="font-size:24px;font-weight:700">Staff Sign In</div><div style="color:var(--tx2);font-size:14px;margin-top:4px">Sign in to your EHS 360 account</div></div>
+    <div class="lmt" id="lmt">
+      <button class="act" data-m="staff" type="button" onclick="swLM('staff')"><i class="fas fa-user-tie" style="margin-right:6px"></i>Staff</button>
+      <button data-m="visitor" type="button" onclick="swLM('visitor')"><i class="fas fa-user" style="margin-right:6px"></i>Inductee</button>
+    </div>
+    <form onsubmit="doLogin();return false" autocomplete="off">
+      <div style="margin-bottom:16px"><label class="lb">Plant / Site</label><select class="i sl" id="l-pl"><option>Jaipur Plant</option></select></div>
+      <div id="sf-staff">
+        <div style="margin-bottom:16px"><label class="lb">Username</label><input class="i" id="l-un" placeholder="Enter username"></div>
+        <div style="margin-bottom:24px"><label class="lb">Password</label><input class="i" id="l-pw" type="password" placeholder="Enter password"></div>
+      </div>
+      <div id="sf-vis" style="display:none">
+        <div style="margin-bottom:16px"><label class="lb">Mobile Number</label><input class="i" id="l-mob" placeholder="Registered mobile number"></div>
+        <div style="margin-bottom:16px;padding:10px;background:var(--green-l);border-radius:8px;font-size:12px;color:var(--tx2)"><i class="fas fa-mobile-screen" style="color:var(--green-d)"></i> Sign in with your registered mobile number.</div>
+      </div>
+      <button type="submit" class="bp b" style="width:100%;justify-content:center;padding:14px;font-size:15px"><i class="fas fa-arrow-right-to-bracket"></i> Sign In</button>
+    </form>
+    <div id="mod-select" style="display:none">
+      <div style="font-size:14px;font-weight:600;color:var(--tx);margin:28px 0 14px">Welcome back! Select a module:</div>
+      <div id="mod-list"></div>
+      <button class="bs b" style="width:100%;justify-content:center;margin-top:12px" onclick="logout()"><i class="fas fa-right-from-bracket"></i> Sign Out</button>
+    </div>
+    <div id="login-demo" style="margin-top:20px;padding:14px;background:#F0F2F5;border-radius:10px;font-size:12px;color:var(--tx2);line-height:2">
+      <strong style="color:var(--green-d)">Demo:</strong>
+      <span class="qf" onclick="qf('admin','admin123')">admin</span> ·
+      <span class="qf" onclick="qf('manager1','pass123')">manager1</span> ·
+      <span class="qf" onclick="qf('supervisor1','pass123')">supervisor1</span> ·
+      <span class="qf" onclick="qf('safetymanager1','pass123')">safetymanager1</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADMIN PANEL ============ -->
+<div id="admin-panel">
+  <aside id="sb">
+    <div style="padding:16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:12px">
+      <div class="fd" style="width:36px;height:36px;background:var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:14px;flex-shrink:0">E3</div>
+      <div><div class="fd" style="font-weight:700;font-size:14px">EHS 360</div><div style="font-size:10px;color:var(--mt)">Admin Console</div></div>
+    </div>
+    <nav style="flex:1;padding:12px 0;overflow-y:auto">
+      <div class="ni" data-p="users" onclick="goPage('users')"><i class="fas fa-users-gear"></i><span class="nl">Users</span></div>
+      <div class="ni" data-p="profiles" onclick="goPage('profiles')"><i class="fas fa-id-badge"></i><span class="nl">Profiles</span></div>
+    </nav>
+    <div style="padding:16px;border-top:1px solid var(--bd)">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div id="sb-av" style="width:32px;height:32px;border-radius:50%;background:var(--green-l);display:flex;align-items:center;justify-content:center;color:var(--green-d);font-weight:700;font-size:12px;flex-shrink:0">A</div>
+        <div><div style="font-size:12px;font-weight:600" id="sb-nm">Admin</div><div style="font-size:10px;color:var(--mt)" id="sb-pr">Administrator</div></div>
+      </div>
+      <button class="bs bsm" style="width:100%;justify-content:center" onclick="logout()"><i class="fas fa-right-from-bracket"></i><span class="nl">Logout</span></button>
+    </div>
+  </aside>
+  <div id="ma">
+    <header id="hd">
+      <div style="display:flex;align-items:center;gap:14px">
+        <div id="pt" class="fd" style="font-size:17px;font-weight:600">User Management</div>
+        <span class="chip" id="hd-pl" style="display:none"></span>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:13px;font-weight:600" id="hd-nm">Admin</span>
+      </div>
+    </header>
+    <div id="pc"></div>
+  </div>
+</div>
+
+<div id="tc"></div>
+<div id="mc"></div>
+<div id="db-status">Connecting...</div>
+
+<script>
+var SUPABASE_URL='https://hgffeevtuvhexrztacpd.supabase.co';
+var SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhnZmZlZXZ0dXZoZXhyenRhY3BkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0ODgyMzYsImV4cCI6MjEwMzA2NDIzNn0.Xv3z6mbur5J6bULJHAXhMQ9Qh5f_Syskw-tHQ1WZ7gA';
+var _H={'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY};
+function _postH(pref){return Object.assign({},_H,{'Content-Type':'application/json','Prefer':pref||'return=minimal'})}
+function _get(t,q){return fetch(SUPABASE_URL+'/rest/v1/'+t+(q||'?select=*'),{headers:_H}).then(function(r){if(!r.ok)throw new Error(t+': HTTP '+r.status);return r.json()})}
+function _post(t,row,pref){return fetch(SUPABASE_URL+'/rest/v1/'+t,{method:'POST',headers:_postH(pref),body:JSON.stringify(row)}).then(function(r){if(!r.ok)r.text().then(function(t2){console.error('WRITE FAIL',t,r.status,t2)})})}
+
+var today=new Date().toISOString().split('T')[0];
+var DB={users:[],profiles:[],plants:[],visitors:[]};
+var lM='staff',CU=null,CP=null,SPL=null,PLANTS=['Jaipur Plant'],CURP='users';
+
+var MODULES={
+ induction:{url:'index.html',name:'Safety Induction',icon:'fa-graduation-cap',color:'#F59E0B',desc:'Visitor & contractor onboarding'},
+ permits:{url:'permits.html',name:'Permits & Checklists',icon:'fa-file-signature',color:'#06B6D4',desc:'Work permits & safety checklists'},
+ assets:{url:'assets.html',name:'HSE Assets',icon:'fa-boxes-stacked',color:'#10B981',desc:'Asset inventory & inspections'}
+};
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+function val(id){var el=document.getElementById(id);return el?el.value.trim():''}
+function gid(p){return p+Math.random().toString(36).slice(2,6).toUpperCase()+String(Date.now()).slice(-4)}
+function toast(m,t){t=t||'i';var ic={s:'fa-circle-check',e:'fa-circle-exclamation',i:'fa-circle-info',w:'fa-triangle-exclamation'};var c=document.getElementById('tc'),e=document.createElement('div');e.className='tt t'+t;e.innerHTML='<i class="fas '+(ic[t]||ic.i)+'"></i><span>'+m+'</span>';c.appendChild(e);setTimeout(function(){e.style.opacity='0';e.style.transform='translateX(40px)';e.style.transition='all .3s';setTimeout(function(){e.remove()},300)},3500)}
+function qf(u,p){swLM('staff');document.getElementById('l-un').value=u;document.getElementById('l-pw').value=p}
+function swLM(m){lM=m;var bs=document.querySelectorAll('#lmt button');for(var i=0;i<bs.length;i++)bs[i].classList.toggle('act',bs[i].getAttribute('data-m')===m);document.getElementById('sf-staff').style.display=m==='staff'?'block':'none';document.getElementById('sf-vis').style.display=m==='visitor'?'block':'none'}
+function gProf(id){return DB.profiles.filter(function(p){return p.id===id})[0]||null}
+
+async function loadDB(){
+ var r=await Promise.all([
+  fetch(SUPABASE_URL+'/rest/v1/users?select=*',{headers:_H}).then(function(x){return x.json()}),
+  fetch(SUPABASE_URL+'/rest/v1/profiles?select=*',{headers:_H}).then(function(x){return x.json()}),
+  fetch(SUPABASE_URL+'/rest/v1/plants?select=*&order=name.asc',{headers:_H}).then(function(x){return x.json()}),
+  fetch(SUPABASE_URL+'/rest/v1/visitors?select=id,nm,mob,pl,pid,st,vd,doc',{headers:_H}).then(function(x){return x.json()})
+ ]);
+ DB.users=r[0]||[];DB.profiles=r[1]||[];
+ DB.plants=(r[2]||[]).filter(function(p){return p.active});PLANTS=DB.plants.map(function(p){return p.name});
+ if(PLANTS.length){document.getElementById('l-pl').innerHTML=PLANTS.map(function(p){return '<option>'+p+'</option>'}).join('')}
+ DB.visitors=r[3]||[];
+ return true}
+
+function doLogin(){
+ if(lM==='visitor'){doVisitorLogin();return}
+ var u=val('l-un'),p=val('l-pw'),pl=val('l-pl');
+ if(!u||!p){toast('Enter username and password','e');return}
+ var user=DB.users.filter(function(x){return x.un===u&&x.pw===p&&x.act})[0];
+ if(!user){toast('Invalid credentials','e');return}
+ if(user.pl!=='All'&&user.pl!==pl){toast(esc(user.nm)+' is not assigned to '+pl,'e');return}
+ var prof=gProf(user.pid);
+ if(!prof){toast('No profile found','e');return}
+ CU=user;CP=prof;SPL=(user.pl==='All')?pl:user.pl;
+ sessionStorage.setItem('d3_user',JSON.stringify({un:user.un,nm:user.nm,pid:user.pid,pl:SPL,pt:prof.type,pn:prof.name,mods:(user.modules||[])}));
+ toast('Welcome, '+user.nm+' ('+prof.name+')','s');
+ if(prof.type==='admin'){showAdminPanel()}else{showModuleSelection(user.modules||[],prof.type)}}
+
+function doVisitorLogin(){
+ var mob=val('l-mob');if(!mob){toast('Enter your mobile number','e');return}
+ var v=DB.visitors.filter(function(x){return x.mob===mob&&['Invited','Pending','Approved','Checked In','Failed Assessment','Cancelled'].indexOf(x.st)>-1})
+  .sort(function(a,b){var af=a.vd>=today?0:1,bf=b.vd>=today?0:1;if(af!==bf)return af-bf;return af===0?(a.vd<b.vd?-1:1):(a.vd>b.vd?-1:1)})[0];
+ if(!v){toast('No active induction found','e');return}
+ if(val('l-pl')!==v.pl){toast('Registered for '+v.pl+' - select it','e');return}
+ sessionStorage.setItem('d3_visitor',JSON.stringify({mob:mob,pl:v.pl}));
+ toast('Welcome, '+v.nm,'s');
+ setTimeout(function(){window.location.href='index.html'},800)}
+
+function showModuleSelection(mods,profileType){
+ if(!mods||!mods.length){
+  var defaults={admin:['induction','permits','assets'],manager:['induction','permits'],security:['induction'],supervisor:['permits'],safety_mgr:['assets','induction'],safety_off:['assets']};
+  mods=defaults[profileType]||['induction']}
+ if(mods.length===1){redirectTo(mods[0]);return}
+ document.querySelector('#ls form').style.display='none';
+ document.getElementById('lmt').style.display='none';
+ document.getElementById('login-demo').style.display='none';
+ var list=document.getElementById('mod-list');
+ list.innerHTML=mods.map(function(key){var m=MODULES[key];if(!m)return '';
+  return '<div class="mod-item" onclick="redirectTo(\''+key+'\')"><i class="fas '+m.icon+'" style="color:'+m.color+'"></i><div class="mi-tx"><div class="mi-nm">'+m.name+'</div><div class="mi-ds">'+m.desc+'</div></div><i class="fas fa-chevron-right" style="color:#C4CDD5;font-size:12px"></i></div>'}).join('');
+ document.getElementById('mod-select').style.display='block'}
+
+function redirectTo(key){var m=MODULES[key];if(!m){toast('Module not found','e');return}
+ toast('Opening '+m.name+'...','i');
+ setTimeout(function(){window.location.href=m.url},500)}
+
+function showAdminPanel(){
+ document.getElementById('ls').style.display='none';
+ document.getElementById('admin-panel').style.display='block';
+ document.getElementById('sb-nm').textContent=CU.nm;
+ document.getElementById('sb-av').textContent=CU.nm.charAt(0);
+ document.getElementById('sb-pr').textContent=CP.name;
+ document.getElementById('hd-nm').textContent=CU.nm;
+ var hp=document.getElementById('hd-pl');if(hp){hp.style.display='inline-flex';hp.innerHTML='<i class="fas fa-industry" style="color:var(--green-d)"></i>'+SPL}
+ goPage('users')}
+
+function logout(){
+ CU=null;CP=null;SPL=null;
+ sessionStorage.removeItem('d3_user');sessionStorage.removeItem('d3_visitor');
+ document.getElementById('admin-panel').style.display='none';
+ document.getElementById('ls').style.display='flex';
+ document.querySelector('#ls form').style.display='block';
+ document.getElementById('lmt').style.display='flex';
+ document.getElementById('login-demo').style.display='block';
+ document.getElementById('mod-select').style.display='none';
+ document.getElementById('l-un').value='';document.getElementById('l-pw').value='';document.getElementById('l-mob').value='';
+ document.getElementById('l-un').focus()}
+
+/* ============ ADMIN: USER MANAGEMENT ============ */
+function goPage(p){
+ CURP=p;
+ document.querySelectorAll('.ni').forEach(function(n){n.classList.toggle('act',n.getAttribute('data-p')===p)});
+ var titles={users:'User Management',profiles:'Profile Management'};
+ document.getElementById('pt').textContent=titles[p]||'Admin';
+ var fns={users:pgUsers,profiles:pgProfiles};
+ document.getElementById('pc').innerHTML=fns[p]?fns[p]():'<div class="empty-state">Not found</div>'}
+
+function modChips(mods){if(!mods||!mods.length)return '<span style="color:#C4CDD5;font-size:12px">None</span>';
+ return mods.map(function(m){var mod=MODULES[m];return mod?'<span class="chip" style="border-color:'+mod.color+'40;color:'+mod.color+'"><i class="fas '+mod.icon+'"></i>'+mod.name+'</span>':''}).join(' ')}
+
+function profBadge(p){if(!p)return '-';var tc={admin:'adm',manager:'mgr',security:'sec',supervisor:'sup',safety_mgr:'sm',safety_off:'so',inductee:''};
+ return '<span class="badge b-'+(tc[p.type]||'pending')+'">'+esc(p.name)+'</span>'}
+
+function pgUsers(){
+ var rows=DB.users.map(function(u){
+  var pr=gProf(u.pid);
+  return '<tr><td style="font-weight:600">'+esc(u.nm)+(u.id===CU.id?' <span class="chip">you</span>':'')+'</td><td style="color:var(--tx2)">'+esc(u.un)+'</td><td>'+profBadge(pr)+'</td><td style="font-size:12px">'+esc(u.pl)+'</td><td>'+modChips(u.modules)+'</td><td>'+(u.act?'<span class="badge b-ok">Active</span>':'<span class="badge b-err">Disabled</span>')+'</td><td><button class="bs bsm" onclick="showUserForm(\''+u.id+'\')"><i class="fas fa-pen"></i></button></td></tr>'}).join('');
+ return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap"><div style="color:var(--tx2);font-size:14px">'+DB.users.length+' user(s)</div><button class="bp" onclick="showUserForm(null)"><i class="fas fa-plus"></i> Add User</button></div>'+
+ '<div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Username</th><th>Profile</th><th>Plant</th><th>Modules</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+
+function showUserForm(id){
+ var u=id?DB.users.filter(function(x){return x.id===id})[0]:null;
+ var profOpts=DB.profiles.map(function(p){return '<option value="'+p.id+'"'+(u&&u.pid===p.id?' selected':'')+'>'+esc(p.name)+' ('+p.type+')</option>'}).join('');
+ var plOpts=['All'].concat(PLANTS).map(function(p){return '<option value="'+p+'"'+((u?u.pl:PLANTS[0])===p?' selected':'')+'>'+(p==='All'?'All Plants':p)+'</option>'}).join('');
+ var modChecks=Object.keys(MODULES).map(function(key){var m=MODULES[key];var checked=u&&(u.modules||[]).indexOf(key)>-1;
+  return '<label class="qopt"><input type="checkbox" id="um-'+key+'" '+(checked?'checked':'')+'><span><i class="fas '+m.icon+'" style="color:'+m.color+';width:18px"></i> '+m.name+'</span></label>'}).join('');
+ showM((u?'Edit':'Add')+' User','<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Full Name *</label><input class="i" id="uf-nm" value="'+(u?esc(u.nm):'')+'" placeholder="Jane Doe"></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Email</label><input class="i" id="uf-em" type="email" value="'+(u?esc(u.em||''):'')+'" placeholder="jane@company.com"></div><div><label class="lb">Mobile</label><input class="i" id="uf-mob" value="'+(u?esc(u.mob||''):'')+'" placeholder="+1 555 0100"></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Username *</label><input class="i" id="uf-un" value="'+(u?esc(u.un):'')+'" placeholder="jdoe"></div><div><label class="lb">Password '+(u?'(blank = keep)':'*')+'</label><input class="i" id="uf-pw" type="text" placeholder="'+(u?'':'pass123')+'"></div></div>'+
+ '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px"><div><label class="lb">Profile *</label><select class="i sl" id="uf-pid">'+profOpts+'</select></div><div><label class="lb">Plant *</label><select class="i sl" id="uf-pl">'+plOpts+'</select></div></div>'+
+ '<div><label class="lb">Module Access</label>'+modChecks+'</div>'+
+ '<label class="qopt"><input type="checkbox" id="uf-act"'+(!u||u.act?' checked':'')+'><span>Account active</span></label>'+
+ '<button class="bp" onclick="saveUser(\''+(id||'')+'\')"><i class="fas fa-floppy-disk"></i> '+(u?'Save Changes':'Create User')+'</button></div>')}
+
+function saveUser(id){
+ var nm=val('uf-nm'),un=val('uf-un'),pw=val('uf-pw'),pid=val('uf-pid'),pl=val('uf-pl'),act=document.getElementById('uf-act').checked,em=val('uf-em'),mob=val('uf-mob');
+ if(!nm||!un||!pid||!pl){toast('Fill all required fields','e');return}
+ if(DB.users.some(function(x){return x.un===un&&x.id!==id})){toast('Username already taken','e');return}
+ var mods=Object.keys(MODULES).filter(function(key){var el=document.getElementById('um-'+key);return el&&el.checked});
+ if(!mods.length){toast('Select at least one module','e');return}
+ if(id){var u=DB.users.filter(function(x){return x.id===id})[0];if(!u)return;
+  if(id===CU.id&&!act){toast('Cannot deactivate your own account','e');return}
+  u.nm=nm;u.un=un;u.pid=pid;u.pl=pl;u.act=act;u.em=em;u.mob=mob;u.modules=mods;if(pw)u.pw=pw;
+  _post('users',u,'resolution=merge-duplicates');toast('User updated','s')}
+ else{if(!pw){toast('Password required for new user','e');return}
+  var nu={id:gid('U-'),un:un,pw:pw,nm:nm,pid:pid,pl:pl,act:act,em:em,mob:mob,modules:mods};
+  DB.users.push(nu);_post('users',nu,'resolution=merge-duplicates');toast('User created','s')}
+ closeM();goPage('users')}
+
+/* ============ ADMIN: PROFILE MANAGEMENT ============ */
+function pgProfiles(){
+ var rows=DB.profiles.map(function(p){
+  var uc=DB.users.filter(function(u){return u.pid===p.id}).length;
+  return '<tr><td style="font-weight:600">'+esc(p.name)+'</td><td>'+profBadge(p)+'</td><td style="color:var(--tx2);font-size:12px">'+esc(p.id)+'</td><td>'+uc+' user(s)</td><td style="font-size:12px;color:var(--tx2)">'+esc(p.desc||'-')+'</td><td><button class="bs bsm" onclick="showProfForm(\''+p.id+'\')"><i class="fas fa-pen"></i></button></td></tr>'}).join('');
+ return '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;gap:12px;flex-wrap:wrap"><div style="color:var(--tx2);font-size:14px">'+DB.profiles.length+' profile(s)</div><button class="bp" onclick="showProfForm(null)"><i class="fas fa-plus"></i> Add Profile</button></div>'+
+ '<div class="tbl-wrap"><table><thead><tr><th>Name</th><th>Type</th><th>ID</th><th>Users</th><th>Description</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div>'}
+
+function showProfForm(id){
+ var p=id?gProf(id):{name:'',type:'manager',desc:'',modules:[]};
+ var typeOpts=['inductee','manager','security','supervisor','safety_mgr','safety_off','admin'].map(function(t){return '<option value="'+t+'"'+(t===p.type?' selected':'')+'>'+t.charAt(0).toUpperCase()+t.slice(1)+'</option>'}).join('');
+ showM((id?'Edit':'Add')+' Profile','<div style="display:grid;gap:14px">'+
+ '<div><label class="lb">Profile Name *</label><input class="i" id="pf-nm" value="'+esc(p.name)+'"></div>'+
+ '<div><label class="lb">Type *</label><select class="i sl" id="pf-tp">'+typeOpts+'</select></div>'+
+ '<div><label class="lb">Description</label><input class="i" id="pf-ds" value="'+esc(p.desc||'')+'"></div>'+
+ '<button class="bp" onclick="saveProf(\''+(id||'')+'\')">Save Profile</button></div>')}
+
+function saveProf(id){
+ var nm=val('pf-nm'),tp=val('pf-tp'),ds=val('pf-ds');
+ if(!nm){toast('Enter profile name','e');return}
+ if(id){var p=gProf(id);p.name=nm;p.type=tp;p.desc=ds;
+  _post('profiles',{id:p.id,name:nm,type:tp,descr:ds,mods:p.mods||[],cert:p.cert||'none'},'resolution=merge-duplicates')}
+ else{var np={id:gid('PF-'),name:nm,type:tp,desc:ds,mods:[],cert:'none'};
+  DB.profiles.push(np);_post('profiles',{id:np.id,name:nm,type:tp,descr:ds,mods:[],cert:'none'},'resolution=merge-duplicates')}
+ closeM();toast('Profile saved','s');goPage('profiles')}
+
+/* ============ MODAL ============ */
+function showM(t,h,lg){document.getElementById('mc').innerHTML='<div class="mo" onclick="if(event.target===this)closeM()"><div class="md'+(lg?' md-lg':'')+'"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px"><h3 class="fd" style="font-size:20px;font-weight:700">'+t+'</h3><button onclick="closeM()" style="background:none;border:none;color:var(--tx2);cursor:pointer;font-size:20px;padding:4px"><i class="fas fa-times"></i></button></div>'+h+'</div></div>'}
+function closeM(){document.getElementById('mc').innerHTML=''}
+
+/* ============ BOOT ============ */
+(function(){
+ var btn=document.querySelector('#ls form button[type=submit]');
+ loadDB().then(function(){
+  document.getElementById('db-status').innerHTML='<span style="color:var(--green)">●</span> Connected';
+  document.getElementById('db-status').style.color='var(--green-d)';
+  btn.disabled=false;
+ }).catch(function(e){
+  document.getElementById('db-status').textContent='DB Error: '+(e.message||e);
+  document.getElementById('db-status').style.color='var(--err)';
+ });
+ document.getElementById('l-un').focus();
+})();
+</script>
+</body>
+</html>
